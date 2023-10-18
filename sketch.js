@@ -1,5 +1,5 @@
 // main.js
-import * as THREE from 'three';
+import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js';
 
 // Create a scene
 const scene = new THREE.Scene();
@@ -23,10 +23,12 @@ scene.add(cube);
 // Create an array to hold particles
 const particles = [];
 
+// Create a particle geometry and material
+const particleGeometry = new THREE.SphereGeometry(0.1, 32, 32);
+const particleMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+
 // Function to create particles
 function createParticle() {
-    const particleGeometry = new THREE.SphereGeometry(0.1, 32, 32);
-    const particleMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
     const particle = new THREE.Mesh(particleGeometry, particleMaterial);
 
     // Set a random initial position within the cube
