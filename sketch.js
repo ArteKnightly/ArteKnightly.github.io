@@ -11,13 +11,13 @@ function setup() {
 }
 
 function draw() {
-    background(0);
+    background(0, 25); // Add alpha to create a fading trail effect
     translate(width / 2, height / 2);
 
-    let scrollX = (mouseX - width / 2) / 100;
-    let scrollY = (mouseY - height / 2) / 100;
+    let target = createVector(mouseX - width / 2, mouseY - height / 2); // Attraction target
 
     for (let p of particles) {
+        p.attract(target); // Attract to the mouse position
         p.update();
         p.display();
     }
@@ -31,16 +31,21 @@ class Particle {
         this.maxSpeed = random(2, 6);
     }
 
+    attract(target) {
+        let force = p5.Vector.sub(target, this.pos);
+        let distance = force.mag();
+        distance = constrain(distance, 5, 25); // Limit the distance
+        force.normalize();
+        let strength = 10 / (distance * distance); // Adjust the strength as needed
+        force.mult(strength);
+        this.applyForce(force);
+    }
+
     applyForce(force) {
         this.acc.add(force);
     }
 
     update() {
-        let mouse = createVector(mouseX, mouseY);
-        let dir = p5.Vector.sub(mouse, this.pos);
-        dir.setMag(0.5);
-        this.applyForce(dir);
-
         this.vel.add(this.acc);
         this.vel.limit(this.maxSpeed);
         this.pos.add(this.vel);
@@ -48,7 +53,8 @@ class Particle {
     }
 
     display() {
-        stroke(255);
+        stroke(255, 150); // Reduce particle opacity for the trail effect
+        strokeWeight(4);
         point(this.pos.x, this.pos.y);
     }
 }
