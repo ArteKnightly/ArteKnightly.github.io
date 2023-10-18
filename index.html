@@ -27,18 +27,5 @@
    <p>Copyright ©Arte Knightly 2023</p>
   </div>
  </footer>
- <script>
- function copyEmailToClipboard(event){
- event.preventDefault();
- const email = 'ArteKnightly@gmail.com';
- const textarea = document.createElement('textarea');
- textarea.value = email;
- document.body.appendChild(textarea);
- textarea.select();
- document.execCommand('copy');
- document.body.removeChild(textarea);
- alert('Email address copied to clipboard!');
- }
- </script>
  </body>
 </html>
