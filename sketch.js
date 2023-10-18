@@ -25,7 +25,11 @@ function draw() {
 
         // Check for collision with the cube
         if (p.checkCollision()) {
-            trappedParticles.push(p);
+            if (p.isSphere) {
+                // If a sphere touches the cube, convert it to a cube
+                let cubeParticle = new Particle(p.pos, true);
+                trappedParticles.push(cubeParticle);
+            }
             particles.splice(i, 1);
         }
     }
@@ -47,10 +51,12 @@ function draw() {
 }
 
 class Particle {
-    constructor() {
-        this.pos = createVector(random(-width / 2, width / 2), random(-height / 2, height / 2), random(-200, 200));
+    constructor(pos, isSphere = true) {
+        this.isSphere = isSphere;
+        this.pos = pos || createVector(random(-width / 2, width / 2), random(-height / 2, height / 2), random(-200, 200));
         this.vel = p5.Vector.random3D().mult(random(2, 4)); // Random initial velocity
         this.size = random(5, 15); // Random size
+        this.isStriking = false;
     }
 
     update() {
@@ -58,12 +64,21 @@ class Particle {
     }
 
     display() {
-        stroke(255);
-        strokeWeight(2);
-        push();
-        translate(this.pos.x, this.pos.y, this.pos.z);
-        sphere(this.size);
-        pop();
+        if (this.isSphere) {
+            fill(255, 100, 100); // Red for spheres
+            noStroke();
+            push();
+            translate(this.pos.x, this.pos.y, this.pos.z);
+            sphere(this.size);
+            pop();
+        } else {
+            fill(100, 100, 255); // Blue for cubes
+            noStroke();
+            push();
+            translate(this.pos.x, this.pos.y, this.pos.z);
+            box(this.size);
+            pop();
+        }
     }
 
     checkBounds() {
