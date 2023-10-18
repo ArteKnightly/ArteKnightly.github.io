@@ -25,8 +25,8 @@ function draw() {
 
         // Check for collision with the cube
         if (p.checkCollision()) {
-            particles.splice(i, 1);
             trappedParticles.push(p);
+            particles.splice(i, 1);
         }
     }
 
@@ -40,10 +40,9 @@ function draw() {
 
     angle += 0.01; // Increment rotation angle for cube and scene
 
-    // Restart if all particles are trapped
-    if (particles.length === 0 && trappedParticles.length > 0) {
-        particles = trappedParticles;
-        trappedParticles = [];
+    // Update trapped particles to bounce inside the cube
+    for (let p of trappedParticles) {
+        p.bounceInsideCube();
     }
 }
 
@@ -76,7 +75,7 @@ class Particle {
             this.pos.z > 200 ||
             this.pos.z < -200
         ) {
-            this.vel.mult(-1); // Bounce off the walls and cube faces
+            this.vel.mult(-1); // Bounce off the walls
         }
     }
 
@@ -84,5 +83,19 @@ class Particle {
         // Check for collision with the cube
         let d = dist(0, 0, 0, this.pos.x, this.pos.y, this.pos.z);
         return d <= 50; // Return true if particle is inside the cube
+    }
+
+    bounceInsideCube() {
+        // Make particles bounce inside the cube
+        if (
+            this.pos.x + this.size / 2 > 50 ||
+            this.pos.x - this.size / 2 < -50 ||
+            this.pos.y + this.size / 2 > 50 ||
+            this.pos.y - this.size / 2 < -50 ||
+            this.pos.z + this.size / 2 > 50 ||
+            this.pos.z - this.size / 2 < -50
+        ) {
+            this.vel.mult(-1);
+        }
     }
 }
