@@ -1,60 +1,48 @@
-// cool-background.js
+// sketch.js
 let particles = [];
+let rotation = 0;
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
+    createCanvas(windowWidth, windowHeight, WEBGL); // Create a 3D canvas
     noFill();
     stroke(255);
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 150; i++) {
         particles.push(new Particle());
     }
 }
 
 function draw() {
-    background(0, 25); // Add alpha to create a fading trail effect
-    translate(width / 2, height / 2);
-
-    let target = createVector(mouseX - width / 12, mouseY - height /12); // Attraction target
-
+    background(0);
+    rotateY(rotation); // Rotate the scene
     for (let p of particles) {
-        p.attract(target); // Attract to the mouse position
+        p.jitter(); // Make particles jitter
         p.update();
         p.display();
     }
+    rotation += 0.01; // Increment rotation angle for cube
 }
 
 class Particle {
     constructor() {
-        this.pos = createVector(random(-width, width), random(-height, height));
-        this.vel = createVector(0, 0);
-        this.acc = createVector(0, 0);
-        this.maxSpeed = random(2, 6);
+        this.pos = createVector(random(-width, width), random(-height, height), random(-200, 200));
+        this.vel = p5.Vector.random3D();
     }
 
-    attract(target) {
-        let force = p5.Vector.sub(target, this.pos);
-        let distance = force.mag();
-        distance = constrain(distance, 5, 25); // Limit the distance
-        force.normalize();
-        let strength = 10 / (distance * distance); // Adjust the strength as needed
-        force.mult(strength);
-        this.applyForce(force);
-    }
-
-    applyForce(force) {
-        this.acc.add(force);
+    jitter() {
+        this.vel.add(p5.Vector.random3D().mult(0.1)); // Add jitter
     }
 
     update() {
-        this.vel.add(this.acc);
-        this.vel.limit(this.maxSpeed);
         this.pos.add(this.vel);
-        this.acc.mult(0);
+        if (this.pos.x > width || this.pos.x < -width || this.pos.y > height || this.pos.y < -height || this.pos.z > 200 || this.pos.z < -200) {
+            this.pos = createVector(random(-width, width), random(-height, height), random(-200, 200));
+        }
     }
 
     display() {
-        stroke(255, 150); // Reduce particle opacity for the trail effect
-        strokeWeight(4);
-        point(this.pos.x, this.pos.y);
+        stroke(255);
+        strokeWeight(2);
+        point(this.pos.x, this.pos.y, this.pos.z);
     }
 }
+
