@@ -1,13 +1,14 @@
 /* style.css */
 
 body {
-    background: linear-gradient(135deg, #ff6b6b, #a80077, #5d0d9f);
+    background: linear-gradient(135deg, #3498db, #8e44ad, #c0392b);
     background-size: 200% 200%;
     animation: gradientAnimation 10s linear infinite;
     color: #ffffff;
     font-family: 'Orbitron', sans-serif;
     text-align: center;
     padding: 20px;
+    transition: color 0.5s; /* Add a color transition effect */
 }
 
 @keyframes gradientAnimation {
@@ -23,6 +24,7 @@ h1 {
     font-size: 48px;
     color: #f0f0f0;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transition: color 0.5s; /* Add a color transition effect */
 }
 
 p {
@@ -33,7 +35,7 @@ a {
     color: #FFD700;
     text-decoration: none;
     border-bottom: 2px solid #FFD700;
-    transition: border-width 0.3s;
+    transition: border-width 0.3s, color 0.5s; /* Add transition effects for border-width and color */
 }
 
 a:hover {
