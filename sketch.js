@@ -1,13 +1,15 @@
 // sketch.js
 let particles = [];
 let angle = 0;
+let cubeSize = 100;
+let trappedParticles = [];
 
 function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL); // Create a 3D canvas
     noFill();
     stroke(255);
     for (let i = 0; i < 50; i++) {
-        particles.push(new Particle());
+        particles.push(new StarParticle());
     }
 }
 
@@ -20,16 +22,34 @@ function draw() {
     translate(0, 0, -200); // Position the cube in front of the particles
     rotateX(angle * 0.5);
     rotateY(angle * 0.5);
-    strokeWeight(1);
-    box(100);
+    noFill();
+    box(cubeSize);
     pop();
 
     // Draw and update particles
-    for (let p of particles) {
+    for (let i = particles.length - 1; i >= 0; i--) {
+        let p = particles[i];
         p.update();
         p.display();
         p.checkBounds();
-        p.checkCollision(particles); // Check for collisions with other particles
+
+        // Check for collision with the cube
+        if (p instanceof StarParticle) {
+            if (p.checkCollision(cubeSize)) {
+                trappedParticles.push(p);
+                particles.splice(i, 1);
+            }
+        } else if (p instanceof CubeParticle) {
+            if (p.checkCollision(cubeSize)) {
+                trappedParticles.push(p);
+                particles.splice(i, 1);
+            }
+        }
+    }
+
+    // Draw trapped particles
+    for (let p of trappedParticles) {
+        p.display();
     }
 
     angle += 0.01; // Increment rotation angle for cube and scene
@@ -40,8 +60,6 @@ class Particle {
         this.pos = createVector(random(-width / 2, width / 2), random(-height / 2, height / 2), random(-200, 200));
         this.vel = p5.Vector.random3D().mult(random(2, 4)); // Random initial velocity
         this.size = random(5, 15); // Random size
-        this.isStar = true; // Initially, particles are stars
-        this.isStriking = false;
     }
 
     update() {
@@ -49,20 +67,12 @@ class Particle {
     }
 
     display() {
-        if (this.isStriking) {
-            fill(255, 0, 0); // Red when striking
-        } else {
-            noFill();
-        }
+        noFill();
         stroke(255);
         strokeWeight(2);
         push();
         translate(this.pos.x, this.pos.y, this.pos.z);
-        if (this.isStar) {
-            star(0, 0, this.size, this.size / 2, 5);
-        } else {
-            box(this.size); // Change to a cube when trapped
-        }
+        // Specific particle rendering goes here
         pop();
     }
 
@@ -79,16 +89,54 @@ class Particle {
         }
     }
 
-    checkCollision(otherParticles) {
-        for (let other of otherParticles) {
-            if (other !== this) {
-                let d = dist(this.pos.x, this.pos.y, this.pos.z, other.pos.x, other.pos.y, other.pos.z);
-                if (d <= (this.size / 2 + other.size / 2)) {
-                    this.isStriking = true; // Change color when striking another particle
-                    other.isStriking = true;
-                }
-            }
+    checkCollision(cubeSize) {
+        // Specific collision checking goes here
+    }
+}
+
+class StarParticle extends Particle {
+    constructor() {
+        super();
+        this.isStar = true;
+        this.isStriking = false;
+    }
+
+    display() {
+        if (this.isStriking) {
+            fill(255, 0, 0); // Red when striking
         }
+        push();
+        translate(this.pos.x, this.pos.y, this.pos.z);
+        star(0, 0, this.size, this.size / 2, 5);
+        pop();
+    }
+
+    checkCollision(cubeSize) {
+        // Specific collision checking for stars goes here
+        return false;
+    }
+}
+
+class CubeParticle extends Particle {
+    constructor() {
+        super();
+        this.isStar = false;
+        this.isStriking = false;
+    }
+
+    display() {
+        if (this.isStriking) {
+            fill(255, 0, 0); // Red when striking
+        }
+        push();
+        translate(this.pos.x, this.pos.y, this.pos.z);
+        box(this.size);
+        pop();
+    }
+
+    checkCollision(cubeSize) {
+        // Specific collision checking for cubes goes here
+        return false;
     }
 }
 
