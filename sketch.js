@@ -6,7 +6,6 @@ let trappedParticles = [];
 
 function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL); // Create a 3D canvas
-    noFill();
     stroke(255);
     for (let i = 0; i < 50; i++) {
         particles.push(new StarParticle());
@@ -34,16 +33,9 @@ function draw() {
         p.checkBounds();
 
         // Check for collision with the cube
-        if (p instanceof StarParticle) {
-            if (p.checkCollision(cubeSize)) {
-                trappedParticles.push(p);
-                particles.splice(i, 1);
-            }
-        } else if (p instanceof CubeParticle) {
-            if (p.checkCollision(cubeSize)) {
-                trappedParticles.push(p);
-                particles.splice(i, 1);
-            }
+        if (p instanceof StarParticle && p.checkCollision(cubeSize)) {
+            trappedParticles.push(p);
+            particles.splice(i, 1);
         }
     }
 
@@ -67,8 +59,7 @@ class Particle {
     }
 
     display() {
-        noFill();
-        stroke(255);
+        stroke(255, 0, 0); // Red outline
         strokeWeight(2);
         push();
         translate(this.pos.x, this.pos.y, this.pos.z);
@@ -91,6 +82,7 @@ class Particle {
 
     checkCollision(cubeSize) {
         // Specific collision checking goes here
+        return false;
     }
 }
 
@@ -99,58 +91,43 @@ class StarParticle extends Particle {
         super();
         this.isStar = true;
         this.isStriking = false;
+        this.tracer = [];
+    }
+
+    update() {
+        super.update();
+        this.tracer.push(createVector(this.pos.x, this.pos.y, this.pos.z));
+        if (this.tracer.length > 20) {
+            this.tracer.shift();
+        }
     }
 
     display() {
-        if (this.isStriking) {
-            fill(255, 0, 0); // Red when striking
+        super.display();
+        noFill();
+        for (let i = 0; i < this.tracer.length - 1; i++) {
+            let alpha = map(i, 0, this.tracer.length - 1, 100, 0);
+            stroke(255, 0, 0, alpha);
+            line(this.tracer[i].x, this.tracer[i].y, this.tracer[i].z, this.tracer[i + 1].x, this.tracer[i + 1].y, this.tracer[i + 1].z);
         }
         push();
         translate(this.pos.x, this.pos.y, this.pos.z);
-        star(0, 0, this.size, this.size / 2, 5);
+        // Render the star
         pop();
     }
 
     checkCollision(cubeSize) {
-        // Specific collision checking for stars goes here
-        return false;
-    }
-}
-
-class CubeParticle extends Particle {
-    constructor() {
-        super();
-        this.isStar = false;
-        this.isStriking = false;
-    }
-
-    display() {
-        if (this.isStriking) {
-            fill(255, 0, 0); // Red when striking
+        // Check if the star is inside the cube
+        if (
+            this.pos.x + this.size / 2 < cubeSize / 2 &&
+            this.pos.x - this.size / 2 > -cubeSize / 2 &&
+            this.pos.y + this.size / 2 < cubeSize / 2 &&
+            this.pos.y - this.size / 2 > -cubeSize / 2 &&
+            this.pos.z + this.size / 2 < cubeSize / 2 &&
+            this.pos.z - this.size / 2 > -cubeSize / 2
+        ) {
+            return true;
         }
-        push();
-        translate(this.pos.x, this.pos.y, this.pos.z);
-        box(this.size);
-        pop();
-    }
-
-    checkCollision(cubeSize) {
-        // Specific collision checking for cubes goes here
         return false;
     }
-}
-
-function star(x, y, radius1, radius2, npoints) {
-    let angle = TWO_PI / npoints;
-    let halfAngle = angle / 2.0;
-    beginShape();
-    for (let a = -PI; a < TWO_PI; a += angle) {
-        let sx = x + cos(a) * radius2;
-        let sy = y + sin(a) * radius2;
-        vertex(sx, sy);
-        sx = x + cos(a + halfAngle) * radius1;
-        sy = y + sin(a + halfAngle) * radius1;
-        vertex(sx, sy);
-    }
-    endShape(CLOSE);
 }
