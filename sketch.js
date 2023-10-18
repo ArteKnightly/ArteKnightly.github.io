@@ -1,12 +1,13 @@
 // sketch.js
 let particles = [];
 let angle = 0;
+let trappedParticles = [];
 
 function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL); // Create a 3D canvas
     noFill();
     stroke(255);
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 50; i++) {
         particles.push(new Particle());
     }
 }
@@ -16,10 +17,17 @@ function draw() {
     rotateY(angle); // Rotate the scene
 
     // Draw and update particles
-    for (let p of particles) {
+    for (let i = particles.length - 1; i >= 0; i--) {
+        let p = particles[i];
         p.update();
         p.display();
-        p.checkCollision(); // Check for collision with the cube
+        p.checkBounds();
+
+        // Check for collision with the cube
+        if (p.checkCollision()) {
+            particles.splice(i, 1);
+            trappedParticles.push(p);
+        }
     }
 
     // Draw a rotating cube in the center
@@ -31,6 +39,12 @@ function draw() {
     pop();
 
     angle += 0.01; // Increment rotation angle for cube and scene
+
+    // Restart if all particles are trapped
+    if (particles.length === 0 && trappedParticles.length > 0) {
+        particles = trappedParticles;
+        trappedParticles = [];
+    }
 }
 
 class Particle {
@@ -42,7 +56,6 @@ class Particle {
 
     update() {
         this.pos.add(this.vel);
-        this.checkBounds(); // Check if the particle is outside the box
     }
 
     display() {
@@ -50,28 +63,26 @@ class Particle {
         strokeWeight(2);
         push();
         translate(this.pos.x, this.pos.y, this.pos.z);
-        sphere(this.size); // You can use different shapes like box, sphere, etc.
+        sphere(this.size);
         pop();
     }
 
     checkBounds() {
-        if (this.pos.x > width / 2 || this.pos.x < -width / 2) {
-            this.vel.x *= -1; // Bounce off the walls
-        }
-        if (this.pos.y > height / 2 || this.pos.y < -height / 2) {
-            this.vel.y *= -1; // Bounce off the ceiling and floor
-        }
-        if (this.pos.z > 200 || this.pos.z < -200) {
-            this.vel.z *= -1; // Bounce off the front and back of the box
+        if (
+            this.pos.x > width / 2 ||
+            this.pos.x < -width / 2 ||
+            this.pos.y > height / 2 ||
+            this.pos.y < -height / 2 ||
+            this.pos.z > 200 ||
+            this.pos.z < -200
+        ) {
+            this.vel.mult(-1); // Bounce off the walls and cube faces
         }
     }
 
     checkCollision() {
         // Check for collision with the cube
         let d = dist(0, 0, 0, this.pos.x, this.pos.y, this.pos.z);
-        if (d <= 50) {
-            let normal = createVector(0, 0, 1); // Normal vector of the cube's front face
-            this.vel.reflect(normal); // Reflect velocity off the cube
-        }
+        return d <= 50; // Return true if particle is inside the cube
     }
 }
