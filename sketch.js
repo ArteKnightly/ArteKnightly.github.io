@@ -64,7 +64,7 @@ class Particle {
     checkBounds() {
         if (
             this.pos.x > width / 2 ||
-            this.pos.x < -width / 2 ||
+            this pos.x < -width / 2 ||
             this.pos.y > height / 2 ||
             this.pos.y < -height / 2 ||
             this.pos.z > 200 ||
