@@ -1,19 +1,54 @@
-// sketch.js
+// cool-background.js
+let particles = [];
+
 function setup() {
     createCanvas(windowWidth, windowHeight);
-    noLoop();
+    noFill();
+    stroke(255);
+    for (let i = 0; i < 50; i++) {
+        particles.push(new Particle());
+    }
 }
 
 function draw() {
-    setGradient(0, 0, width, height, color(random(255), random(255), random(255)), color(random(255), random(255), random(255)));
+    background(0);
+    translate(width / 2, height / 2);
+
+    let scrollX = (mouseX - width / 2) / 100;
+    let scrollY = (mouseY - height / 2) / 100;
+
+    for (let p of particles) {
+        p.update();
+        p.display();
+    }
 }
 
-function setGradient(x, y, w, h, c1, c2) {
-    noFill();
-    for (let i = y; i <= y + h; i++) {
-        let inter = map(i, y, y + h, 0, 1);
-        let c = lerpColor(c1, c2, inter);
-        stroke(c);
-        line(x, i, x + w, i);
+class Particle {
+    constructor() {
+        this.pos = createVector(random(-width, width), random(-height, height));
+        this.vel = createVector(0, 0);
+        this.acc = createVector(0, 0);
+        this.maxSpeed = random(2, 6);
+    }
+
+    applyForce(force) {
+        this.acc.add(force);
+    }
+
+    update() {
+        let mouse = createVector(mouseX, mouseY);
+        let dir = p5.Vector.sub(mouse, this.pos);
+        dir.setMag(0.5);
+        this.applyForce(dir);
+
+        this.vel.add(this.acc);
+        this.vel.limit(this.maxSpeed);
+        this.pos.add(this.vel);
+        this.acc.mult(0);
+    }
+
+    display() {
+        stroke(255);
+        point(this.pos.x, this.pos.y);
     }
 }
