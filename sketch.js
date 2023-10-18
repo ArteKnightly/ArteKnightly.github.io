@@ -1,25 +1,36 @@
 // sketch.js
 let particles = [];
-let rotation = 0;
+let angle = 0;
 
 function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL); // Create a 3D canvas
     noFill();
     stroke(255);
-    for (let i = 0; i < 150; i++) {
+    for (let i = 0; i < 100; i++) {
         particles.push(new Particle());
     }
 }
 
 function draw() {
     background(0);
-    rotateY(rotation); // Rotate the scene
+    rotateY(angle); // Rotate the scene
+
+    // Draw and update particles
     for (let p of particles) {
-        p.jitter(); // Make particles jitter
+        p.followMouse(); // Make particles follow the mouse closely
         p.update();
         p.display();
     }
-    rotation += 0.01; // Increment rotation angle for cube
+
+    // Draw a rotating cube in the center
+    push();
+    translate(0, 0, -200); // Position the cube in front of the particles
+    rotateX(angle * 0.5);
+    rotateY(angle * 0.5);
+    box(100);
+    pop();
+
+    angle += 0.01; // Increment rotation angle for cube and scene
 }
 
 class Particle {
@@ -28,8 +39,11 @@ class Particle {
         this.vel = p5.Vector.random3D();
     }
 
-    jitter() {
-        this.vel.add(p5.Vector.random3D().mult(0.1)); // Add jitter
+    followMouse() {
+        let target = createVector(mouseX - width / 2, mouseY - height / 2);
+        let dir = p5.Vector.sub(target, this.pos);
+        dir.normalize();
+        this.vel.add(dir.mult(0.5)); // Make particles follow the mouse closely
     }
 
     update() {
@@ -45,4 +59,3 @@ class Particle {
         point(this.pos.x, this.pos.y, this.pos.z);
     }
 }
-
