@@ -5,7 +5,7 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
     noFill();
     stroke(255);
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 5; i++) {
         particles.push(new Particle());
     }
 }
@@ -14,7 +14,7 @@ function draw() {
     background(0, 25); // Add alpha to create a fading trail effect
     translate(width / 2, height / 2);
 
-    let target = createVector(mouseX - width / 2, mouseY - height / 2); // Attraction target
+    let target = createVector(mouseX - width / 12, mouseY - height /12); // Attraction target
 
     for (let p of particles) {
         p.attract(target); // Attract to the mouse position
