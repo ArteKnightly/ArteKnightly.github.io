@@ -40,6 +40,7 @@ class Particle {
         this.pos = createVector(random(-width / 2, width / 2), random(-height / 2, height / 2), random(-200, 200));
         this.vel = p5.Vector.random3D().mult(random(2, 4)); // Random initial velocity
         this.size = random(5, 15); // Random size
+        this.isStar = true; // Initially, particles are stars
         this.isStriking = false;
     }
 
@@ -57,14 +58,18 @@ class Particle {
         strokeWeight(2);
         push();
         translate(this.pos.x, this.pos.y, this.pos.z);
-        sphere(this.size);
+        if (this.isStar) {
+            star(0, 0, this.size, this.size / 2, 5);
+        } else {
+            box(this.size); // Change to a cube when trapped
+        }
         pop();
     }
 
     checkBounds() {
         if (
             this.pos.x > width / 2 ||
-            this pos.x < -width / 2 ||
+            this.pos.x < -width / 2 ||
             this.pos.y > height / 2 ||
             this.pos.y < -height / 2 ||
             this.pos.z > 200 ||
@@ -85,4 +90,19 @@ class Particle {
             }
         }
     }
+}
+
+function star(x, y, radius1, radius2, npoints) {
+    let angle = TWO_PI / npoints;
+    let halfAngle = angle / 2.0;
+    beginShape();
+    for (let a = -PI; a < TWO_PI; a += angle) {
+        let sx = x + cos(a) * radius2;
+        let sy = y + sin(a) * radius2;
+        vertex(sx, sy);
+        sx = x + cos(a + halfAngle) * radius1;
+        sy = y + sin(a + halfAngle) * radius1;
+        vertex(sx, sy);
+    }
+    endShape(CLOSE);
 }
