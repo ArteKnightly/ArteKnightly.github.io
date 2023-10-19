@@ -1,85 +1,133 @@
-// main.js
-import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js';
+// sketch.js
+let particles = [];
+let angle = 0;
+let cubeSize = 100;
+let trappedParticles = [];
 
-// Create a scene
-const scene = new THREE.Scene();
-
-// Create a camera
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 5;
-
-// Create a renderer
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-// Create a cube
-const cubeSize = 3;
-const cubeGeometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
-const cubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
-const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-scene.add(cube);
-
-// Create an array to hold particles
-const particles = [];
-
-// Create a particle geometry and material
-const particleGeometry = new THREE.SphereGeometry(0.1, 32, 32);
-const particleMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-
-// Function to create particles
-function createParticle() {
-    const particle = new THREE.Mesh(particleGeometry, particleMaterial);
-
-    // Set a random initial position within the cube
-    particle.position.x = (Math.random() - 0.5) * cubeSize;
-    particle.position.y = (Math.random() - 0.5) * cubeSize;
-    particle.position.z = (Math.random() - 0.5) * cubeSize;
-
-    // Set a random velocity
-    particle.velocity = new THREE.Vector3((Math.random() - 0.5) * 0.1, (Math.random() - 0.5) * 0.1, (Math.random() - 0.5) * 0.1);
-
-    // Add the particle to the scene
-    scene.add(particle);
-    particles.push(particle);
+function setup() {
+    createCanvas(windowWidth, windowHeight, WEBGL); // Create a 3D canvas
+    stroke(255);
+    for (let i = 0; i < 50; i++) {
+        particles.push(new StarParticle());
+    }
 }
 
-// Create 100 particles
-for (let i = 0; i < 100; i++) {
-    createParticle();
-}
+function draw() {
+    background(0);
+    rotateY(angle); // Rotate the scene
 
-// Function to animate particles
-function animateParticles() {
-    particles.forEach((particle) => {
-        // Update the particle's position
-        particle.position.add(particle.velocity);
+    // Draw the wireframe cube in the center
+    push();
+    translate(0, 0, -200); // Position the cube in front of the particles
+    rotateX(angle * 0.5);
+    rotateY(angle * 0.5);
+    noFill();
+    box(cubeSize);
+    pop();
 
-        // Bounce off the cube's walls
-        if (particle.position.x < -cubeSize / 2 || particle.position.x > cubeSize / 2) {
-            particle.velocity.x *= -1;
+    // Draw and update particles
+    for (let i = particles.length - 1; i >= 0; i--) {
+        let p = particles[i];
+        p.update();
+        p.display();
+        p.checkBounds();
+
+        // Check for collision with the cube
+        if (p instanceof StarParticle && p.checkCollision(cubeSize)) {
+            trappedParticles.push(p);
+            particles.splice(i, 1);
         }
-        if (particle.position.y < -cubeSize / 2 || particle.position.y > cubeSize / 2) {
-            particle.velocity.y *= -1;
-        }
-        if (particle.position.z < -cubeSize / 2 || particle.position.z > cubeSize / 2) {
-            particle.velocity.z *= -1;
-        }
-    });
+    }
+
+    // Draw trapped particles
+    for (let p of trappedParticles) {
+        p.display();
+    }
+
+    angle += 0.01; // Increment rotation angle for cube and scene
 }
 
-// Render loop
-function animate() {
-    requestAnimationFrame(animate);
+class Particle {
+    constructor() {
+        this.pos = createVector(random(-width / 2, width / 2), random(-height / 2, height / 2), random(-200, 200));
+        this.vel = p5.Vector.random3D().mult(random(2, 4)); // Random initial velocity
+        this.size = random(5, 15); // Random size
+    }
 
-    // Rotate the cube
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
+    update() {
+        this.pos.add(this.vel);
+    }
 
-    // Animate particles
-    animateParticles();
+    display() {
+        stroke(255, 0, 0); // Red outline
+        strokeWeight(2);
+        push();
+        translate(this.pos.x, this.pos.y, this.pos.z);
+        // Specific particle rendering goes here
+        pop();
+    }
 
-    renderer.render(scene, camera);
+    checkBounds() {
+        if (
+            this.pos.x > width / 2 ||
+            this.pos.x < -width / 2 ||
+            this.pos.y > height / 2 ||
+            this.pos.y < -height / 2 ||
+            this.pos.z > 200 ||
+            this.pos.z < -200
+        ) {
+            this.vel.mult(-1); // Bounce off the walls
+        }
+    }
+
+    checkCollision(cubeSize) {
+        // Specific collision checking goes here
+        return false;
+    }
 }
 
-animate();
+class StarParticle extends Particle {
+    constructor() {
+        super();
+        this.isStar = true;
+        this.isStriking = false;
+        this.tracer = [];
+    }
+
+    update() {
+        super.update();
+        this.tracer.push(createVector(this.pos.x, this.pos.y, this.pos.z));
+        if (this.tracer.length > 20) {
+            this.tracer.shift();
+        }
+    }
+
+    display() {
+        super.display();
+        noFill();
+        for (let i = 0; i < this.tracer.length - 1; i++) {
+            let alpha = map(i, 0, this.tracer.length - 1, 100, 0);
+            stroke(255, 0, 0, alpha);
+            line(this.tracer[i].x, this.tracer[i].y, this.tracer[i].z, this.tracer[i + 1].x, this.tracer[i + 1].y, this.tracer[i + 1].z);
+        }
+        push();
+        translate(this.pos.x, this.pos.y, this.pos.z);
+        // Render the star
+        pop();
+    }
+
+    checkCollision(cubeSize) {
+        // Check if the star is inside the cube
+        if (
+            this.pos.x + this.size / 2 < cubeSize / 2 &&
+            this.pos.x - this.size / 2 > -cubeSize / 2 &&
+            this.pos.y + this.size / 2 < cubeSize / 2 &&
+            this.pos.y - this.size / 2 > -cubeSize / 2 &&
+            this.pos.z + this.size / 2 < cubeSize / 2 &&
+            this.pos.z - this.size / 2 > -cubeSize / 2
+        ) {
+            return true;
+        }
+        return false;
+    }
+}
