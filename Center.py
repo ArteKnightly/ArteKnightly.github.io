@@ -1,7 +1,15 @@
 from PIL import Image
 
 def center_image(img, target_width, target_height):
-    background = Image.new('RGB', (target_width, target_height), (255, 255, 255))
-    offset = ((target_width - img.width) // 2, (target_height - img.height) // 2)
-    background.paste(img, offset)
-    return background
+    """
+    Center the image and crop it to the target size.
+    """
+    img_width, img_height = img.size
+
+    # Calculate the cropping box
+    left = (img_width - target_width) / 2
+    top = (img_height - target_height) / 2
+    right = (img_width + target_width) / 2
+    bottom = (img_height + target_height) / 2
+
+    return img.crop((left, top, right, bottom))

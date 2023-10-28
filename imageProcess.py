@@ -1,11 +1,13 @@
 from PIL import Image
 from Scale import scale_image
-from Center import center_image
-from Save import save_image
+import os
 
-def process_image(input_path, output_directory, original_filename, target_width=800, target_height=600):
+def process_image(input_path, output_directory, original_filename):
     img = Image.open(input_path)
-    img = scale_image(img, target_width, target_height)
-    img = center_image(img, target_width, target_height)
-    image_data = save_image(img, output_directory, original_filename)
-    return image_data  # Return the image data object for the image
+    img = scale_image(img, 1024)  # Scale the image to a maximum size of 1024 pixels
+
+    # Save the processed image
+    output_path = os.path.join(output_directory, original_filename)
+    img.save(output_path, "JPEG", quality=85)  # Save with 85% quality, which is typically good for web
+
+    return output_path

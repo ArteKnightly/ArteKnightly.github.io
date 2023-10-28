@@ -1,8 +1,8 @@
 let imgManifest;
 let images = [];
 let currentImageIndex = 0;
-let startX, startY;  // For swipe detection
-let isDragging = false;  // To check if the mouse is pressed or touch is active
+let slider;
+let acceptBtn, naBtn;
 
 let critiqueQuestions = [
     "What do you think about the color scheme?",
@@ -15,8 +15,10 @@ function preload() {
     // Load the manifest.json file
     imgManifest = loadJSON('images/manifest.json');
 }
+
 function setup() {
-    createCanvas(800, 600);
+    createCanvas(windowWidth, windowHeight);
+    background(0);  // Set background to black
 
     // Load all the images from the manifest
     for (let imgData of imgManifest.images) {
@@ -24,73 +26,88 @@ function setup() {
         images.push({ data: imgData, img: img });
     }
 
-    // Add a button to export responses to CSV
-    let saveBtn = createButton('Export CSV');
-    saveBtn.position(width - 150, height - 40);
-    saveBtn.mousePressed(function () {
-        console.log('Save button pressed');  // Debugging log
-        saveResponsesAsCSV();
-    });
+    // Slider setup
+    slider = createSlider(-5, 5, 2.5, 0.1);
+    slider.position(windowWidth / 2 - 100, windowHeight - 70);
+    
 
-    // Example: Default selected image
+    // Accept button
+    acceptBtn = createButton('Accept');
+    acceptBtn.position(windowWidth / 2 - 50, windowHeight - 40);
+    
+    acceptBtn.mousePressed(acceptResponse);
+
+    // N/A button
+    naBtn = createButton('N/A');
+    naBtn.position(windowWidth / 2 + 50, windowHeight - 40);
+    naBtn.mousePressed(naResponse);
+
+    // Default selected image
     currentImageIndex = 0;
 }
 
 function draw() {
-    background(220);
+    background(0);
 
-    // Display the currently selected image centered
+    // Display the currently selected image centered with a border
     if (images.length > 0) {
-        image(images[currentImageIndex].img, width / 2 - images[currentImageIndex].img.width / 2, height / 2 - images[currentImageIndex].img.height / 2);
+        stroke(0);  // Black border
+        strokeWeight(4);
+        noFill();
+        rect(0, 0, width, height);
 
-        // Display the CritiqueQuestion at the top with padding
-        fill(0);
+        // Calculate the scaling factor while maintaining aspect ratio
+        let scale_factor = min(width / images[currentImageIndex].img.width, height / images[currentImageIndex].img.height);
+
+        // Display the image centered
+        imageMode(CENTER);
+        image(images[currentImageIndex].img, width / 2, height / 2, images[currentImageIndex].img.width * scale_factor, images[currentImageIndex].img.height * scale_factor);
+
+        // Display the CritiqueQuestion at the top
+        fill(255);  // White text color
         textSize(20);
         let question = critiqueQuestions[currentImageIndex % critiqueQuestions.length];
-
-        // Drawing a background for the text to ensure visibility
-        fill(255, 255, 0);  // Yellow background
-        rect(0, 0, width, 3 * textSize(20));
-
-        fill(0);  // Black text color
         text(question, width / 2 - textWidth(question) / 2, 2 * textSize(20));
     }
 }
-function mousePressed() {
-    startX = mouseX;
-    startY = mouseY;
-    isDragging = true;
-    return false;
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+    background(0);  // Re-set background to black
+
+    // Adjust positions based on new window size
+    slider.position(windowWidth / 2 - 100, windowHeight - 70);
+    acceptBtn.position(windowWidth / 2 - 50, windowHeight - 40);
+    naBtn.position(windowWidth / 2 + 50, windowHeight - 40);
 }
 
-function mouseReleased() {
-    let distX = mouseX - startX;
-    let distY = mouseY - startY;
+function acceptResponse() {
+    let value = slider.value();
+    // Adjust for the value of 0
+    if (value === 0) value = 0.01;
 
-    if (abs(distX) > abs(distY)) {
-        if (distX > 0) storeValue(1);  // Right
-        else storeValue(-1);  // Left
-    } else {
-        if (distY > 0) storeValue(0);  // Down
-    }
+    let response = {
+        uuid: images[currentImageIndex].data.UUID,
+        question: critiqueQuestions[currentImageIndex % critiqueQuestions.length],
+        responseValue: value
+    };
 
-    isDragging = false;
-    return false;
-}
-
-function storeValue(direction) {
-    let imageName = images[currentImageIndex].data.UUID;
-    let question = critiqueQuestions[currentImageIndex % critiqueQuestions.length];
-    responses.push({ uuid: imageName, question: question, response: direction });
+    responses.push(response);
     console.log(responses);
 
+    // Move to the next image
     currentImageIndex = (currentImageIndex + 1) % images.length;
 }
 
-function saveResponsesAsCSV() {
-    let csvContent = "uuid,question,response\n";
-    for (let response of responses) {
-        csvContent += `${response.uuid},${response.question},${response.response}\n`;
-    }
-    save(new Blob([csvContent], { type: "text/csv" }), 'responses.csv');
+function naResponse() {
+    let response = {
+        uuid: images[currentImageIndex].data.UUID,
+        question: critiqueQuestions[currentImageIndex % critiqueQuestions.length],
+        responseValue: 0
+    };
+
+    responses.push(response);
+    console.log(responses);
+
+    // Move to the next image
+    currentImageIndex = (currentImageIndex + 1) % images.length;
 }
