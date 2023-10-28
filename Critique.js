@@ -1,6 +1,35 @@
-// ... [Your previous code here]
+let imgManifest;
+let images = [];
+let currentImageIndex = 0;
+let imageValues = {};
+let startX, startY;  // To store the starting point for swipe
+
+let critiqueQuestions = [
+    "What do you think about the color scheme?",
+    "How does this image make you feel?",
+    "What stands out the most to you in this image?",
+    // ... add more questions as needed
+];
 
 let responses = [];  // To store user responses
+
+function preload() {
+    // Load the manifest.json file
+    imgManifest = loadJSON('images/manifest.json');
+}
+
+function setup() {
+    createCanvas(800, 600);
+
+    // Load all the images from the manifest
+    for (let imgData of imgManifest.images) {
+        let img = loadImage('images/' + imgData.UUID + '.jpg');  // Use the UUID as filename
+        images.push({ data: imgData, img: img });  // Store both image and its metadata
+    }
+
+    // Example: Pick the first image as the default selected image
+    currentImageIndex = 0;
+}
 
 function draw() {
     background(220);
