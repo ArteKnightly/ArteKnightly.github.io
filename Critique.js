@@ -15,7 +15,6 @@ function preload() {
     // Load the manifest.json file
     imgManifest = loadJSON('images/manifest.json');
 }
-
 function setup() {
     createCanvas(800, 600);
 
@@ -26,7 +25,12 @@ function setup() {
     }
 
     // Add a button to export responses to CSV
-    createButton('Export CSV').position(10, height - 40).mousePressed(saveResponsesAsCSV);
+    let saveBtn = createButton('Export CSV');
+    saveBtn.position(width - 150, height - 40);
+    saveBtn.mousePressed(function () {
+        console.log('Save button pressed');  // Debugging log
+        saveResponsesAsCSV();
+    });
 
     // Example: Default selected image
     currentImageIndex = 0;
@@ -35,22 +39,23 @@ function setup() {
 function draw() {
     background(220);
 
-    // Display the currently selected image centered or around mouseX and mouseY if dragging
+    // Display the currently selected image centered
     if (images.length > 0) {
-        if (isDragging) {
-            image(images[currentImageIndex].img, mouseX - images[currentImageIndex].img.width / 2, mouseY - images[currentImageIndex].img.height / 2);
-        } else {
-            image(images[currentImageIndex].img, width / 2 - images[currentImageIndex].img.width / 2, height / 2 - images[currentImageIndex].img.height / 2);
-        }
+        image(images[currentImageIndex].img, width / 2 - images[currentImageIndex].img.width / 2, height / 2 - images[currentImageIndex].img.height / 2);
 
         // Display the CritiqueQuestion at the top with padding
         fill(0);
         textSize(20);
         let question = critiqueQuestions[currentImageIndex % critiqueQuestions.length];
-        text(question, width / 2 - textWidth(question) / 2, 3 * textSize(20));
+
+        // Drawing a background for the text to ensure visibility
+        fill(255, 255, 0);  // Yellow background
+        rect(0, 0, width, 3 * textSize(20));
+
+        fill(0);  // Black text color
+        text(question, width / 2 - textWidth(question) / 2, 2 * textSize(20));
     }
 }
-
 function mousePressed() {
     startX = mouseX;
     startY = mouseY;
