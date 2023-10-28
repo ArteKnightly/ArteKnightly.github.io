@@ -10,8 +10,8 @@ def scale_image(input_image, max_size):
         new_height = int(new_width / aspect_ratio)
     else:
         # Portrait orientation
-        new_height = max_size
+        new_height = max_sizemn 
         new_width = int(new_height * aspect_ratio)
 
-    scaled_image = input_image.resize((new_width, new_height), Image.ANTIALIAS)
+    scaled_image = input_image.resize((new_width, new_height), Image.LANCZOS)
     return scaled_image
