@@ -1,8 +1,28 @@
 {
     "images": [
-        "blue-lagoon-cruises.jpg",
-        "images.jpg",
-        "island beach bord shadow.jpg",
-        "Vomo island.jpg"
+        {
+            "UUID": "94957c3a-8",
+            "original_filename": "blue-lagoon-cruises.jpg",
+            "currentdatetime": "2023-10-28 07:25:23",
+            "ScoreColor": 0,
+            "ScoreContent": 0,
+            "ScoreCraft": 0
+        },
+        {
+            "UUID": "c8977ee5-d",
+            "original_filename": "images.jpg",
+            "currentdatetime": "2023-10-28 07:25:23",
+            "ScoreColor": 0,
+            "ScoreContent": 0,
+            "ScoreCraft": 0
+        },
+        {
+            "UUID": "4a241f2f-0",
+            "original_filename": "island beach bord shadow.jpg",
+            "currentdatetime": "2023-10-28 07:25:23",
+            "ScoreColor": 0,
+            "ScoreContent": 0,
+            "ScoreCraft": 0
+        }
     ]
 }
