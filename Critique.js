@@ -34,8 +34,9 @@ function setup() {
     naBtn.position(windowWidth / 2 + 50, windowHeight - 40);
     naBtn.mousePressed(naResponse);
     
-    // Add mouse click event for the canvas
-    canvas.mouseClicked(acceptResponse);
+    function mouseClicked() {
+    acceptResponse();
+}
 
     // Default selected image
     currentImageIndex = 0;
