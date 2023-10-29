@@ -17,7 +17,7 @@ function preload() {
 }
 
 function setup() {
-    let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
+    createCanvas(windowWidth, windowHeight, WEBGL);
     background(0);  // Set background to black
 
     // Load all the images from the manifest
@@ -33,14 +33,13 @@ function setup() {
     naBtn = createButton('N/A');
     naBtn.position(windowWidth / 2 + 50, windowHeight - 40);
     naBtn.mousePressed(naResponse);
-
-    // Attach acceptResponse to canvas click event
+    
+    // Add mouse click event for the canvas
     canvas.mouseClicked(acceptResponse);
 
     // Default selected image
     currentImageIndex = 0;
 }
-
 function draw() {
     background(0);  // Black background
 
