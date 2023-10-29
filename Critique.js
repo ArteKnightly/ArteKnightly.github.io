@@ -17,7 +17,7 @@ function preload() {
 }
 
 function setup() {
-    let canvas = createCanvas(windowWidth, windowHeight);
+    let canvas = createCanvas(windowWidth, windowHeight, WEBGL);
     background(0);  // Set background to black
 
     // Load all the images from the manifest
