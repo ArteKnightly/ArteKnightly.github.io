@@ -1,35 +1,55 @@
-from generateManifest import generateManifest
-from imageProcess import process_image
 import os
 import json
 import shutil
+import uuid
+from datetime import datetime
+from generateManifest import generateManifest
+from imageProcess import process_image
+import random
+import string
 
 raw_directory = "raw"
 completed_directory = os.path.join(raw_directory, "complete")
 image_directory = "images"
 manifest_path = os.path.join(image_directory, 'manifest.json')
 
-# Generate or update the manifest
-all_images = generateManifest(raw_directory)
+# Ensure completed_directory exists
+if not os.path.exists(completed_directory):
+    os.makedirs(completed_directory)
 
-# If manifest exists, retrieve the existing data
+# Load the existing manifest or create an empty one
 if os.path.exists(manifest_path):
     with open(manifest_path, 'r') as f:
-        image_data_list = json.load(f).get("images", [])
+        manifest_data = json.load(f)
 else:
-    image_data_list = []
+    manifest_data = {"images": []}
+# ...
 
-# Process unprocessed images
-for image in all_images:
-    # Check if the image is already processed using the original filename
-    if not any(data["original_filename"] == image for data in image_data_list):
-        input_path = os.path.join(raw_directory, image)
-        image_data = process_image(input_path, image_directory, image)  # The process_image now returns the image data
-        image_data_list.append(image_data)
-        shutil.move(input_path, os.path.join(completed_directory, image))  # Move the raw image to \raw\complete
-
-# Update the manifest with image data
+# Process each image in the raw directory
+for image_filename in os.listdir(raw_directory):
+    if image_filename.endswith(('.jpg', '.jpeg')):
+        input_path = os.path.join(raw_directory, image_filename)
+        
+        # Generate a 10-character alphanumeric UUID
+        image_uuid = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+        
+        # Process the image
+        image_data = process_image(input_path, image_directory, image_uuid + '.jpg')
+        
+        # Update manifest
+        manifest_data["images"].append({
+            "UUID": image_uuid,
+            "original_filename": image_filename,
+            "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            "ScoreColor": 0,
+            "ScoreContent": 0,
+            "ScoreCraft": 0
+        })
+        
+        # Move the original image to completed
+        shutil.move(input_path, os.path.join(completed_directory, image_filename))
+# Save the updated manifest
 with open(manifest_path, 'w') as f:
-    json.dump({"images": image_data_list}, f, indent=4)
+    json.dump(manifest_data, f, indent=4)
 
 print("All images ready for the web!")
