@@ -17,7 +17,7 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
+    let canvas = createCanvas(windowWidth, windowHeight);
     background(0);  // Set background to black
 
     // Load all the images from the manifest
@@ -26,48 +26,52 @@ function setup() {
         images.push({ data: imgData, img: img });
     }
 
-    // Slider setup
-    slider = createSlider(-5, 5, 2.5, 0.1);
-    slider.position(windowWidth / 2 - 100, windowHeight - 70);
-    
-
-    // Accept button
-    acceptBtn = createButton('Accept');
-    acceptBtn.position(windowWidth / 2 - 50, windowHeight - 40);
-    
-    acceptBtn.mousePressed(acceptResponse);
+    // Initialize spinning object
+    switchShape('box');
 
     // N/A button
     naBtn = createButton('N/A');
     naBtn.position(windowWidth / 2 + 50, windowHeight - 40);
     naBtn.mousePressed(naResponse);
 
+    // Attach acceptResponse to canvas click event
+    canvas.mouseClicked(acceptResponse);
+
     // Default selected image
     currentImageIndex = 0;
 }
 
 function draw() {
-    background(0);
+    background(0);  // Black background
 
-    // Display the currently selected image centered with a border
     if (images.length > 0) {
-        stroke(0);  // Black border
-        strokeWeight(4);
-        noFill();
-        rect(0, 0, width, height);
+        let img = images[currentImageIndex].img;
 
-        // Calculate the scaling factor while maintaining aspect ratio
-        let scale_factor = min(width / images[currentImageIndex].img.width, height / images[currentImageIndex].img.height);
+        // Calculate maximum display dimensions with 100-pixel padding
+        let maxDisplayWidth = width - 200;  // 100 pixels padding on each side
+        let maxDisplayHeight = height - 200;
 
-        // Display the image centered
-        imageMode(CENTER);
-        image(images[currentImageIndex].img, width / 2, height / 2, images[currentImageIndex].img.width * scale_factor, images[currentImageIndex].img.height * scale_factor);
+        // Calculate the aspect ratio of the image
+        let imgAspectRatio = img.width / img.height;
 
-        // Display the CritiqueQuestion at the top
+        // Calculate display width and height based on aspect ratio
+        let displayWidth = maxDisplayWidth;
+        let displayHeight = displayWidth / imgAspectRatio;
+
+        if (displayHeight > maxDisplayHeight) {
+            displayHeight = maxDisplayHeight;
+            displayWidth = displayHeight * imgAspectRatio;
+        }
+
+        // Display the image centered on the canvas
+        image(img, (width - displayWidth) / 2, (height - displayHeight) / 2, displayWidth, displayHeight);
+
+        /* Display the CritiqueQuestion at the top*/
         fill(255);  // White text color
         textSize(20);
         let question = critiqueQuestions[currentImageIndex % critiqueQuestions.length];
         text(question, width / 2 - textWidth(question) / 2, 2 * textSize(20));
+        currentShapeObj.display();
     }
 }
 function windowResized() {
@@ -75,20 +79,18 @@ function windowResized() {
     background(0);  // Re-set background to black
 
     // Adjust positions based on new window size
-    slider.position(windowWidth / 2 - 100, windowHeight - 70);
-    acceptBtn.position(windowWidth / 2 - 50, windowHeight - 40);
     naBtn.position(windowWidth / 2 + 50, windowHeight - 40);
 }
 
 function acceptResponse() {
-    let value = slider.value();
-    // Adjust for the value of 0
-    if (value === 0) value = 0.01;
+    let scaledValue = map(currentShapeObj.posX, 0, width - currentShapeObj.size, -5, 5);
+    scaledValue = constrain(scaledValue, -5, 5);
+    if (scaledValue === 0) scaledValue = 0.01;  // Reserve 0 for N/A
 
     let response = {
         uuid: images[currentImageIndex].data.UUID,
         question: critiqueQuestions[currentImageIndex % critiqueQuestions.length],
-        responseValue: value
+        responseValue: scaledValue
     };
 
     responses.push(response);
@@ -97,7 +99,6 @@ function acceptResponse() {
     // Move to the next image
     currentImageIndex = (currentImageIndex + 1) % images.length;
 }
-
 function naResponse() {
     let response = {
         uuid: images[currentImageIndex].data.UUID,
