@@ -43,12 +43,14 @@ function setup() {
 function draw() {
     background(0);  // Black background
 
-    // Define the top padding based on the size of the spinning object
+    // Calculate the y position for the spinning object based on its size and the top padding
     let topPad = currentShapeObj.size * 1.5;
+    let yPos = topPad - height/2;
 
-    // Display the spinning object near the top of the canvas
-    currentShapeObj.display(topPad - currentShapeObj.size);
+    // Display the spinning object at the calculated position
+    currentShapeObj.display(yPos);
 }
+
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
