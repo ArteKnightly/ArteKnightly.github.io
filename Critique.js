@@ -38,8 +38,7 @@ function setup() {
 
     // Default selected image
     currentImageIndex = 0;
-}
-function draw() {
+}function draw() {
     background(0);  // Black background
 
     if (images.length > 0) {
@@ -67,17 +66,19 @@ function draw() {
             displayWidth = displayHeight * imgAspectRatio;
         }
 
-        // Display the spinning object at the top center of the canvas
-        currentShapeObj.display(currentShapeObj.size + (topPad / 2));
+        // Display the spinning object near the top of the canvas
+        currentShapeObj.display(topPad - currentShapeObj.size);
 
         // Calculate image position
+        // Image should start right below the spinning object
         let imageXPosition = leftPad;
         let imageYPosition = 2 * topPad;
 
-        // Display the image
+        // Display the image with the top left of the image starting from (imageXPosition, imageYPosition)
         image(img, imageXPosition, imageYPosition, displayWidth, displayHeight);
     }
 }
+
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
     background(0);  // Re-set background to black
