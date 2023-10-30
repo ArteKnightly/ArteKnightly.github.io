@@ -5,7 +5,10 @@ let slider;
 let acceptBtn, naBtn;
 let critiqueQuestions;
 let responses = [];
-
+let leftPad;
+let rightPad;
+let bottomPad;
+let topPad;
 function preload() {
     // Load the manifest.json file
     imgManifest = loadJSON('data/manifest.json');
@@ -35,44 +38,26 @@ function mouseClicked() {
     acceptResponse();
 }
 function draw() {
-    background(0);  // Black background
+    background(0);
+
     // Define padding values
-    let leftPad = 2;
-    let rightPad = 2;
-    let bottomPad = 5;
-    let topPad = currentShapeObj.size * 2;
+    leftPad = 2;
+    rightPad = 2;
+    bottomPad = 5;
+    topPad = currentShapeObj.size * 2;
 
-    // Calculate the y position for the spinning object based on its size and the top padding
-    let yPos = -height/2 + (topPad / 2);
-
-    // Display the spinning object at the calculated position
+    // Draw Spinning object
+    let yPos = -height / 2 + (topPad / 2);
     currentShapeObj.display(yPos);
 
     if (images.length > 0) {
         let img = images[currentImageIndex].img;
-
-        // Calculate maximum display dimensions
-        let maxDisplayWidth = width - leftPad - rightPad;
-        let maxDisplayHeight = height - topPad - bottomPad;
-
-        // Calculate the aspect ratio of the image
-        let imgAspectRatio = img.width / img.height;
-
-        // Calculate display width and height based on aspect ratio
-        let displayWidth = maxDisplayWidth;
-        let displayHeight = displayWidth / imgAspectRatio;
-
-        if (displayHeight > maxDisplayHeight) {
-            displayHeight = maxDisplayHeight;
-            displayWidth = displayHeight * imgAspectRatio;
-            }
-
         // Calculate image position
-        let imageXPosition = leftPad; // Start from left padding
-        let imageYPosition = topPad;  // Start from top padding
+        let imageXPosition = 0;// leftPad; // Start from left padding
+        let imageYPosition = 0;// topPad;  // Start from top padding
 
         // Display the image
-        image(img, imageXPosition, imageYPosition, displayWidth, displayHeight);
+        image(img, imageXPosition, imageYPosition, DisplayImageWidth(), DisplayImageHeight());
     }
 }
 
@@ -82,6 +67,34 @@ function windowResized() {
 
     // Adjust positions based on new window size
     naBtn.position(windowWidth / 2 + 50, windowHeight - 40);
+}
+
+function MaxImageWidth(img) {
+    return  width - leftPad - rightPad;
+}
+function MaxImageHeight(img) {
+    return  height - topPad - bottomPad;
+}
+function DisplayImageWidth(img) {
+    if (MaxImageWidth(img) / CalculateImageAspectRatio(img) < MaxImageWidth(img)) {
+        return MaxImageWidth(img);
+    }
+    else {
+        return DisplayImageHeight(img) * CalculateImageAspectRatio(img)
+    }
+}
+
+function DisplayImageHeight(img) {
+    if (MaxImageWidth(img) / CalculateImageAspectRatio(img) < MaxImageWidth(img)) {
+        return DisplayImageWidth(img) / CalculateImageAspectRatio(img);
+    }
+    else {
+        return MaxImageHeight(img)
+    } 
+}
+
+function CalculateImageAspectRatio(img) {
+    return imgAspectRatio = img.width / img.height;
 }
 
 function acceptResponse() {
