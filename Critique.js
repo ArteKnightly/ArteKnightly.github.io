@@ -45,10 +45,10 @@ function setup() {
         let img = images[currentImageIndex].img;
 
         // Define the padding variables
-        let leftPad = 20;
-        let rightPad = 20;
+        let leftPad = 1;
+        let rightPad = 1;
         let topPad = currentShapeObj.size * 1.5;
-        let bottomPad = 50;
+        let bottomPad = 1;
 
         // Calculate maximum display dimensions with defined padding
         let maxDisplayWidth = width - (leftPad + rightPad);
