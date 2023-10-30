@@ -22,6 +22,7 @@ class ObjShape {
     display() {
         // Determine fill color based on posX
         let normalizedX = map(this.posX, -width / 2, width / 2, -1, 1);
+        
         normalizedX = constrain(normalizedX, -1, 1);
 
         if (normalizedX < 0) {
@@ -37,9 +38,9 @@ class ObjShape {
         // Interpolate outline from white to black
         let outlineCol = lerpColor(color(255), color(0), abs(normalizedX));
         stroke(outlineCol);
-
+        display(yTranslate = 0) {
         push();
-        translate(this.posX, -height / 2 + 2 * this.size, 0);
+        translate(this.posX, yTranslate, 0);
         rotateX(frameCount * this.spin + noise(this.noiseOffsetX) * 0.1);  // Incorporate noise into spin
         rotateY(frameCount * this.rotate + noise(this.noiseOffsetY) * 0.1);  // Incorporate noise into rotate
 
@@ -55,6 +56,7 @@ class ObjShape {
             torus(this.size, this.size / 2, this.res.detailX, this.res.detailY);  // Size divided by 2 for inner radius
         }
         pop();
+        }
 
         this.noiseOffsetX += 0.001;  // Adjust as needed
         this.noiseOffsetY += 0.001;  // Adjust as needed
@@ -66,7 +68,6 @@ class ObjShape {
 }
 
 function setup() {
-    createCanvas(windowWidth, windowHeight, WEBGL);
     switchShape('box');  // Start with the box shape by default
 }
 
