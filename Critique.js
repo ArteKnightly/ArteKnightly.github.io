@@ -38,45 +38,16 @@ function setup() {
 
     // Default selected image
     currentImageIndex = 0;
-}function draw() {
+}
+
+function draw() {
     background(0);  // Black background
 
-    if (images.length > 0) {
-        let img = images[currentImageIndex].img;
+    // Define the top padding based on the size of the spinning object
+    let topPad = currentShapeObj.size * 1.5;
 
-        // Define the padding variables
-        let leftPad = 1;
-        let rightPad = 1;
-        let topPad = currentShapeObj.size * 1.5;
-        let bottomPad = 1;
-
-        // Calculate maximum display dimensions with defined padding
-        let maxDisplayWidth = width - (leftPad + rightPad);
-        let maxDisplayHeight = height - (topPad + bottomPad);
-
-        // Calculate the aspect ratio of the image
-        let imgAspectRatio = img.width / img.height;
-
-        // Calculate display width and height based on aspect ratio
-        let displayWidth = maxDisplayWidth;
-        let displayHeight = displayWidth / imgAspectRatio;
-
-        if (displayHeight > maxDisplayHeight) {
-            displayHeight = maxDisplayHeight;
-            displayWidth = displayHeight * imgAspectRatio;
-        }
-
-        // Display the spinning object near the top of the canvas
-        currentShapeObj.display(topPad - currentShapeObj.size);
-
-        // Calculate image position
-        // Image should start right below the spinning object
-        let imageXPosition = leftPad;
-        let imageYPosition = 2 * topPad;
-
-        // Display the image with the top left of the image starting from (imageXPosition, imageYPosition)
-        image(img, imageXPosition, imageYPosition, displayWidth, displayHeight);
-    }
+    // Display the spinning object near the top of the canvas
+    currentShapeObj.display(topPad - currentShapeObj.size);
 }
 
 function windowResized() {
