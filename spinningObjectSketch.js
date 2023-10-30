@@ -96,3 +96,5 @@ function doubleClicked() {
     if (scaledValue === 0) scaledValue = 0.01;
     console.log(`Scaled value for ${currentShapeObj.type}: ${scaledValue.toFixed(2)}`);
 }
+    
+window.switchShape = switchShape;
