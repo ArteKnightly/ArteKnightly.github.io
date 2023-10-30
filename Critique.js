@@ -66,20 +66,18 @@ function draw() {
 
         /* Display a Random Critique Question at the top */
         fill(255);  // White text color
-        textSize(20);if (critiqueQuestions && critiqueQuestions.questions) {
-        let questionIndex = Math.floor(random(critiqueQuestions.questions.length));
-        let question = critiqueQuestions.questions[questionIndex].text;
-        text(question, width / 2 - textWidth(question) / 2, 2 * textSize(20));
-}
+        textSize(20);
+        if (critiqueQuestions && critiqueQuestions.questions) {
+            let questionIndex = Math.floor(random(critiqueQuestions.questions.length));
+            let question = critiqueQuestions.questions[questionIndex].text;
+            text(question, width / 2 - textWidth(question) / 2, 2 * textSize(20));
+        }
 
-
-        // Move the spinning object above the image and center it
-        push();
-        translate(0, -height / 4);
-        currentShapeObj.display();
-        pop();
+        // Display the spinning object above the image
+        currentShapeObj.display(-height / 4);
     }
 }
+
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
     background(0);  // Re-set background to black
