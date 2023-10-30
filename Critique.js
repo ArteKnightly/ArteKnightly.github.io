@@ -67,17 +67,17 @@ function draw() {
             displayWidth = displayHeight * imgAspectRatio;
         }
 
-        // Adjust the Y position for the image to be below the spinning object
-        let imageYPosition = (height + topPad - bottomPad) / 2 - (displayHeight / 2);
+        // Calculate image position
+        let imageXPosition = leftPad + displayWidth / 2;
+        let imageYPosition = topPad + displayHeight / 2;
 
-        // Display the image centered on the canvas
-        image(img, width/2 - displayWidth/2, imageYPosition, displayWidth, displayHeight);
+        // Display the image
+        image(img, imageXPosition - displayWidth / 2, imageYPosition - displayHeight / 2, displayWidth, displayHeight);
 
         // Display the spinning object at the top center of the canvas
         currentShapeObj.display(-height / 4);
     }
 }
-
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
