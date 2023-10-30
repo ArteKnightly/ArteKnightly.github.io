@@ -11,8 +11,8 @@ function preload() {
     imgManifest = loadJSON('data/manifest.json');
 
     // Load the inquisidor.json file
-   // critiqueQuestions = loadJSON('data/inquisidor.json');
-    critiqueQuestions = JSON.parse(localStorage.getItem("questions"))
+   critiqueQuestions = loadJSON('data/inquisidor.json');
+    //critiqueQuestions = JSON.parse(localStorage.getItem("questions"))
 }
 
 function setup() {

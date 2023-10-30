@@ -25,4 +25,8 @@ function saveQuestion() {
 
     document.getElementById("status").innerText = "Question saved!";
     document.getElementById("questionInput").value = "";
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelector("button").addEventListener("click", saveQuestion);
+    });
+
 }
