@@ -3,7 +3,7 @@ let images = [];
 let currentImageIndex = 0;
 let slider;
 let acceptBtn, naBtn;
-let critiqueQuestions = [];
+let critiqueQuestions;
 let responses = [];
 
 function preload() {
@@ -11,6 +11,7 @@ function preload() {
     imgManifest = loadJSON('data/manifest.json');
 
     // Load the inquisidor.json file
+    //critiqueQuestions = loadJSON('data/inquisidor.json');
     critiqueQuestions = loadJSON('data/inquisidor.json');
 }
 function setup() {
