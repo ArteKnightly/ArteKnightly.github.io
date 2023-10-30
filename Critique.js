@@ -36,9 +36,14 @@ function mouseClicked() {
 }
 function draw() {
     background(0);  // Black background
+    // Define padding values
+    let leftPad = 20;
+    let rightPad = 20;
+    let bottomPad = 50;
+    let topPad = currentShapeObj.size * 1.5;
 
     // Calculate the y position for the spinning object based on its size and the top padding
-    let topPad = currentShapeObj.size * 1.5;
+    
     let yPos = -height/2 + (topPad / 2);
 
     // Display the spinning object at the calculated position
@@ -47,34 +52,29 @@ function draw() {
     if (images.length > 0) {
         let img = images[currentImageIndex].img;
 
-        // Define padding values
-        let leftPad = 20;
-        let rightPad = 20;
-        let bottomPad = 50;
-
         // Calculate maximum display dimensions
-let maxDisplayWidth = width - leftPad - rightPad;
-let maxDisplayHeight = height - topPad - bottomPad;
+        let maxDisplayWidth = width - leftPad - rightPad;
+        let maxDisplayHeight = height - topPad - bottomPad;
 
-// Calculate the aspect ratio of the image
-let imgAspectRatio = img.width / img.height;
+        // Calculate the aspect ratio of the image
+        let imgAspectRatio = img.width / img.height;
 
-// Calculate display width and height based on aspect ratio
-let displayWidth = maxDisplayWidth;
-let displayHeight = displayWidth / imgAspectRatio;
+        // Calculate display width and height based on aspect ratio
+        let displayWidth = maxDisplayWidth;
+        let displayHeight = displayWidth / imgAspectRatio;
 
-if (displayHeight > maxDisplayHeight) {
-    displayHeight = maxDisplayHeight;
-    displayWidth = displayHeight * imgAspectRatio;
-}
+        if (displayHeight > maxDisplayHeight) {
+            displayHeight = maxDisplayHeight;
+            displayWidth = displayHeight * imgAspectRatio;
+            }
 
-// Calculate image position
-let imageXPosition = leftPad; // Start from left padding
-let imageYPosition = topPad;  // Start from top padding
+        // Calculate image position
+        let imageXPosition = leftPad; // Start from left padding
+        let imageYPosition = topPad;  // Start from top padding
 
-// Display the image
-image(img, imageXPosition, imageYPosition, displayWidth, displayHeight);
-}
+        // Display the image
+        image(img, imageXPosition, imageYPosition, displayWidth, displayHeight);
+    }
 }
 
 function windowResized() {

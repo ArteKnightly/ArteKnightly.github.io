@@ -1,8 +1,9 @@
 {
-    "images": [
+    "questions": [
         {
-            "UUID": "s6tfsDpthd",
-            "question": "blue-lagoon-cruises.jpg"
-         }
+            "UUID": "1234567890",
+            "text": "Your question text here?"
+        },
+        // ... more questions
     ]
 }
