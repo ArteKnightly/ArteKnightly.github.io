@@ -11,10 +11,8 @@ function preload() {
     imgManifest = loadJSON('data/manifest.json');
 
     // Load the inquisidor.json file
-   critiqueQuestions = loadJSON('data/inquisidor.json');
-    //critiqueQuestions = JSON.parse(localStorage.getItem("questions"))
+    critiqueQuestions = loadJSON('data/inquisidor.json');
 }
-
 function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL);
     background(0);  // Set background to black
@@ -62,13 +60,14 @@ function draw() {
             displayWidth = displayHeight * imgAspectRatio;
         }
 
-        // Display the image centered on the canvas with a vertical offset for the spinning object
-        image(img, (width - displayWidth) / 2, (height + 100 - displayHeight) / 2, displayWidth, displayHeight);
+        // Display the image centered on the canvas
+        image(img, width/2 - displayWidth/2, height/2 - displayHeight/2, displayWidth, displayHeight);
 
-        /* Display the CritiqueQuestion at the top*/
+        /* Display a Random Critique Question at the top */
         fill(255);  // White text color
         textSize(20);
-        let question = critiqueQuestions[currentImageIndex % critiqueQuestions.length];
+        let questionIndex = Math.floor(random(critiqueQuestions.questions.length));
+        let question = critiqueQuestions.questions[questionIndex].text;
         text(question, width / 2 - textWidth(question) / 2, 2 * textSize(20));
 
         // Move the spinning object above the image and center it
