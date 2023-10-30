@@ -37,13 +37,12 @@ function mouseClicked() {
 function draw() {
     background(0);  // Black background
     // Define padding values
-    let leftPad = 20;
-    let rightPad = 20;
-    let bottomPad = 50;
-    let topPad = currentShapeObj.size * 1.5;
+    let leftPad = 2;
+    let rightPad = 2;
+    let bottomPad = 5;
+    let topPad = currentShapeObj.size * 2;
 
     // Calculate the y position for the spinning object based on its size and the top padding
-    
     let yPos = -height/2 + (topPad / 2);
 
     // Display the spinning object at the calculated position
