@@ -64,7 +64,7 @@ display(yTranslate = 0) {
 setPosition(x) {
     this.posX = x;
 }
-
+}
 
 function setup() {
     switchShape('box');  // Start with the box shape by default
