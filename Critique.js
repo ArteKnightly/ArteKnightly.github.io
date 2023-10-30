@@ -3,17 +3,16 @@ let images = [];
 let currentImageIndex = 0;
 let slider;
 let acceptBtn, naBtn;
-
-let critiqueQuestions = [
-    "What do you think about the color scheme?",
-    // ... add more questions as needed
-];
-
+let critiqueQuestions = [];
 let responses = [];
 
 function preload() {
     // Load the manifest.json file
-    imgManifest = loadJSON('images/manifest.json');
+    imgManifest = loadJSON('data/manifest.json');
+
+    // Load the inquisidor.json file
+   // critiqueQuestions = loadJSON('data/inquisidor.json');
+    critiqueQuestions = JSON.parse(localStorage.getItem("questions"))
 }
 
 function setup() {
@@ -49,7 +48,7 @@ function draw() {
 
         // Calculate maximum display dimensions with 100-pixel padding
         let maxDisplayWidth = width - 200;  // 100 pixels padding on each side
-        let maxDisplayHeight = height - 200;
+        let maxDisplayHeight = height - 300;  // Adjusted for additional space for the spinning object
 
         // Calculate the aspect ratio of the image
         let imgAspectRatio = img.width / img.height;
@@ -63,15 +62,20 @@ function draw() {
             displayWidth = displayHeight * imgAspectRatio;
         }
 
-        // Display the image centered on the canvas
-        image(img, (width - displayWidth) / 2, (height - displayHeight) / 2, displayWidth, displayHeight);
+        // Display the image centered on the canvas with a vertical offset for the spinning object
+        image(img, (width - displayWidth) / 2, (height + 100 - displayHeight) / 2, displayWidth, displayHeight);
 
         /* Display the CritiqueQuestion at the top*/
         fill(255);  // White text color
         textSize(20);
         let question = critiqueQuestions[currentImageIndex % critiqueQuestions.length];
         text(question, width / 2 - textWidth(question) / 2, 2 * textSize(20));
+
+        // Move the spinning object above the image and center it
+        push();
+        translate(0, -height / 4);
         currentShapeObj.display();
+        pop();
     }
 }
 function windowResized() {
