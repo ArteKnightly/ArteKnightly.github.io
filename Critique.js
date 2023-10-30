@@ -12,7 +12,7 @@ function preload() {
 
     // Load the inquisidor.json file
     //critiqueQuestions = loadJSON('data/inquisidor.json');
-    critiqueQuestions = loadJSON('data/inquisidor.json');
+    //critiqueQuestions = loadJSON('data/inquisidor.json');
 }
 function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL);
