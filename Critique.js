@@ -67,18 +67,17 @@ function draw() {
             displayWidth = displayHeight * imgAspectRatio;
         }
 
+        // Display the spinning object at the top center of the canvas
+        currentShapeObj.display(currentShapeObj.size + (topPad / 2));
+
         // Calculate image position
         let imageXPosition = leftPad;
-        let imageYPosition = topPad;
+        let imageYPosition = 2 * topPad;
 
         // Display the image
         image(img, imageXPosition, imageYPosition, displayWidth, displayHeight);
-
-        // Display the spinning object at the top center of the canvas
-        currentShapeObj.display(-height / 4);
     }
 }
-
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
     background(0);  // Re-set background to black
