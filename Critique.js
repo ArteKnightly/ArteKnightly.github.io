@@ -45,9 +45,15 @@ function draw() {
     if (images.length > 0) {
         let img = images[currentImageIndex].img;
 
-        // Calculate maximum display dimensions with 100-pixel padding
-        let maxDisplayWidth = width - 200;  // 100 pixels padding on each side
-        let maxDisplayHeight = height - 300;  // Adjusted for additional space for the spinning object
+        // Define the padding variables
+        let leftPad = 20;
+        let rightPad = 20;
+        let topPad = currentShapeObj.size * 1.5;
+        let bottomPad = 50;
+
+        // Calculate maximum display dimensions with defined padding
+        let maxDisplayWidth = width - (leftPad + rightPad);
+        let maxDisplayHeight = height - (topPad + bottomPad);
 
         // Calculate the aspect ratio of the image
         let imgAspectRatio = img.width / img.height;
@@ -61,22 +67,17 @@ function draw() {
             displayWidth = displayHeight * imgAspectRatio;
         }
 
+        // Adjust the Y position for the image to be below the spinning object
+        let imageYPosition = (height + topPad - bottomPad) / 2 - (displayHeight / 2);
+
         // Display the image centered on the canvas
-        image(img, width/2 - displayWidth/2, height/2 - displayHeight/2, displayWidth, displayHeight);
+        image(img, width/2 - displayWidth/2, imageYPosition, displayWidth, displayHeight);
 
-        /* Display a Random Critique Question at the top */
-        fill(255);  // White text color
-        textSize(20);
-        if (critiqueQuestions && critiqueQuestions.questions) {
-            let questionIndex = Math.floor(random(critiqueQuestions.questions.length));
-            let question = critiqueQuestions.questions[questionIndex].text;
-            text(question, width / 2 - textWidth(question) / 2, 2 * textSize(20));
-        }
-
-        // Display the spinning object above the image
+        // Display the spinning object at the top center of the canvas
         currentShapeObj.display(-height / 4);
     }
 }
+
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
