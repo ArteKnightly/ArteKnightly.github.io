@@ -27,18 +27,14 @@ function setup() {
     // Initialize spinning object
     switchShape('box');
 
-    // N/A button
-    //naBtn = createButton('N/A');
-    //naBtn.position(windowWidth / 2 + 50, windowHeight - 40);
-    //naBtn.mousePressed(naResponse);
-    
-    function mouseClicked() {
-    acceptResponse();
-}
-
     // Default selected image
     currentImageIndex = 0;
 }
+
+function mouseClicked() {
+    acceptResponse();
+}
+
 function draw() {
     background(0);  // Black background
 
@@ -52,7 +48,8 @@ function draw() {
         let leftPad = 20;
         let rightPad = 20;
         let bottomPad = 50;
-
+        let topPad = currentShapeObj.size * 1.5; 
+        
         // Calculate maximum display dimensions
         let maxDisplayWidth = width - leftPad - rightPad;
         let maxDisplayHeight = height - (topPad + currentShapeObj.size) - bottomPad;
