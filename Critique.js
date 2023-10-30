@@ -28,9 +28,9 @@ function setup() {
     switchShape('box');
 
     // N/A button
-    naBtn = createButton('N/A');
-    naBtn.position(windowWidth / 2 + 50, windowHeight - 40);
-    naBtn.mousePressed(naResponse);
+    //naBtn = createButton('N/A');
+    //naBtn.position(windowWidth / 2 + 50, windowHeight - 40);
+    //naBtn.mousePressed(naResponse);
     
     function mouseClicked() {
     acceptResponse();
