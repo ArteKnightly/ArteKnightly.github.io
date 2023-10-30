@@ -68,11 +68,11 @@ function draw() {
         }
 
         // Calculate image position
-        let imageXPosition = leftPad + displayWidth / 2;
-        let imageYPosition = topPad + displayHeight / 2;
+        let imageXPosition = leftPad;
+        let imageYPosition = topPad;
 
         // Display the image
-        image(img, imageXPosition - displayWidth / 2, imageYPosition - displayHeight / 2, displayWidth, displayHeight);
+        image(img, imageXPosition, imageYPosition, displayWidth, displayHeight);
 
         // Display the spinning object at the top center of the canvas
         currentShapeObj.display(-height / 4);
