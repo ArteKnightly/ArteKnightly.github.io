@@ -39,7 +39,6 @@ function setup() {
     // Default selected image
     currentImageIndex = 0;
 }
-Now, we're at the top edge of the image. Since P5.js places images based on their center, we'll add half of displayHeight to move to the center of the image.
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
