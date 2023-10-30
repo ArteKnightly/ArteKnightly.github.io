@@ -34,12 +34,15 @@ function setup() {
 function mouseClicked() {
     acceptResponse();
 }
-
 function draw() {
     background(0);  // Black background
 
-    // Display the spinning object at the center top
-    currentShapeObj.display(0);
+    // Calculate the y position for the spinning object based on its size and the top padding
+    let topPad = currentShapeObj.size * 1.5;
+    let yPos = topPad - height/2;
+
+    // Display the spinning object at the calculated position
+    currentShapeObj.display(yPos);
 
     if (images.length > 0) {
         let img = images[currentImageIndex].img;
@@ -48,11 +51,10 @@ function draw() {
         let leftPad = 20;
         let rightPad = 20;
         let bottomPad = 50;
-        let topPad = currentShapeObj.size * 1.5; 
-        
+
         // Calculate maximum display dimensions
         let maxDisplayWidth = width - leftPad - rightPad;
-        let maxDisplayHeight = height - (topPad + currentShapeObj.size) - bottomPad;
+        let maxDisplayHeight = height - (2 * topPad) - bottomPad;  // 2 times topPad to account for the space taken by the spinning object
 
         // Calculate the aspect ratio of the image
         let imgAspectRatio = img.width / img.height;
@@ -68,10 +70,10 @@ function draw() {
 
         // Calculate image position
         let imageXPosition = width / 2; // Centered in x-axis
-        let imageYPosition = topPad + currentShapeObj.size;
+        let imageYPosition = yPos + currentShapeObj.size + displayHeight/2;  // The image's center is below the spinning object
 
         // Display the image
-        image(img, imageXPosition - displayWidth / 2, imageYPosition, displayWidth, displayHeight);
+        image(img, imageXPosition - displayWidth / 2, imageYPosition - displayHeight / 2, displayWidth, displayHeight);
     }
 }
 
