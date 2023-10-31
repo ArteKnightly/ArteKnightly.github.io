@@ -78,7 +78,7 @@ function DisplayImageWidth(img) {
         return MaxImageWidth(img);
     }
     else {
-        return DisplayImageHeight(img) * CalculateImageAspectRatio(img)
+        return DisplayImageHeight(img) * CalculateImageAspectRatio(img);
     }
 }
 
@@ -87,7 +87,7 @@ function DisplayImageHeight(img) {
         return DisplayImageWidth(img) / CalculateImageAspectRatio(img);
     }
     else {
-        return MaxImageHeight(img)
+        return MaxImageHeight(img);
     } 
 }
 
@@ -95,8 +95,10 @@ function CalculateImageAspectRatio(img) {
     return imgAspectRatio = img.width / img.height;
 }
 
-function ImageXPos() { return 0 }
-function ImageYPos() { return 0 }
+function ImageXPos() { return 0; }
+
+function ImageYPos() { return 0; }
+
 function acceptResponse() {
     let scaledValue = map(currentShapeObj.posX, 0, width - currentShapeObj.size, -5, 5);
     scaledValue = constrain(scaledValue, -5, 5);
