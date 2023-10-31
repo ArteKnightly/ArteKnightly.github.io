@@ -22,13 +22,13 @@ function setup() {
         images.push({ data: imgData, img: img });
     }
    // Initialize sliders
-    leftPadSlider = createSlider(0, 10, 2);
+    leftPadSlider = createSlider(0, 2000, 2);
     leftPadSlider.position(10, 10);
 
-    rightPadSlider = createSlider(0, 10, 2);
+    rightPadSlider = createSlider(0, 2000, 2);
     rightPadSlider.position(10, 40);
 
-    bottomPadSlider = createSlider(0, 10, 5);
+    bottomPadSlider = createSlider(0, 2000, 5);
     bottomPadSlider.position(10, 70);
     
     switchShape('box');
