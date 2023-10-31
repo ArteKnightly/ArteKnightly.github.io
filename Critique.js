@@ -1,9 +1,5 @@
 
 import { sheetRead, sheetWrite } from './GSheetFunc.js';
-
-// Now you can use sheetRead() and sheetWrite() in this file
-
-
 let imgManifest;
 let images = [];
 let currentImageIndex = 0;
@@ -125,22 +121,3 @@ function naResponse() {
     // Move to the next image
     currentImageIndex = (currentImageIndex + 1) % images.length;
 }
-
-//let data = {
-//  UUIDImage : 'your_image_uuid',
-//  UUIDQuestion : 'your_question',
-//  score : 'your_relative_yPos_value'
-//};
-
-//httpDo(
-//  'https://script.google.com/macros/s/AKfycbxNYggnZ4OKoh5bkCjH_tiLz3iKcNkw7IMN8Uzu3g-XE4WkpceATMaRKooWjiLCDZg-Gw/exec',  // replace with your URL from the previous step
-//  {
-//    method: 'POST',
-//    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-//    body: data
-//  },
-//  function(res) {
-//    console.log(res);
-//  }
-//);
-  
