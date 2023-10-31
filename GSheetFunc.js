@@ -2,7 +2,7 @@
 class BaseTable {
     constructor(sheetName, endpoint) {
         this.sheetName = sheetName;
-        this.endpoint = endpoint || 'https://script.google.com/macros/s/AKfycbx-AtbBX8omLZjE2sJKdJVWe9gh-hY6xW2gRfq4wLnNoK3bmEhGgp4N8jHPpCET3IiLBQ/exec';
+        this.endpoint = endpoint || 'https://script.google.com/macros/s/AKfycbyYSyrmkTUfZjkfIzgRW8MD5VYHfE9eIjxfVqr-kRHemfklIEUmQ2xL0ngofDfjRRSjgw/exec';
 
     }
 
