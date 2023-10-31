@@ -34,10 +34,10 @@ function draw() {
 }
 
 function definePads() {
-    leftPad = 0;
-    rightPad = 0;
-    bottomPad = 0;
-    topPad = currentShapeObj.size * 0;
+    leftPad = 1;
+    rightPad = 1;
+    bottomPad = 1;
+    topPad = currentShapeObj.size * 3;
 }
 
 function getImg() {
@@ -49,11 +49,11 @@ function getSpinningObjectYPos() {
 }
 
 function maxImageWidth() {
-    return width - leftPad - rightPad;
+    return windowWidth - leftPad - rightPad;
 }
 
 function maxImageHeight() {
-    return height - topPad - bottomPad;
+    return windowHeight - topPad - bottomPad;
 }
 
 function displayImageWidth(img) {
