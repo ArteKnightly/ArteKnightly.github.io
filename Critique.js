@@ -1,7 +1,3 @@
-ere's a revised version of your code:
-
-javascript
-
 let imgManifest;
 let images = [];
 let currentImageIndex = 0;
