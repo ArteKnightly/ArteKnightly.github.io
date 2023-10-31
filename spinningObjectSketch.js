@@ -86,7 +86,10 @@ function switchShape(shapeType) {
 }
 
 function mouseDragged() {
-    currentShapeObj.setPosition(mouseX - width / 2);
+    let newPosition = mouseX - width / 2;
+    newPosition = constrain(newPosition, (-width/2) + (currentShapeObj.size*2), (width/2) - (currentShapeObj.size*2));
+    currentShapeObj.setPosition(newPosition);
+    //.setPosition(mouseX - width / 2);
 }
 
 function doubleClicked() {
