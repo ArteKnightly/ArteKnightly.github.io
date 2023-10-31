@@ -22,18 +22,20 @@ class ObjShape {
     display(yTranslate = 0) {
         let normalizedX = map(this.posX, -width / 2, width / 2, -1, 1);
         normalizedX = constrain(normalizedX, -1, 1);
-        let fillCol;
-
+        let fillCol, strokeCol;
+    
         if (normalizedX < 0) {
             fillCol = lerpColor(color(0, 0, 0, 0), color(64, 224, 208, 255), abs(normalizedX)); // Turquoise
+            strokeCol = lerpColor(color(255, 255, 255, 255), color(64, 224, 208, 255), abs(normalizedX)); // Transition from white to Turquoise
         } else {
             fillCol = lerpColor(color(0, 0, 0, 0), color(255, 48, 48, 255), normalizedX); // Cadmium Red Light
+            strokeCol = lerpColor(color(255, 255, 255, 255), color(255, 48, 48, 255), normalizedX); // Transition from white to Cadmium Red Light
         }
         fill(fillCol);
-        stroke(fillCol); // set outline to match fill color
+        stroke(strokeCol); // set outline to transition from white to the respec
         
-        let scaleValue =  map(abs(this.posX), 0, width / 2, .5, .9); // scale from 50% to 100%
-        let displaySize = (this.size *.5) + (this.size * scaleValue);
+        let scaleValue =  map(abs(this.posX), 0, width / 2, .3, 1); // scale from 50% to 100%
+        let displaySize = this.size * scaleValue;
 
         push();
         translate(this.posX, yTranslate, 0);
