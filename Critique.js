@@ -130,5 +130,5 @@ function saveResponse() {
     console.log(responses);
 
     // Write to the sheet
-    sheetWrite('ImageRatings', response);
+    doPost('ImageRatings', response);
 }
