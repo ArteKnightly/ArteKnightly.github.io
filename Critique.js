@@ -20,24 +20,13 @@ function setup() {
     for (let imgData of imgManifest.images) {
         let img = loadImage('images/' + imgData.UUID + '.jpg');
         images.push({ data: imgData, img: img });
-
-         // Initialize sliders
+    }
+     // Initialize sliders
     leftPadSlider = createSlider(0, 200, 2); // Range: 0-200, Initial Value: 2
     leftPadSlider.position(10, height - 90);
 
     rightPadSlider = createSlider(0, 200, 2); // Initial value set based on object size
     rightPadSlider.position(width-10, height - 60);
-
-    bottomPadSlider = createSlider(0, 200, 5); // Range: 0-200, Initial Value: 5
-    bottomPadSlider.position(10, height - 30);
-
-    }
-        // Initialize sliders
-    leftPadSlider = createSlider(0, 200, 2); // Range: 0-200, Initial Value: 2
-    leftPadSlider.position(10, height - 90);
-
-    topPadSlider = createSlider(0, 200, currentShapeObj.size * 2); // Initial value set based on object size
-    topPadSlider.position(10, height - 60);
 
     bottomPadSlider = createSlider(0, 200, 5); // Range: 0-200, Initial Value: 5
     bottomPadSlider.position(10, height - 30);
@@ -49,10 +38,10 @@ function setup() {
 }
 
 function draw() {
-    background(0);
+    background(0);\
 
     leftPad = leftPadSlider.value();
-    topPad = topPadSlider.value();
+    rightPad = topPadSlider.value();
     bottomPad = bottomPadSlider.value();
 
     currentShapeObj.display(getSpinningObjectYPos());
@@ -61,7 +50,7 @@ function draw() {
     // Display the slider values
     fill(255);  // White text
     text('Left Padding: ' + leftPad, 220, height - 75);
-    text('Top Padding: ' + topPad, 220, height - 45);
+    text('Right Padding: ' + rightPad, 220, height - 45);
     text('Bottom Padding: ' + bottomPad, 220, height - 15);
 }
 
