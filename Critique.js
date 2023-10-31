@@ -20,6 +20,17 @@ function setup() {
     for (let imgData of imgManifest.images) {
         let img = loadImage('images/' + imgData.UUID + '.jpg');
         images.push({ data: imgData, img: img });
+
+         // Initialize sliders
+    leftPadSlider = createSlider(0, 200, 2); // Range: 0-200, Initial Value: 2
+    leftPadSlider.position(10, height - 90);
+
+    topPadSlider = createSlider(0, 200, currentShapeObj.size * 2); // Initial value set based on object size
+    topPadSlider.position(10, height - 60);
+
+    bottomPadSlider = createSlider(0, 200, 5); // Range: 0-200, Initial Value: 5
+    bottomPadSlider.position(10, height - 30);
+
     }
         // Initialize sliders
     leftPadSlider = createSlider(0, 200, 2); // Range: 0-200, Initial Value: 2
