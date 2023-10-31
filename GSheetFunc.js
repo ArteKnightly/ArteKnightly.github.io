@@ -2,7 +2,7 @@
 
 export function sheetRead() {
     httpDo(
-        'YOUR_GOOGLE_SCRIPT_URL?sheetName=ImageManifest',
+        'https://script.google.com/macros/s/AKfycbx-AtbBX8omLZjE2sJKdJVWe9gh-hY6xW2gRfq4wLnNoK3bmEhGgp4N8jHPpCET3IiLBQ/exec',
         'GET',
         function(res) {
             console.log(res);
@@ -20,7 +20,7 @@ export function sheetWrite() {
     };
 
     httpDo(
-        'YOUR_GOOGLE_SCRIPT_URL',
+        'https://script.google.com/macros/s/AKfycbx-AtbBX8omLZjE2sJKdJVWe9gh-hY6xW2gRfq4wLnNoK3bmEhGgp4N8jHPpCET3IiLBQ/exec',
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
