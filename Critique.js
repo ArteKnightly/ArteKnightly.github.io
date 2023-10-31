@@ -1,3 +1,9 @@
+
+import { sheetRead, sheetWrite } from './GSheetFunc.js';
+
+// Now you can use sheetRead() and sheetWrite() in this file
+
+
 let imgManifest;
 let images = [];
 let currentImageIndex = 0;
@@ -7,6 +13,9 @@ let responses = [];
 let leftPad;
 let rightPad;
 let bottomPad;
+
+
+// Now you can use sheetRead() and sheetWrite() in this file
 let topPad;
 
 function preload() {
