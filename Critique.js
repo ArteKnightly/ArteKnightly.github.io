@@ -38,7 +38,7 @@ function setup() {
 }
 
 function draw() {
-    background(0);\
+    background(0);
 
     leftPad = leftPadSlider.value();
     rightPad = topPadSlider.value();
