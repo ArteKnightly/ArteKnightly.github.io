@@ -84,7 +84,7 @@ function imageXPos() {
 }
 
 function imageYPos() {
-    return topPad;
+    return bottomPad;
 }
 
 function acceptResponse() {
