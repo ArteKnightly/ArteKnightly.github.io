@@ -32,7 +32,8 @@ class ObjShape {
         fill(fillCol);
         stroke(fillCol); // set outline to match fill color
         
-        let scaleValue = map(abs(this.posX), 0, width / 2, 0.1, 1); // scale from 10% to 100%
+        let scaledSize = map(abs(this.posX), 0, width / 2, this.size * 0.5, this.size);
+        //let scaleValue = map(abs(this.posX), 0, width / 2, 0.1, 1); // scale from 10% to 100%
         let displaySize = this.size * scaleValue;
 
         push();
@@ -41,16 +42,16 @@ class ObjShape {
         rotateX(frameCount * this.spin + noise(this.noiseOffsetX) * 0.1);
         rotateY(frameCount * this.rotate + noise(this.noiseOffsetY) * 0.1);
 
-        if (this.type === 'box') {
-            box(displaySize, displaySize, displaySize);
+         if (this.type === 'box') {
+            box(scaledSize, scaledSize, scaledSize);
         } else if (this.type === 'sphere') {
-            sphere(displaySize, this.res.detailX, this.res.detailY);
+            sphere(scaledSize, this.res.detailX, this.res.detailY);
         } else if (this.type === 'cylinder') {
-            cylinder(displaySize, displaySize, this.res.detailX, this.res.detailY);
+            cylinder(scaledSize, scaledSize, this.res.detailX, this.res.detailY);
         } else if (this.type === 'cone') {
-            cone(displaySize, displaySize, this.res.detailX, this.res.detailY);
+            cone(scaledSize, scaledSize, this.res.detailX, this.res.detailY);
         } else if (this.type === 'torus') {
-            torus(displaySize, displaySize / 2, this.res.detailX, this.res.detailY);
+            torus(scaledSize, scaledSize / 2, this.res.detailX, this.res.detailY);  // Size divided by 2 for inner radius
         }
         pop();
 
