@@ -39,8 +39,8 @@ function draw() {
 }
 
 function definePads() {
-    leftPad = 10;
-    rightPad = 10;
+    leftPad = currentShapeObj.size/2;
+    rightPad = currentShapeObj.size/2;
     bottomPad = 20;
     topPad = currentShapeObj.size * 2.125;
 }
@@ -97,18 +97,25 @@ function acceptResponse() {
     scaledValue = constrain(scaledValue, -5, 5);
     if (scaledValue === 0) scaledValue = 0.01;  // Reserve 0 for N/A
 
+    // Format the value to have 2 decimal points.
+    scaledValue = parseFloat(scaledValue.toFixed(2));
+
     let response = {
         UUIDImage: images[currentImageIndex].data.UUIDImage,
-        UUIDquestion: critiqueQuestions[currentImageIndex % critiqueQuestions.length],
+        UUIDQuestion: critiqueQuestions[currentImageIndex % critiqueQuestions.length],
         responseValue: scaledValue
     };
 
     responses.push(response);
     console.log(responses);
 
+    // Write to the sheet
+    sheetWrite('ImageRatings', response);
+
     // Move to the next image
     currentImageIndex = (currentImageIndex + 1) % images.length;
 }
+
 function naResponse() {
     let response = {
         UUIDImage: images[currentImageIndex].data.UUIDImage,
