@@ -63,7 +63,7 @@ function getImg() {
 }
         
 function FindYPos(){
-    return -height / 2 + (topPad / 2);
+    return (topPad / 2);
 }
 function MaxImageWidth(img) {
     return  width - leftPad - rightPad;
