@@ -21,16 +21,16 @@ function setup() {
         let img = loadImage('images/' + imgData.UUID + '.jpg');
         images.push({ data: imgData, img: img });
     }
-     // Initialize sliders
+   // Initialize sliders
     leftPadSlider = createSlider(0, 10, 2);
-    leftPadSlider.position(10, 90);
+    leftPadSlider.position(10, 10);
 
     rightPadSlider = createSlider(0, 10, 2);
-    rightPadSlider.position(10, 60);
+    rightPadSlider.position(10, 40);
 
     bottomPadSlider = createSlider(0, 10, 5);
-    bottomPadSlider.position(10, 30);
-
+    bottomPadSlider.position(10, 70);
+    
     switchShape('box');
     currentImageIndex = 0;
 
@@ -41,17 +41,18 @@ function draw() {
     background(0);
 
     leftPad = leftPadSlider.value();
-    rightPad = topPadSlider.value();
+    rightPad = rightPadSlider.value();
     bottomPad = bottomPadSlider.value();
 
     currentShapeObj.display(getSpinningObjectYPos());
     image(getImg(), -imageXPos() - displayImageWidth(getImg()) / 2, - displayImageHeight(getImg()) / 2, displayImageWidth(getImg()), displayImageHeight(getImg()));
 
-    // Display the slider values
+   // Display the slider values
     fill(255);  // White text
-    text('Left Padding: ' + leftPad, 220, height - 75);
-    text('Right Padding: ' + rightPad, 220, height - 45);
-    text('Bottom Padding: ' + bottomPad, 220, height - 15);
+    textSize(16);
+    text('Left Padding: ' + leftPad, 220, 25);
+    text('Right Padding: ' + rightPad, 220, 55);
+    text('Bottom Padding: ' + bottomPad, 220, 85);
 }
 
 function definePads() {
