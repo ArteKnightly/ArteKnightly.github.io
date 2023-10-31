@@ -32,8 +32,8 @@ class ObjShape {
         fill(fillCol);
         stroke(fillCol); // set outline to match fill color
         
-        let scaleValue =  map(abs(this.posX), 0, width / 2, 0, .9); // scale from 50% to 100%
-        let displaySize = (this.size *.1) + (this.size * scaleValue);
+        let scaleValue =  map(abs(this.posX), 0, width / 2, .5, .9); // scale from 50% to 100%
+        let displaySize = (this.size *.5) + (this.size * scaleValue);
 
         push();
         translate(this.posX, yTranslate, 0);
