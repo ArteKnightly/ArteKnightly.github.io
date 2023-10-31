@@ -21,16 +21,6 @@ function setup() {
         let img = loadImage('images/' + imgData.UUID + '.jpg');
         images.push({ data: imgData, img: img });
     }
-   // Initialize sliders
-    leftPadSlider = createSlider(0, 2000, 2);
-    leftPadSlider.position(10, 10);
-
-    rightPadSlider = createSlider(0, 2000, 2);
-    rightPadSlider.position(10, 40);
-
-    bottomPadSlider = createSlider(0, 2000, 5);
-    bottomPadSlider.position(10, 70);
-    
     switchShape('box');
     currentImageIndex = 0;
 
@@ -39,27 +29,15 @@ function setup() {
 
 function draw() {
     background(0);
-
-    leftPad = leftPadSlider.value();
-    rightPad = rightPadSlider.value();
-    bottomPad = bottomPadSlider.value();
-
     currentShapeObj.display(getSpinningObjectYPos());
     image(getImg(), imageXPos() - displayImageWidth(getImg()) / 2, imageYPos()- displayImageHeight(getImg()) / 2, displayImageWidth(getImg()), displayImageHeight(getImg()));
-
-   // Display the slider values
-    fill(255);  // White text
-    textSize(16);
-    text('Left Padding: ' + leftPad, 220, 25);
-    text('Right Padding: ' + rightPad, 220, 55);
-    text('Bottom Padding: ' + bottomPad, 220, 85);
 }
 
 function definePads() {
-    leftPad = 5;
-    rightPad = 2;
-    bottomPad = 1;
-    topPad = currentShapeObj.size * 3;
+    leftPad = 0;
+    rightPad = 0;
+    bottomPad = 0;
+    topPad = currentShapeObj.size * 0;
 }
 
 function getImg() {
