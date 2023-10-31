@@ -84,7 +84,7 @@ function calculateImageAspectRatio(img) {
 }
 
 function imageXPos() {
-    return leftPad - displayImageWidth(getImg()) / 2;
+    return displayImageWidth(getImg()) / 2;
 }
 
 function imageYPos() {
