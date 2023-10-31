@@ -39,26 +39,10 @@ function mouseClicked() {
 }
 function draw() {
     background(0);
-
-    // Define padding values
-    leftPad = 2;
-    rightPad = 2;
-    bottomPad = 5;
-    topPad = currentShapeObj.size * 2;
-
     // Draw Spinning object
-    let yPos = -height / 2 + (topPad / 2);
-    currentShapeObj.display(yPos);
-
-    if (images.length > 0) {
-        let img = images[currentImageIndex].img;
-        // Calculate image position
-        let imageXPosition = 0;// leftPad; // Start from left padding
-        let imageYPosition = 0;// topPad;  // Start from top padding
-
-        // Display the image
-        image(img, imageXPosition, imageYPosition, DisplayImageWidth(), DisplayImageHeight());
-    }
+    currentShapeObj.display(FindYPos());
+    // Display the image
+    image(getImg(), ImageXPos(), ImageYPos(), DisplayImageWidth(getImg()), DisplayImageHeight(getImg()));
 }
 
 function windowResized() {
@@ -68,13 +52,27 @@ function windowResized() {
     // Adjust positions based on new window size
     naBtn.position(windowWidth / 2 + 50, windowHeight - 40);
 }
-
+function DefinePads() {
+    leftPad = 2;
+    rightPad = 2;
+    bottomPad = 5;
+    topPad = currentShapeObj.size * 2;
+}
+function getImg() {
+    return images[currentImageIndex].img;
+}
+        
+function FindYPos(){
+    return -height / 2 + (topPad / 2);
+}
 function MaxImageWidth(img) {
     return  width - leftPad - rightPad;
 }
+
 function MaxImageHeight(img) {
     return  height - topPad - bottomPad;
 }
+
 function DisplayImageWidth(img) {
     if (MaxImageWidth(img) / CalculateImageAspectRatio(img) < MaxImageWidth(img)) {
         return MaxImageWidth(img);
@@ -97,6 +95,8 @@ function CalculateImageAspectRatio(img) {
     return imgAspectRatio = img.width / img.height;
 }
 
+function ImageXPos() { return 0 }
+function ImageYPos() { return 0 }
 function acceptResponse() {
     let scaledValue = map(currentShapeObj.posX, 0, width - currentShapeObj.size, -5, 5);
     scaledValue = constrain(scaledValue, -5, 5);
