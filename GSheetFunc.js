@@ -1,3 +1,4 @@
+// Google Script Functions for Spreadsheet operations
 function doPost(e) {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheetName = e.parameter.sheetName;
@@ -8,38 +9,7 @@ function doPost(e) {
     }
   
     var rowData = [];
-  
-    switch (sheetName) {
-      case 'ImageManifest':
-        rowData = [e.parameter.UUIDImage, e.parameter.ImageName, e.parameter.createdBy, e.parameter.creationDate, e.parameter.addedDate];
-        break;
-      case 'ImageRatings':
-        rowData = [e.parameter.UUIDImage, e.parameter.UUIDQuestion, e.parameter.Score];
-        break;
-      case 'CritiqueQuestions':
-        rowData = [e.parameter.UUIDQuestion, e.parameter.stringQuestion, e.parameter.questionRating, e.parameter.avgReturnRating, e.parameter.numOfNA, e.parameter.isObsolete, e.parameter.totalOccurancesToDate, e.parameter.answerType];
-        break;
-      case 'Attendance':
-        rowData = [e.parameter.UUIDKnight, e.parameter.date, e.parameter.confirmed];
-        break;
-      default:
-        return ContentService.createTextOutput("Error: Invalid sheet name.");
-    }
-  
-    sheet.appendRow(rowData);
-    
-    return ContentService.createTextOutput("Data saved to sheet: " + sheetName);
-  }
-  
-  function doGet(e) {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheetName = e.parameter.sheetName;
-    var sheet = ss.getSheetByName(sheetName);
-  
-    if (!sheet) {
-      return ContentService.createTextOutput("Error: Sheet name not found.").setMimeType(ContentService.MimeType.TEXT);
-    }
-  
+      
     var data = sheet.getDataRange().getValues();
     var jsonData = [];
   
@@ -89,7 +59,9 @@ function doPost(e) {
   
       jsonData.push(obj);
     }
-  
+       
+   sheet.appendRow(rowData);
+        return ContentService.createTextOutput("Data saved to sheet: " + sheetName);
     return ContentService.createTextOutput(JSON.stringify(jsonData)).setMimeType(ContentService.MimeType.JSON);
   }
   
@@ -151,17 +123,27 @@ function doPost(e) {
       return columns[sheetName].indexOf(columnName);
   }
   // Base Table Class
-class BaseTable {
-    constructor(sheetName, endpoint) {
+  class BaseTable {
+    constructor(sheetName) {
         this.sheetName = sheetName;
-        this.endpoint = endpoint || 'https://script.google.com/macros/s/AKfycbyYSyrmkTUfZjkfIzgRW8MD5VYHfE9eIjxfVqr-kRHemfklIEUmQ2xL0ngofDfjRRSjgw/exec';
+        this.endpoint = 'https://script.google.com/macros/s/AKfycbw1r1SMcBFndGCBjmQuwbNolQFLf79SoXovQL7vgX0nVkcVzFDWeAvSoCqzQB_OBqCezA/exec'; // Replace with your script's URL
+    }
 
+    httpDo(url, method, data, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open(method, url, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            callback(xhr.responseText);
+        };
+        xhr.send(data);
     }
 
     read() {
-        httpDo(
+        this.httpDo(
             `${this.endpoint}?sheetName=${this.sheetName}`,
             'GET',
+            null,
             function(res) {
                 console.log(res);
                 // Process the returned data here
@@ -171,13 +153,14 @@ class BaseTable {
 
     write(data) {
         data.sheetName = this.sheetName; // Add sheetName to the data object
-        httpDo(
+        var formData = new FormData();
+        for (var key in data) {
+            formData.append(key, data[key]);
+        }
+        this.httpDo(
             this.endpoint,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: data
-            },
+            'POST',
+            formData,
             function(res) {
                 console.log(res);
             }
