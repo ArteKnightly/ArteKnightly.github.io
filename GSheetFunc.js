@@ -2,7 +2,7 @@
 
 export function sheetRead() {
     httpDo(
-        'https://script.google.com/macros/s/AKfycbx-AtbBX8omLZjE2sJKdJVWe9gh-hY6xW2gRfq4wLnNoK3bmEhGgp4N8jHPpCET3IiLBQ/exec',
+        'https://script.google.com/macros/s/AKfycbx-AtbBX8omLZjE2sJKdJVWe9gh-hY6xW2gRfq4wLnNoK3bmEhGgp4N8jHPpCET3IiLBQ/exec?sheetName=ImageManifest',
         'GET',
         function(res) {
             console.log(res);
