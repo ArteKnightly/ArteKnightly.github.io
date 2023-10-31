@@ -22,14 +22,14 @@ function setup() {
         images.push({ data: imgData, img: img });
     }
      // Initialize sliders
-    leftPadSlider = createSlider(0, 200, 2); // Range: 0-200, Initial Value: 2
-    leftPadSlider.position(10, height - 90);
+    leftPadSlider = createSlider(0, 10, 2);
+    leftPadSlider.position(10, 90);
 
-    rightPadSlider = createSlider(0, 200, 2); // Initial value set based on object size
-    rightPadSlider.position(width-10, height - 60);
+    rightPadSlider = createSlider(0, 10, 2);
+    rightPadSlider.position(10, 60);
 
-    bottomPadSlider = createSlider(0, 200, 5); // Range: 0-200, Initial Value: 5
-    bottomPadSlider.position(10, height - 30);
+    bottomPadSlider = createSlider(0, 10, 5);
+    bottomPadSlider.position(10, 30);
 
     switchShape('box');
     currentImageIndex = 0;
