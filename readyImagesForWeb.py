@@ -31,14 +31,14 @@ for image_filename in os.listdir(raw_directory):
         input_path = os.path.join(raw_directory, image_filename)
         
         # Generate a 10-character alphanumeric UUID
-        image_uuid = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+        UUIDImage = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
         
         # Process the image
-        image_data = process_image(input_path, image_directory, image_uuid + '.jpg')
+        image_data = process_image(input_path, image_directory, UUIDImage + '.jpg')
         
         # Update manifest
         manifest_data["images"].append({
-            "UUID": image_uuid,
+            "UUIDImage": UUIDImage,
             "original_filename": image_filename,
             "timestamp": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             "ScoreColor": 0,

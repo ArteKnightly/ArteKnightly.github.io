@@ -6,7 +6,7 @@ function saveQuestion() {
     }
 
     // Generate a 10-digit UUID (this is a simple version, not a real UUID)
-    const uuid = Math.floor(Math.random() * 9000000000) + 1000000000;
+    const UUIDQuestion = Math.floor(Math.random() * 9000000000) + 1000000000;
 
     // Fetch the existing questions or initialize a new array
     let questions = [];
@@ -16,7 +16,7 @@ function saveQuestion() {
 
     // Append the new question
     questions.push({
-        uuid: uuid,
+        UUIDQuestion: UUIDQuestion,
         question: questionText
     });
 

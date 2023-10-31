@@ -4,13 +4,13 @@ import os
 
 
 def save_image(img, output_directory, original_filename):
-    unique_id = str(uuid.uuid4())[:10]  # Generates a unique 10-digit identifier
-    output_path = os.path.join(output_directory, unique_id + ".jpg")
+    UUIDImage = str(uuid.uuid4())[:10]  # Generates a unique 10-digit identifier
+    output_path = os.path.join(output_directory, UUIDImage + ".jpg")
     img.save(output_path, "JPEG", quality=90)
     
     # Create the image data object
     image_data = {
-        "UUID": unique_id,
+        "UUIDImage": UUIDImage,
         "original_filename": original_filename,
         "currentdatetime": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         "ScoreColor": 0,

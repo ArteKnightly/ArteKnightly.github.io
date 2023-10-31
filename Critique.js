@@ -18,7 +18,7 @@ function setup() {
     background(0);
 
     for (let imgData of imgManifest.images) {
-        let img = loadImage('images/' + imgData.UUID + '.jpg');
+        let img = loadImage('images/' + imgData.UUIDImage + '.jpg');
         images.push({ data: imgData, img: img });
     }
     switchShape('box');
@@ -92,8 +92,8 @@ function acceptResponse() {
     if (scaledValue === 0) scaledValue = 0.01;  // Reserve 0 for N/A
 
     let response = {
-        uuid: images[currentImageIndex].data.UUID,
-        question: critiqueQuestions[currentImageIndex % critiqueQuestions.length],
+        UUIDImage: images[currentImageIndex].data.UUIDImage,
+        UUIDquestion: critiqueQuestions[currentImageIndex % critiqueQuestions.length],
         responseValue: scaledValue
     };
 
@@ -105,8 +105,8 @@ function acceptResponse() {
 }
 function naResponse() {
     let response = {
-        uuid: images[currentImageIndex].data.UUID,
-        question: critiqueQuestions[currentImageIndex % critiqueQuestions.length],
+        UUIDImage: images[currentImageIndex].data.UUIDImage,
+        UUIDQuestion: critiqueQuestions[currentImageIndex % critiqueQuestions.length],
         responseValue: 0
     };
 
@@ -117,21 +117,21 @@ function naResponse() {
     currentImageIndex = (currentImageIndex + 1) % images.length;
 }
 
-let data = {
-  imageUUID : 'your_image_uuid',
-  questionUUID : 'your_question',
-  score : 'your_relative_yPos_value'
-};
+//let data = {
+//  UUIDImage : 'your_image_uuid',
+//  UUIDQuestion : 'your_question',
+//  score : 'your_relative_yPos_value'
+//};
 
-httpDo(
-  'https://script.google.com/macros/s/AKfycbxNYggnZ4OKoh5bkCjH_tiLz3iKcNkw7IMN8Uzu3g-XE4WkpceATMaRKooWjiLCDZg-Gw/exec',  // replace with your URL from the previous step
-  {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: data
-  },
-  function(res) {
-    console.log(res);
-  }
-);
+//httpDo(
+//  'https://script.google.com/macros/s/AKfycbxNYggnZ4OKoh5bkCjH_tiLz3iKcNkw7IMN8Uzu3g-XE4WkpceATMaRKooWjiLCDZg-Gw/exec',  // replace with your URL from the previous step
+//  {
+//    method: 'POST',
+//    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+//    body: data
+//  },
+//  function(res) {
+//    console.log(res);
+//  }
+//);
   
