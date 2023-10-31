@@ -35,10 +35,10 @@ function draw() {
 }
 
 function definePads() {
-    leftPad = 2;
+    leftPad = 5;
     rightPad = 2;
-    bottomPad = 5;
-    topPad = currentShapeObj.size * 2;
+    bottomPad = 1;
+    topPad = currentShapeObj.size * 3;
 }
 
 function getImg() {
