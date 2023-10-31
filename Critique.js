@@ -4,7 +4,7 @@ let imgManifest;
 let images = [];
 let currentImageIndex = 0;
 let acceptBtn, naBtn;
-let critiqueQuestions;
+//let critiqueQuestions;
 let responses = [];
 let leftPad;
 let rightPad;
