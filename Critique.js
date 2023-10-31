@@ -45,7 +45,7 @@ function draw() {
     bottomPad = bottomPadSlider.value();
 
     currentShapeObj.display(getSpinningObjectYPos());
-    image(getImg(), -imageXPos() - displayImageWidth(getImg()) / 2, - displayImageHeight(getImg()) / 2, displayImageWidth(getImg()), displayImageHeight(getImg()));
+    image(getImg(), imageXPos() - displayImageWidth(getImg()) / 2, imageYPos()- displayImageHeight(getImg()) / 2, displayImageWidth(getImg()), displayImageHeight(getImg()));
 
    // Display the slider values
     fill(255);  // White text
