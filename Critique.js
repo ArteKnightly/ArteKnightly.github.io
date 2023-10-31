@@ -30,7 +30,7 @@ function setup() {
 
     bottomPadSlider = createSlider(0, 200, 5); // Range: 0-200, Initial Value: 5
     bottomPadSlider.position(10, height - 30);
-}
+
     }
 
     switchShape('box');
