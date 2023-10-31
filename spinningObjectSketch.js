@@ -34,7 +34,7 @@ class ObjShape {
         fill(fillCol);
         stroke(strokeCol); // set outline to transition from white to the respec
         
-        let scaleValue =  map(abs(this.posX), 0, width / 2, .3, 1); // scale from 50% to 100%
+        let scaleValue =  map(abs(this.posX), 0, width / 2, .666, 1); // scale from 50% to 100%
         let displaySize = this.size * scaleValue;
 
         push();
