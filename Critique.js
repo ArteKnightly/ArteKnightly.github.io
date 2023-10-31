@@ -39,9 +39,9 @@ function draw() {
 }
 
 function definePads() {
-    leftPad = 75;
-    rightPad = 75;
-    bottomPad = 100;
+    leftPad = 10;
+    rightPad = 10;
+    bottomPad = 20;
     topPad = currentShapeObj.size * 2.125;
 }
 
