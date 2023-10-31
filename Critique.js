@@ -128,7 +128,10 @@ function saveResponse() {
 
     responses.push(response);
     console.log(responses);
+// Create an instance of the ImageRatingsTable class
+const imageRatings = new ImageRatingsTable();
 
-    // Write to the sheet
-    doPost('ImageRatings', response);
+// Assuming the response object has the structure { UUIDImage, UUIDQuestion, Score }
+// Write to the ImageRatings sheet using the write method
+imageRatings.write(response.UUIDImage, response.UUIDQuestion, response.Score);
 }
