@@ -50,7 +50,7 @@ function getImg() {
 }
 
 function getSpinningObjectYPos() {
-    return (topPad / 1.7) - (height / 2);
+    return (topPad / 1.9) - (height / 2);
 }
 
 function maxImageWidth() {
