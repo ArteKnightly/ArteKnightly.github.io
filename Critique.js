@@ -130,5 +130,5 @@ function saveResponse() {
     console.log(responses);
 
     // Write to the sheet
-    Gsheetfunc.sheetWrite('ImageRatings', response);
+    GSheetFunc.sheetWrite('ImageRatings', response);
 }
