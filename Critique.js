@@ -37,7 +37,7 @@ function definePads() {
     leftPad = 1;
     rightPad = 1;
     bottomPad = 1;
-    topPad = currentShapeObj.size * 3;
+    topPad = currentShapeObj.size * 2.25;
 }
 
 function getImg() {
