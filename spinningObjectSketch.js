@@ -92,11 +92,11 @@ function mouseDragged() {
     //.setPosition(mouseX - width / 2);
 }
 
-function doubleClicked() {
+/*function doubleClicked() {
     let scaledValue = map(currentShapeObj.posX, 0, width - currentShapeObj.size, -5, 5);
     scaledValue = constrain(scaledValue, -5, 5);
     if (scaledValue === 0) scaledValue = 0.01;
     console.log(`Scaled value for ${currentShapeObj.type}: ${scaledValue.toFixed(2)}`);
-}
+}*/
     
 window.switchShape = switchShape;
