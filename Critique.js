@@ -31,7 +31,7 @@ function setup() {
 function draw() {
     background(0);
     currentShapeObj.display(getSpinningObjectYPos());
-   image(getImg(), imageXPos() + displayImageWidth(getImg()) / 2, imageYPos() + displayImageHeight(getImg()) / 2, displayImageWidth(getImg()), displayImageHeight(getImg()));
+   image(getImg(), imageXPos() - displayImageWidth(getImg()) / 2, imageYPos() - displayImageHeight(getImg()) / 2, displayImageWidth(getImg()), displayImageHeight(getImg()));
 }
 
 function definePads() {
