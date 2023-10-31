@@ -1,7 +1,10 @@
+ere's a revised version of your code:
+
+javascript
+
 let imgManifest;
 let images = [];
 let currentImageIndex = 0;
-let slider;
 let acceptBtn, naBtn;
 let critiqueQuestions;
 let responses = [];
@@ -9,95 +12,84 @@ let leftPad;
 let rightPad;
 let bottomPad;
 let topPad;
-function preload() {
-    // Load the manifest.json file
-    imgManifest = loadJSON('data/manifest.json');
 
-    // Load the inquisidor.json file
-    //critiqueQuestions = loadJSON('data/inquisidor.json');
-    //critiqueQuestions = loadJSON('data/inquisidor.json');
+function preload() {
+    imgManifest = loadJSON('data/manifest.json');
 }
+
 function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL);
-    background(0);  // Set background to black
+    background(0);
 
-    // Load all the images from the manifest
     for (let imgData of imgManifest.images) {
         let img = loadImage('images/' + imgData.UUID + '.jpg');
         images.push({ data: imgData, img: img });
     }
 
-    // Initialize spinning object
     switchShape('box');
-
-    // Default selected image
     currentImageIndex = 0;
+
+    definePads();
 }
 
-function mouseClicked() {
-    acceptResponse();
-}
 function draw() {
     background(0);
-    // Draw Spinning object
-    currentShapeObj.display(FindYPos());
-    // Display the image
-    image(getImg(), ImageXPos(), ImageYPos(), DisplayImageWidth(getImg()), DisplayImageHeight(getImg()));
+    currentShapeObj.display(getSpinningObjectYPos());
+    image(getImg(), imageXPos(), imageYPos(), displayImageWidth(getImg()), displayImageHeight(getImg()));
 }
 
-function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
-    background(0);  // Re-set background to black
-
-    // Adjust positions based on new window size
-    naBtn.position(windowWidth / 2 + 50, windowHeight - 40);
-}
-function DefinePads() {
+function definePads() {
     leftPad = 2;
     rightPad = 2;
     bottomPad = 5;
     topPad = currentShapeObj.size * 2;
 }
+
 function getImg() {
     return images[currentImageIndex].img;
 }
-        
-function FindYPos(){
-    return (topPad / 2);
-}
-function MaxImageWidth(img) {
-    return  width - leftPad - rightPad;
+
+function getSpinningObjectYPos() {
+    return (topPad / 2) - (height / 2);
 }
 
-function MaxImageHeight(img) {
-    return  height - topPad - bottomPad;
+function maxImageWidth() {
+    return width - leftPad - rightPad;
 }
 
-function DisplayImageWidth(img) {
-    if (MaxImageWidth(img) / CalculateImageAspectRatio(img) < MaxImageWidth(img)) {
-        return MaxImageWidth(img);
+function maxImageHeight() {
+    return height - topPad - bottomPad;
+}
+
+function displayImageWidth(img) {
+    let aspectRatio = calculateImageAspectRatio(img);
+    if (maxImageWidth() / aspectRatio < maxImageHeight()) {
+        return maxImageWidth();
+    } else {
+        return displayImageHeight(img) * aspectRatio;
     }
-    else {
-        return DisplayImageHeight(img) * CalculateImageAspectRatio(img);
+}
+
+function displayImageHeight(img) {
+    let aspectRatio = calculateImageAspectRatio(img);
+    if (maxImageWidth() / aspectRatio < maxImageHeight()) {
+        return maxImageWidth() / aspectRatio;
+    } else {
+        return maxImageHeight();
     }
 }
 
-function DisplayImageHeight(img) {
-    if (MaxImageWidth(img) / CalculateImageAspectRatio(img) < MaxImageWidth(img)) {
-        return DisplayImageWidth(img) / CalculateImageAspectRatio(img);
-    }
-    else {
-        return MaxImageHeight(img);
-    } 
+function calculateImageAspectRatio(img) {
+    return img.width / img.height;
 }
 
-function CalculateImageAspectRatio(img) {
-    return imgAspectRatio = img.width / img.height;
+function imageXPos() {
+    return leftPad;
 }
 
-function ImageXPos() { return 0; }
-
-function ImageYPos() { return 0; }
+function imageYPos() {
+    return topPad;
+}
 
 function acceptResponse() {
     let scaledValue = map(currentShapeObj.posX, 0, width - currentShapeObj.size, -5, 5);
