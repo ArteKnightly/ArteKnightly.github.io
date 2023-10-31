@@ -92,12 +92,32 @@ function imageYPos() {
     // return -topPad - displayImageHeight(getImg()) / 2;
 }
 
-function acceptResponse() {
+function naResponse() {
+    let response = {
+        UUIDImage: images[currentImageIndex].data.UUIDImage,
+        UUIDQuestion: critiqueQuestions[currentImageIndex % critiqueQuestions.length],
+        responseValue: 0
+    };
+
+    responses.push(response);
+    console.log(responses);
+
+    // Move to the next image
+    currentImageIndex = (currentImageIndex + 1) % images.length;
+}
+function doubleClicked() {
+    saveResponse();
+
+    // Move to the next image
+    currentImageIndex = (currentImageIndex + 1) % images.length;
+
+    // Reset the x position of the spinning object
+    currentShapeObj.posX = width / 2;  // Assuming the middle of the canvas is the default position
+}
+function saveResponse() {
     let scaledValue = map(currentShapeObj.posX, 0, width - currentShapeObj.size, -5, 5);
     scaledValue = constrain(scaledValue, -5, 5);
     if (scaledValue === 0) scaledValue = 0.01;  // Reserve 0 for N/A
-
-    // Format the value to have 2 decimal points.
     scaledValue = parseFloat(scaledValue.toFixed(2));
 
     let response = {
@@ -111,21 +131,4 @@ function acceptResponse() {
 
     // Write to the sheet
     sheetWrite('ImageRatings', response);
-
-    // Move to the next image
-    currentImageIndex = (currentImageIndex + 1) % images.length;
-}
-
-function naResponse() {
-    let response = {
-        UUIDImage: images[currentImageIndex].data.UUIDImage,
-        UUIDQuestion: critiqueQuestions[currentImageIndex % critiqueQuestions.length],
-        responseValue: 0
-    };
-
-    responses.push(response);
-    console.log(responses);
-
-    // Move to the next image
-    currentImageIndex = (currentImageIndex + 1) % images.length;
 }
