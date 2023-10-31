@@ -1,5 +1,5 @@
-
 import { sheetRead, sheetWrite } from './GSheetFunc.js';
+
 let imgManifest;
 let images = [];
 let currentImageIndex = 0;
