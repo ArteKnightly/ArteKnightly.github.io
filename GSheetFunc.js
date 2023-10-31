@@ -122,49 +122,39 @@ function doPost(e) {
       };
       return columns[sheetName].indexOf(columnName);
   }
-  // Base Table Class
-  class BaseTable {
+  
+// Base Table Class
+class BaseTable {
     constructor(sheetName) {
         this.sheetName = sheetName;
-        this.endpoint = 'https://script.google.com/macros/s/AKfycbw1r1SMcBFndGCBjmQuwbNolQFLf79SoXovQL7vgX0nVkcVzFDWeAvSoCqzQB_OBqCezA/exec'; // Replace with your script's URL
+        this.endpoint = 'https://script.google.com/macros/s/AKfycbz9jd7i73ogylE4x0neW6e5wmYaFOPGdWOYtaVKOM7qO7IdRa6LiIZq6JdwXk_UJvwVRQ/exec'; // Replace with your script's URL
     }
 
-    httpDo(url, method, data, callback) {
-        var xhr = new XMLHttpRequest();
-        xhr.open(method, url, true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onload = function() {
-            callback(xhr.responseText);
+    async httpDo(url, method, data) {
+        let options = {
+            method: method,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
         };
-        xhr.send(data);
-    }
 
-    read() {
-        this.httpDo(
-            `${this.endpoint}?sheetName=${this.sheetName}`,
-            'GET',
-            null,
-            function(res) {
-                console.log(res);
-                // Process the returned data here
-            }
-        );
-    }
-
-    write(data) {
-        data.sheetName = this.sheetName; // Add sheetName to the data object
-        var formData = new FormData();
-        for (var key in data) {
-            formData.append(key, data[key]);
+        if (data) {
+            options.body = new URLSearchParams(data).toString();
         }
-        this.httpDo(
-            this.endpoint,
-            'POST',
-            formData,
-            function(res) {
-                console.log(res);
-            }
-        );
+
+        const response = await fetch(url, options);
+        const text = await response.text();
+        console.log(text);
+        return text;
+    }
+
+    async read() {
+        return await this.httpDo(`${this.endpoint}?sheetName=${this.sheetName}`, 'GET', null);
+    }
+
+    async write(dataObj) {
+        dataObj.sheetName = this.sheetName; // Add sheetName to the data object
+        return await this.httpDo(this.endpoint, 'POST', dataObj);
     }
 }
 
@@ -174,7 +164,7 @@ class ImageManifestTable extends BaseTable {
         super('ImageManifest');
     }
 
-    write(UUIDImage, ImageName, createdBy, creationDate, addedDate) {
+    async write(UUIDImage, ImageName, createdBy, creationDate, addedDate) {
         const data = {
             UUIDImage,
             ImageName,
@@ -182,7 +172,7 @@ class ImageManifestTable extends BaseTable {
             creationDate,
             addedDate
         };
-        super.write(data);
+        return await super.write(data);
     }
 }
 
@@ -192,13 +182,13 @@ class ImageRatingsTable extends BaseTable {
         super('ImageRatings');
     }
 
-    write(UUIDImage, UUIDQuestion, Score) {
+    async write(UUIDImage, UUIDQuestion, Score) {
         const data = {
             UUIDImage,
             UUIDQuestion,
             Score
         };
-        super.write(data);
+        return await super.write(data);
     }
 }
 
@@ -208,7 +198,7 @@ class CritiqueQuestionsTable extends BaseTable {
         super('CritiqueQuestions');
     }
 
-    write(UUIDQuestion, stringQuestion, questionRating, avgReturnRating, numOfNA, isObsolete, totalOccurancesToDate, answerType) {
+    async write(UUIDQuestion, stringQuestion, questionRating, avgReturnRating, numOfNA, isObsolete, totalOccurancesToDate, answerType) {
         const data = {
             UUIDQuestion,
             stringQuestion,
@@ -219,7 +209,7 @@ class CritiqueQuestionsTable extends BaseTable {
             totalOccurancesToDate,
             answerType
         };
-        super.write(data);
+        return await super.write(data);
     }
 }
 
@@ -229,13 +219,13 @@ class AttendanceTable extends BaseTable {
         super('Attendance');
     }
 
-    write(UUIDKnight, date, confirmed) {
+    async write(UUIDKnight, date, confirmed) {
         const data = {
             UUIDKnight,
             date,
             confirmed
         };
-        super.write(data);
+        return await super.write(data);
     }
 }
 
@@ -247,4 +237,4 @@ const critiqueQuestions = new CritiqueQuestionsTable();
 const attendance = new AttendanceTable();
 
 // Example: Writing data to the ImageManifest table
-//imageManifest.write('some_uuid', 'sample_image', 'creator_name', '2023-10-28', '2023-10-28');
+// imageManifest.write('some_uuid', 'sample_image', 'creator_name', '2023-10-28', '2023-10-28');
