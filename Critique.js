@@ -35,14 +35,14 @@ function setup() {
 function draw() {
     background(0);
     currentShapeObj.display(getSpinningObjectYPos());
-    image(getImg(), imageXPos() - displayImageWidth(getImg()) / 2, imageYPos()- displayImageHeight(getImg()) / 2, displayImageWidth(getImg()), displayImageHeight(getImg()));
+    image(getImg(), imageXPos(), imageYPos(), displayImageWidth(getImg()), displayImageHeight(getImg()));
 }
 
 function definePads() {
     leftPad = 1;
     rightPad = 1;
     bottomPad = 20;
-    topPad = currentShapeObj.size * 2.25;
+    topPad = currentShapeObj.size * 2.125;
 }
 
 function getImg() {
@@ -84,11 +84,11 @@ function calculateImageAspectRatio(img) {
 }
 
 function imageXPos() {
-    return leftPad;
+    return leftPad - displayImageWidth(getImg()) / 2;
 }
 
 function imageYPos() {
-    return topPad;
+    return -topPad - displayImageHeight(getImg()) / 2;
 }
 
 function acceptResponse() {
