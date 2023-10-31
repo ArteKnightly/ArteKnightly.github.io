@@ -88,7 +88,8 @@ function imageXPos() {
 }
 
 function imageYPos() {
-    return -topPad - displayImageHeight(getImg()) / 2;
+   return topPad - (height / 2);
+    // return -topPad - displayImageHeight(getImg()) / 2;
 }
 
 function acceptResponse() {
