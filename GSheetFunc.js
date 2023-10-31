@@ -127,7 +127,7 @@ function doPost(e) {
 class BaseTable {
     constructor(sheetName) {
         this.sheetName = sheetName;
-        this.endpoint = 'https://script.google.com/macros/s/AKfycbydjhWlX460qW40C-72K-09feR6N1Hww0O3VxT2FEbEUAc2Ik2xwFiUYtf3WlMOLvOGdQ/exec'; // Replace with your script's URL
+        this.endpoint = 'https://script.google.com/macros/s/AKfycbxxa8RURp4aoztTa7_rocl2bN0WMESd9cFOvOnXH9c2F6PfN0T21xK0HDCXs4WKZoVcfg/exec'; // Replace with your script's URL
     }
 
     async httpDo(url, method, data) {
