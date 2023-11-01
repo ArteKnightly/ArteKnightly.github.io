@@ -23,29 +23,34 @@ function setup() {
     colorMode(HSB, 360, 100, 100);
     calculatePadding();
     initializeHues();
+    
+    background(0); 
     drawGridFrame();
     displayLatestEventDetails();
+    
+  
 }
 
 function calculatePadding() {
     messageHeight = h1 + spaceBetween * 5 + h2 * 4 + 400;
     paddingLeft = (windowWidth - 350) / 2;
-    paddingRight = (windowWidth - 300) / 2;
+    paddingRight = (windowWidth - 250) / 2;
     paddingTop = (windowHeight - messageHeight) / 2;
-    paddingBottom = (windowHeight - messageHeight) / 2;
+    paddingBottom = (windowHeight - messageHeight+100) / 2;
 }
 
 function initializeHues() {
-    startHue = 360;
-    endHue = 0;
+    startHue = 360;  
+    endHue = 0;     
 }
 function displayLatestEventDetails() {
     textAlign(CENTER, CENTER); // Center the text both horizontally and vertically
 
     // Find the event with the largest UUIDEvent
     let latestEvent = jsonData.artNite.reduce((prev, current) => (prev.UUIDEvent > current.UUIDEvent) ? prev : current);
-
+  
     // Display the details
+    
     textSize(h1);
     text(`Art Nite?`, width / 2, paddingTop + h1 + spaceBetween);
     text(`${latestEvent.Date}`, width / 2, paddingTop + h1 + spaceBetween * 2 + h2);
@@ -54,11 +59,11 @@ function displayLatestEventDetails() {
 
     // Create hyperlink to SpotifyEdit
     let contributeLink = createA(latestEvent.SpotifyEdit, 'Contribute to playlist', '_blank');
-    contributeLink.position(width / 2 - contributeLink.width / 2, paddingTop + h1 + spaceBetween * 4 + h2 * 3);
+    contributeLink.position(width / 2 - contributeLink.width / 2, paddingTop + h1 + spaceBetween * 4 + h2 * 3); 
 
     // Embed Spotify player
     let spotifyEmbed = createElement('div', latestEvent.SpotifyembedIframe);
-    spotifyEmbed.position(width / 2 - 150, paddingTop + h1 + spaceBetween * 5 + h2 * 4);
+    spotifyEmbed.position(width / 2 - 150, paddingTop + h1 + spaceBetween * 5 + h2 * 4); 
 }
 
 function drawGridFrame() {
@@ -84,20 +89,20 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
     let yPos = y * gridHeight;
 
     if (xPos < paddingLeft || xPos > width - paddingRight || yPos < paddingTop || yPos > height - paddingBottom) {
-        let zNoiseValue = noise(zStart) / 10;
+        let zNoiseValue = noise(zStart)/10;
         let sineShift = sin(zNoiseValue * TWO_PI);
-        let xyNoiseValue = noise(xOffset + xStart + zNoiseValue, yOffset + yStart - zNoiseValue);
-        let noiseValue = noise((10 * xOffset / TWO_PI + xStart), (yOffset + yStart));
-        let hueValue = map(noiseValue, 0, 5 * sineShift, startHue, endHue);
-        let hueSaturation = map(zNoiseValue * TWO_PI, 0, 1, 50, 80);
-        let hueBrightness = map(xyNoiseValue / zNoiseValue, 0, 1, 20, 90)
+        let xyNoiseValue = noise(xOffset + xStart + zNoiseValue , yOffset + yStart - zNoiseValue);
+        let noiseValue = noise((10*xOffset/TWO_PI + xStart), (yOffset + yStart));
+        let hueValue = map(noiseValue, 0, 5*sineShift, startHue, endHue);
+        let hueSaturation = map(zNoiseValue* TWO_PI, 0, 1, 50, 80);
+        let hueBrightness = map(xyNoiseValue/zNoiseValue, 0, 1, 20, 90)
         noStroke()
         fill(hueValue, hueSaturation, hueBrightness);
 
         push();
-        translate(xPos + gridWidth / 2, yPos + gridHeight / 2);
-        rotate(TWO_PI * (100 * zNoiseValue) * (xyNoiseValue));
-        ellipse(0, 0, gridWidth - (6000 * zNoiseValue / TWO_PI), gridHeight - (20 * xyNoiseValue));
+        translate(xPos + gridWidth/2, yPos + gridHeight/2);
+        rotate(TWO_PI * (100*zNoiseValue)*(xyNoiseValue));
+        ellipse(0, 0, gridWidth-(6000*zNoiseValue/TWO_PI), gridHeight-(20*xyNoiseValue));
         pop();
     }
 }
@@ -107,10 +112,18 @@ function draw() {
     xStart += incrementX;
     yStart += incrementY;
     zStart += incrementZ;
-
+    let noiseValue = noise((xStart)*100);
     if (mouseIsPressed) {
-        stroke(0);
-        strokeWeight(4);
+        stroke(255);
+        strokeWeight(map(noiseValue, 0, 1,5, 20));
         line(mouseX, mouseY, pmouseX, pmouseY);
+       console.log(noiseValue);
+      
     }
+}
+function doubleClicked(){
+  background(0); 
+    drawGridFrame();
+    displayLatestEventDetails();
+          
 }
