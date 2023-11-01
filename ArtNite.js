@@ -29,8 +29,8 @@ function setup() {
 
 function calculatePadding() {
     messageHeight = h1 + spaceBetween * 5 + h2 * 4 + 400;
-    paddingLeft = (windowWidth - 420) / 2;
-    paddingRight = (windowWidth - 420) / 2;
+    paddingLeft = (windowWidth - 350) / 2;
+    paddingRight = (windowWidth - 300) / 2;
     paddingTop = (windowHeight - messageHeight) / 2;
     paddingBottom = (windowHeight - messageHeight) / 2;
 }
