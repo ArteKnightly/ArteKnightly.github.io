@@ -5,4 +5,61 @@ body {
     background-size: cover;
     font-family: 'Orbitron', sans-serif;
     text-align: center;
+    color: #f5f5f5; /* Light text color for better visibility against dark backgrounds */
+    overflow: hidden; /* Ensure that the canvas doesn't cause scroll bars */
+    transition: background-color 0.5s; /* Smooth transition for background color changes */
 }
+
+    body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4); /* Dark overlay to ensure text remains readable */
+        z-index: -1; /* Place it behind content */
+    }
+
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 20px 0;
+}
+
+a {
+    color: #FFD700; /* Golden links for a touch of elegance */
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+    a:hover {
+        color: #FF4500; /* Bright orange on hover for interactivity */
+    }
+
+/* Add some animations for extra flair */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+
+    100% {
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    }
+}
+
+button {
+    background: none;
+    border: 2px solid #f5f5f5;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    animation: pulse 1.5s infinite; /* Add pulsing animation to buttons */
+}
+
+    button:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
