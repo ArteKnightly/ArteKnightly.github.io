@@ -3,7 +3,7 @@ let jsonData;
 
 function preload() {
     // Load the JSON data before setup
-    jsonData = loadJSON('artNite.json');
+    jsonData = loadJSON('data/artNite.json');
 }
 let h1 = 32;
 let h2 = 24;
