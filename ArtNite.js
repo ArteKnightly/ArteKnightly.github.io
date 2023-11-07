@@ -88,21 +88,32 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
     let xPos = x * gridWidth;
     let yPos = y * gridHeight;
 
+    // Only affect the border cells
     if (xPos < paddingLeft || xPos > width - paddingRight || yPos < paddingTop || yPos > height - paddingBottom) {
-        let zNoiseValue = noise(zStart)/10;
+        let zNoiseValue = noise(zStart) / 10;
         let sineShift = sin(zNoiseValue * TWO_PI);
-        let xyNoiseValue = noise(xOffset + xStart + zNoiseValue , yOffset + yStart - zNoiseValue);
-        let noiseValue = noise((10*xOffset/TWO_PI + xStart), (yOffset + yStart));
-        let hueValue = map(noiseValue, 0, 5*sineShift, startHue, endHue);
-        let hueSaturation = map(zNoiseValue* TWO_PI, 0, 1, 50, 80);
-        let hueBrightness = map(xyNoiseValue/zNoiseValue, 0, 1, 20, 90)
-        noStroke()
+        let xyNoiseValue = noise(xOffset + xStart + zNoiseValue, yOffset + yStart - zNoiseValue);
+        let noiseValue = noise((10 * xOffset / TWO_PI + xStart), (yOffset + yStart));
+
+        // Use a time-based hue rotation
+        let time = millis() / 1000;
+        let hueValue = (startHue + time * 100) % 360;
+
+        let hueSaturation = map(zNoiseValue * TWO_PI, 0, 1, 50, 100);
+        let hueBrightness = map(xyNoiseValue / zNoiseValue, 0, 1, 40, 100);
+        noStroke();
         fill(hueValue, hueSaturation, hueBrightness);
 
         push();
-        translate(xPos + gridWidth/2, yPos + gridHeight/2);
-        rotate(TWO_PI * (100*zNoiseValue)*(xyNoiseValue));
-        ellipse(0, 0, gridWidth-(6000*zNoiseValue/TWO_PI), gridHeight-(20*xyNoiseValue));
+        translate(xPos + gridWidth / 2, yPos + gridHeight / 2);
+        rotate(TWO_PI * (100 * zNoiseValue) * (xyNoiseValue));
+        // Use a mix of rectangles and ellipses
+        if (int(noiseValue * 10) % 2 == 0) {
+            rectMode(CENTER);
+            rect(0, 0, gridWidth * zNoiseValue, gridHeight * xyNoiseValue);
+        } else {
+            ellipse(0, 0, gridWidth * zNoiseValue, gridHeight * xyNoiseValue);
+        }
         pop();
     }
 }
