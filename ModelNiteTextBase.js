@@ -1,15 +1,13 @@
-
-function ModelNiteTextDisplay(jsonData, x, y, size) {
-    TextDisplay.call(this, x, y, '', size);
-    this.latestEvent = this.getLatestEvent(jsonData.figureNite);
-}
-
-// Inherit from TextDisplay
-ModelNiteTextDisplay.prototype = Object.create(TextDisplay.prototype);
-ModelNiteTextDisplay.prototype.constructor = ModelNiteTextDisplay;
-
-ModelNiteTextDisplay.prototype.getLatestEvent = function (events) {
-    return events.reduce(function (prev, current) {
-        return (prev.UUIDFigureNite > current.UUIDFigureNite) ? prev : current;
-    });
+// ModelNiteTextBase.js
+// This will serve as our fake JSON data for testing purposes
+var eventData = {
+    name: "Hello World Event",
+    Date: "2023-11-02",
+    Time: "8:00 PM",
+    Location: "Virtual Space",
+    SpotifyEdit: "http://example.com/edit",
+    SpotifyListen: "http://example.com/listen"
 };
+function ModelNiteTextBase() {
+    this.eventDetails = new EventDetails(eventData, 100, 100, 20);
+ }
