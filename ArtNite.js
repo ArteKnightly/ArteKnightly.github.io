@@ -99,49 +99,38 @@ function drawGridFrame() {
 function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
     let xPos = x * gridWidth;
     let yPos = y * gridHeight;
+    let zOffset = millis() * 0.0002; // For 3D noise, we can use time as the third dimension.
 
-    // Only affect the border cells using diamond pattern logic
+    // Calculate noise in 3D space
+    let noiseValue = noise(xOffset + xStart, yOffset + yStart, zOffset + zStart);
+
+    // Map the noise value to a hue in the HSB color space
+    let hueValue = map(noiseValue, 0, 1, 0, 360); // Map the noise to a full range of hues (0-360)
+    let saturationValue = map(noiseValue, 0, 1, 50, 100); // Map the noise to a range of saturations
+    let brightnessValue = map(noiseValue, 0, 1, 50, 100); // Map the noise to a range of brightnesses
+
+    // Only draw shapes within the designated padding area.
     if (xPos < paddingLeft || xPos > width - paddingRight || yPos < paddingTop || yPos > height - paddingBottom) {
-        let zNoiseValue = noise(zStart) / 10;
-        let sineShift = sin(zNoiseValue * TWO_PI);
-        let xyNoiseValue = noise(xOffset + xStart + zNoiseValue, yOffset + yStart - zNoiseValue);
-        let noiseValue = noise((10 * xOffset / TWO_PI + xStart), (yOffset + yStart));
-
-        // Use a time-based hue rotation
-        let time = millis() / 1000;
-        let hueValue = (startHue + time * 100) % 360;
-
-        let hueSaturation = map(zNoiseValue * TWO_PI, 0, 1, 50, 100);
-        let hueBrightness = map(xyNoiseValue / zNoiseValue, 0, 1, 40, 100);
-        noStroke();
-        fill(hueValue, hueSaturation, hueBrightness);
-
-        // Improved shape drawing
         push();
         translate(xPos + gridWidth / 2, yPos + gridHeight / 2);
+        rotate(noise(xOffset, yOffset, zOffset) * TWO_PI); // Rotate based on 3D noise.
 
-        // Rotate based on a different noise offset for more variety
-        let rotationNoise = noise(xOffset * 0.5, yOffset * 0.5);
-        rotate(TWO_PI * rotationNoise);
+        fill(hueValue, saturationValue, brightnessValue);
+        noStroke();
 
-        // Differentiate shapes by adding more conditions
-        let shapeType = int(noiseValue * 10) % 3; // Now we have 0, 1, or 2
-        switch (shapeType) {
-            case 0:
-                rectMode(CENTER);
-                rect(0, 0, gridWidth * noiseValue, gridHeight * noiseValue);
-                break;
-            case 1:
-                ellipse(0, 0, gridWidth * noiseValue, gridHeight * noiseValue);
-                break;
-            case 2:
-                // New shape: triangle
-                triangle(
-                    -gridWidth / 2 * noiseValue, gridHeight / 2 * noiseValue,
-                    gridWidth / 2 * noiseValue, gridHeight / 2 * noiseValue,
-                    0, -gridHeight / 2 * noiseValue
-                );
-                break;
+        // Depending on the noise value, draw different shapes.
+        if (noiseValue < 0.33) {
+            rectMode(CENTER);
+            rect(0, 0, gridWidth * noiseValue, gridHeight * noiseValue);
+        } else if (noiseValue < 0.66) {
+            ellipse(0, 0, gridWidth * noiseValue, gridHeight * noiseValue);
+        } else {
+            // Draw a triangle with vertices that depend on noise value for variability
+            triangle(
+                -gridWidth / 2 * noiseValue, gridHeight / 2 * noiseValue,
+                gridWidth / 2 * noiseValue, gridHeight / 2 * noiseValue,
+                0, -gridHeight / 2 * noiseValue
+            );
         }
         pop();
     }
