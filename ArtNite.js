@@ -100,8 +100,21 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
     let xPos = x * gridWidth;
     let yPos = y * gridHeight;
 
+    // Only affect the border cells using diamond pattern logic
     if (xPos < paddingLeft || xPos > width - paddingRight || yPos < paddingTop || yPos > height - paddingBottom) {
-        // Existing noise and color calculations ...
+        let zNoiseValue = noise(zStart) / 10;
+        let sineShift = sin(zNoiseValue * TWO_PI);
+        let xyNoiseValue = noise(xOffset + xStart + zNoiseValue, yOffset + yStart - zNoiseValue);
+        let noiseValue = noise((10 * xOffset / TWO_PI + xStart), (yOffset + yStart));
+
+        // Use a time-based hue rotation
+        let time = millis() / 1000;
+        let hueValue = (startHue + time * 100) % 360;
+
+        let hueSaturation = map(zNoiseValue * TWO_PI, 0, 1, 50, 100);
+        let hueBrightness = map(xyNoiseValue / zNoiseValue, 0, 1, 40, 100);
+        noStroke();
+        fill(hueValue, hueSaturation, hueBrightness);
 
         // Improved shape drawing
         push();
@@ -133,7 +146,6 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
         pop();
     }
 }
-
 
 function draw() {
     let transparency = 255 * 0.1; // 10% visible for a subtle overlay effect
