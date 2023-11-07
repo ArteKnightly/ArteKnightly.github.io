@@ -129,6 +129,7 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
 }
 
 function draw() {
+    background(0, 10);
     drawGridFrame();
     xStart += incrementX;
     yStart += incrementY;
