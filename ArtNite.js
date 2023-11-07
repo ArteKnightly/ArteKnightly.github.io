@@ -129,13 +129,14 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
 }
 
 function draw() {
-    let transparency = 50; // Set transparency from 0 (fully transparent) to 255 (fully opaque)
+    let transparency = 10; // Set transparency from 0 (fully transparent) to 255 (fully opaque)
     background(0, 0, 0, transparency);
     drawGridFrame();
     xStart += incrementX;
     yStart += incrementY;
     zStart += incrementZ;
     let noiseValue = noise((xStart)*100);
+    displayLatestEventDetails();
     if (mouseIsPressed) {
         stroke(255);
         strokeWeight(map(noiseValue, 0, 1,5, 20));
