@@ -122,9 +122,9 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
         // Use a mix of rectangles and ellipses
         if (int(noiseValue * 10) % 2 == 0) {
             rectMode(CENTER);
-            rect(0, 0, gridWidth * zNoiseValue, gridHeight * xyNoiseValue);
+            rect(0, 0, gridWidth - (gridWidth * zNoiseValue), gridHeight - (gridWidth * xyNoiseValue));
         } else {
-            ellipse(0, 0, gridWidth * zNoiseValue, gridHeight * xyNoiseValue);
+            ellipse(0, 0, gridWidth - (gridWidth * zNoiseValue), gridHeight + (gridWidth* xyNoiseValue));
         }
         pop();
     }
