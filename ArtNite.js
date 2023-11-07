@@ -68,17 +68,27 @@ function displayLatestEventDetails() {
 
 function drawGridFrame() {
     let gridWidth = spaceBetween;
-    let gridHeight = spaceBetween;
+    let gridHeight = spaceBetween * sin(QUARTER_PI); // Adjust gridHeight for diamond pattern
     let xOffset = 0;  // Initial x offset for Perlin noise
+    let time = millis() / 1000; // Time in seconds
 
     // Calculate grid counts
     let xCount = Math.ceil(width / gridWidth);
     let yCount = Math.ceil(height / gridHeight);
 
+    // Loop to create the diamond grid pattern
     for (let x = 0; x < xCount; x++) {
         let yOffset = 0;  // Initial y offset for Perlin noise
         for (let y = 0; y < yCount; y++) {
-            drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight);
+            // Calculate position with staggered offset for diamond pattern
+            let staggerOffset = (x % 2 === 0) ? 0 : gridHeight / 2;
+            let yPos = y * gridHeight + staggerOffset;
+
+            // Apply a slow shift over time
+            let shiftX = noise(time * 0.1 + x * 0.5) * 5; // The shift in x
+            let shiftY = noise(time * 0.1 + y * 0.5) * 5; // The shift in y
+
+            drawCell(x + shiftX, y + shiftY, xOffset, yOffset, gridWidth, gridHeight);
             yOffset += 0.1;  // Increment y offset
         }
         xOffset += 0.1;  // Increment x offset
@@ -88,7 +98,7 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
     let xPos = x * gridWidth;
     let yPos = y * gridHeight;
 
-    // Only affect the border cells
+    // Only affect the border cells using diamond pattern logic
     if (xPos < paddingLeft || xPos > width - paddingRight || yPos < paddingTop || yPos > height - paddingBottom) {
         let zNoiseValue = noise(zStart) / 10;
         let sineShift = sin(zNoiseValue * TWO_PI);
