@@ -100,38 +100,43 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
     let xPos = x * gridWidth;
     let yPos = y * gridHeight;
 
-    // Only affect the border cells using diamond pattern logic
     if (xPos < paddingLeft || xPos > width - paddingRight || yPos < paddingTop || yPos > height - paddingBottom) {
-        let zNoiseValue = noise(zStart) / 10;
-        let sineShift = sin(zNoiseValue * TWO_PI);
-        let xyNoiseValue = noise(xOffset + xStart + zNoiseValue, yOffset + yStart - zNoiseValue);
-        let noiseValue = noise((10 * xOffset / TWO_PI + xStart), (yOffset + yStart));
+        // Existing noise and color calculations ...
 
-        // Use a time-based hue rotation
-        let time = millis() / 1000;
-        let hueValue = (startHue + time * 100) % 360;
-
-        let hueSaturation = map(zNoiseValue * TWO_PI, 0, 1, 50, 100);
-        let hueBrightness = map(xyNoiseValue / zNoiseValue, 0, 1, 40, 100);
-        noStroke();
-        fill(hueValue, hueSaturation, hueBrightness);
-
+        // Improved shape drawing
         push();
         translate(xPos + gridWidth / 2, yPos + gridHeight / 2);
-        rotate(TWO_PI * (100 * zNoiseValue) * (xyNoiseValue));
-        // Use a mix of rectangles and ellipses
-        if (int(noiseValue * 10) % 2 == 0) {
-            rectMode(CENTER);
-            rect(0, 0, gridWidth - (gridWidth * zNoiseValue), gridHeight - (gridWidth * xyNoiseValue));
-        } else {
-            ellipse(0, 0, gridWidth - (gridWidth * zNoiseValue), gridHeight + (gridWidth* xyNoiseValue));
+
+        // Rotate based on a different noise offset for more variety
+        let rotationNoise = noise(xOffset * 0.5, yOffset * 0.5);
+        rotate(TWO_PI * rotationNoise);
+
+        // Differentiate shapes by adding more conditions
+        let shapeType = int(noiseValue * 10) % 3; // Now we have 0, 1, or 2
+        switch (shapeType) {
+            case 0:
+                rectMode(CENTER);
+                rect(0, 0, gridWidth * noiseValue, gridHeight * noiseValue);
+                break;
+            case 1:
+                ellipse(0, 0, gridWidth * noiseValue, gridHeight * noiseValue);
+                break;
+            case 2:
+                // New shape: triangle
+                triangle(
+                    -gridWidth / 2 * noiseValue, gridHeight / 2 * noiseValue,
+                    gridWidth / 2 * noiseValue, gridHeight / 2 * noiseValue,
+                    0, -gridHeight / 2 * noiseValue
+                );
+                break;
         }
         pop();
     }
 }
 
+
 function draw() {
-    let transparency = 1; // Set transparency from 0 (fully transparent) to 255 (fully opaque)
+    let transparency = 255 * 0.1; // 10% visible for a subtle overlay effect
     background(0, 0, 0, transparency);
     drawGridFrame();
     xStart += incrementX;
