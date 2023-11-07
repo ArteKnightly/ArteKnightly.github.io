@@ -130,7 +130,7 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
 
 function draw() {
     let transparency = 50; // Set transparency from 0 (fully transparent) to 255 (fully opaque)
-    background(0, 0, 100, transparency);
+    background(0, 0, 0, transparency);
     drawGridFrame();
     xStart += incrementX;
     yStart += incrementY;
