@@ -131,7 +131,7 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
            //     4 *-gridWidth  * noiseValue1, 4*gridHeight * noiseValue2,
            //     4 * gridWidth * noiseValue2, 4 * gridHeight  * noiseValue3,
             //    0, 4 *-gridHeight  * noiseValue1);
-        }
+        //}
         pop();
     }
 }
