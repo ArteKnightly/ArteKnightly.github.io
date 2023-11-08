@@ -41,6 +41,7 @@ function displayLatestEventDetails(_mode) {
     let latestEvent = jsonData.artNite.reduce((prev, current) => (prev.UUIDEvent > current.UUIDEvent) ? prev : current);
 
     // Display the details
+    fill(255, 0, 0); 
     textSize(h1);
     text(`Art Nite?`, width / 2, paddingTop + h1 + spaceBetween);
     text(`${latestEvent.Date}`, width / 2, paddingTop + h1 + spaceBetween * 2 + h2);
