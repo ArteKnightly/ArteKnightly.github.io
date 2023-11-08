@@ -1,3 +1,5 @@
+let h1 = 32;
+let h2 = 24;
 let spaceBetween = 25;
 let paddingLeft, paddingRight, paddingTop, paddingBottom;
 function setup() {
