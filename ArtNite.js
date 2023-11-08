@@ -19,7 +19,7 @@ function setup() {
     //drawGridFrame();
     displayLatestEventDetails();
     displayLatestEventDetailsFixed();
-    addDonationWidget();
+    
     }
 
 function calculatePadding() {
