@@ -10,12 +10,15 @@ let h2 = 24;
 let spaceBetween = 25;
 let paddingLeft, paddingRight, paddingTop, paddingBottom;
 let messageHeight;
+let latestEvent;
 function setup() {
     createCanvas(windowWidth, windowHeight);
+    getLatestEvent()
     calculatePadding();
     background(255); 
-    drawGridFrame();
-    displayLatestEventDetails("setup");
+    //drawGridFrame();
+    displayLatestEventDetails();
+    displayLatestEventDetailsFixed();
     }
 
 function calculatePadding() {
@@ -26,12 +29,8 @@ function calculatePadding() {
     paddingBottom = (windowHeight - messageHeight+100) / 2;
 }
 
-function displayLatestEventDetails(_mode) {
+function displayLatestEventDetails() {
     textAlign(CENTER, CENTER); // Center the text both horizontally and vertically
-
-    // Find the event with the largest UUIDEvent
-    let latestEvent = jsonData.artNite.reduce((prev, current) => (prev.UUIDEvent > current.UUIDEvent) ? prev : current);
-
     // Display the details
     fill(255, 0, 0); 
     textSize(h1);
@@ -40,16 +39,26 @@ function displayLatestEventDetails(_mode) {
     textSize(h2);
     text('Location: the Compound', width / 2, paddingTop + h1 + spaceBetween * 3 + h2 * 2);
 
+   
+}
+function displayLatestEventDetailsFixed() {
+    textAlign(CENTER, CENTER); // Center the text both horizontally and vertically
+    // Display the details
+    fill(255, 0, 0);
+    textSize(h2);
     if (_mode === 'setup') { // Correct the conditional check
         //TODO if `${latestEvent.Date}` < today show Listen Link
         //Else contribute to list
         //Create hyperlink to SpotifyEdit
         let contributeLink = createA(latestEvent.SpotifyEdit, 'Contribute to playlist', '_blank');
-        contributeLink.position(width / 2 - contributeLink.width / 2, height - (paddingBottom-spaceBetween));
+        contributeLink.position(width / 2 - contributeLink.width / 2, height - (paddingBottom - spaceBetween));
         // Embed Spotify player
         let spotifyEmbed = createElement('div', latestEvent.SpotifyembedIframe);
-        spotifyEmbed.position(width / 2 - 150, height-(paddingBottom + spotifyEmbed.height));
+        spotifyEmbed.position(width / 2 - 150, height - (paddingBottom + spotifyEmbed.height));
     }
+}
+function getLatestEvent() {
+   latestEvent = jsonData.artNite.reduce((prev, current) => (prev.UUIDEvent > current.UUIDEvent) ? prev : current);
 }
 
 
