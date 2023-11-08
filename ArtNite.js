@@ -45,7 +45,7 @@ function displayLatestEventDetails(_mode) {
         //Else contribute to list
         //Create hyperlink to SpotifyEdit
         let contributeLink = createA(latestEvent.SpotifyEdit, 'Contribute to playlist', '_blank');
-        contributeLink.position(width / 2 - contributeLink.width / 2, height - (paddingBottom-spaceBetween);
+        contributeLink.position(width / 2 - contributeLink.width / 2, height - (paddingBottom-spaceBetween));
         // Embed Spotify player
         let spotifyEmbed = createElement('div', latestEvent.SpotifyembedIframe);
         spotifyEmbed.position(width / 2 - 150, height-(paddingBottom + spotifyEmbed.height));
