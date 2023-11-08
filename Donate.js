@@ -3,8 +3,8 @@ let paddingLeft, paddingRight, paddingTop, paddingBottom;
 function setup() {
     createCanvas(windowWidth, windowHeight);
     background(255);
-    addDonationWidget();
     calculatePadding();
+    addDonationWidget();
 }
 function calculatePadding() {
     messageHeight = h1 + spaceBetween * 5 + h2 * 4 + 400;
