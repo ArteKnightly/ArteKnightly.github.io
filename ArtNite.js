@@ -102,11 +102,11 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
     let zOffset = millis() * 0.0002; // For 3D noise, we can use time as the third dimension.
 
     // Calculate noise in 3D space
-    let noiseValue = noise(xOffset + xStart, yOffset + yStart, zOffset + zStart);
-    let noiseValue1 = noise(xOffset + xStart, yOffset * TWO_PI + yStart, zOffset + zStart);
-    let noiseValue2 = noise(xOffset * TWO_PI + xStart, yOffset * TWO_PI + yStart, zOffset + zStart);
+    let noiseValue1 = noise(xOffset + xStart, yOffset + yStart, zOffset + zStart);
+    let noiseValue2 = noise(xOffset + xStart, yOffset * TWO_PI + yStart, zOffset + zStart);
+    let noiseValue3 = noise(xOffset * TWO_PI + xStart, yOffset * TWO_PI + yStart, zOffset + zStart);
     // Map the noise value to a hue in the HSB color space
-    let hueValue = map(noiseValue, 0, 1, 0, 360); // Map the noise to a full range of hues (0-360)
+    let hueValue = map(noiseValue3, 0, 1, 0, 360); // Map the noise to a full range of hues (0-360)
     let saturationValue = map(noiseValue1, 0, 1, 50, 100); // Map the noise to a range of saturations
     let brightnessValue = map(noiseValue2, 0, 1, 50, 100); // Map the noise to a range of brightnesses
 
@@ -122,14 +122,14 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
         // Depending on the noise value, draw different shapes.
         if (noiseValue < 0.33) {
             rectMode(CENTER);
-            rect(0, 0, gridWidth * noiseValue, gridHeight * noiseValue);
+            rect(0, 0, gridWidth * noiseValue1, gridHeight * noiseValue2);
         } else if (noiseValue < 0.66) {
-            ellipse(0, 0, gridWidth * noiseValue, gridHeight * noiseValue);
+            ellipse(0, 0, gridWidth * noiseValue2, gridHeight * noiseValue3);
         } else {
             // Draw a triangle with vertices that depend on noise value for variability
             triangle(
-                -gridWidth / 2 * noiseValue, gridHeight / 2 * noiseValue,
-                gridWidth / 2 * noiseValue, gridHeight / 2 * noiseValue,
+                -gridWidth / 2 * noiseValue1, gridHeight / 2 * noiseValue2,
+                gridWidth / 2 * noiseValue2, gridHeight / 2 * noiseValue3,
                 0, -gridHeight / 2 * noiseValue
             );
         }
@@ -138,7 +138,7 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
 }
 
 function draw() {
-    let transparency = 255 * 0.1; // 10% visible for a subtle overlay effect
+    let transparency = 255 * 0.01; // 10% visible for a subtle overlay effect
     background(0, 0, 0, transparency);
     drawGridFrame();
     xStart += incrementX;
