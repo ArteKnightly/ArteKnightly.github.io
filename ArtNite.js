@@ -122,7 +122,7 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
         // Depending on the noise value, draw different shapes.
         //if (noiseValue1 < 0.33) {
             rectMode(CENTER);
-            rect(0, 0, gridWidth * noiseValue1, gridHeight *noiseValue2);
+            rect(0, 0, 5*gridWidth * noiseValue1, 5*gridHeight *noiseValue2);
         //} else if (noiseValue1 < 0.66) {
          //   ellipse(0, 0, 2 * noiseValue1 *gridWidth * 5*noiseValue2, 2*gridHeight * 5*noiseValue3);
         //} else {
