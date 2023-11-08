@@ -113,8 +113,8 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
     // Only draw shapes within the designated padding area.
     if (xPos < paddingLeft || xPos > width - paddingRight || yPos < paddingTop || yPos > height - paddingBottom) {
         push();
-        'translate(xPos + gridWidth / 2, yPos + gridHeight / 2);
-        'rotate(noise(xOffset, yOffset, zOffset) * TWO_PI); // Rotate based on 3D noise.
+        //translate(xPos + gridWidth / 2, yPos + gridHeight / 2);
+        //rotate(noise(xOffset, yOffset, zOffset) * TWO_PI); // Rotate based on 3D noise.
 
         fill(hueValue, saturationValue, brightnessValue);
         noStroke();
