@@ -43,20 +43,17 @@ function displayLatestEventDetails() {
 }
 function displayLatestEventDetailsFixed() {
     textAlign(CENTER, CENTER); // Center the text both horizontally and vertically
-    // Display the details
-    fill(255, 0, 0);
     textSize(h2);
-    if (_mode === 'setup') { // Correct the conditional check
-        //TODO if `${latestEvent.Date}` < today show Listen Link
-        //Else contribute to list
-        //Create hyperlink to SpotifyEdit
-        let contributeLink = createA(latestEvent.SpotifyEdit, 'Contribute to playlist', '_blank');
-        contributeLink.position(width / 2 - contributeLink.width / 2, height - (paddingBottom - spaceBetween));
-        // Embed Spotify player
-        let spotifyEmbed = createElement('div', latestEvent.SpotifyembedIframe);
-        spotifyEmbed.position(width / 2 - 150, height - (paddingBottom + spotifyEmbed.height));
-    }
+    //TODO if `${latestEvent.Date}` < today show Listen Link
+    //Else contribute to list
+    //Create hyperlink to SpotifyEdit
+    let contributeLink = createA(latestEvent.SpotifyEdit, 'Contribute to playlist', '_blank');
+    contributeLink.position(width / 2 - contributeLink.width / 2, height - (paddingBottom - spaceBetween));
+    // Embed Spotify player
+    let spotifyEmbed = createElement('div', latestEvent.SpotifyembedIframe);
+    spotifyEmbed.position(width / 2 - 150, height - (paddingBottom + spotifyEmbed.height));
 }
+
 function getLatestEvent() {
    latestEvent = jsonData.artNite.reduce((prev, current) => (prev.UUIDEvent > current.UUIDEvent) ? prev : current);
 }
