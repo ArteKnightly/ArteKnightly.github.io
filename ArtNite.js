@@ -137,14 +137,12 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
 }
 
 function draw() {
-    let transparency = 255 * 0.01; // 10% visible for a subtle overlay effect
-    background(0, 0, 0, transparency);
     drawGridFrame();
     xStart += incrementX;
     yStart += incrementY;
     zStart += incrementZ;
     let noiseValue = noise((xStart)*100);
-    displayLatestEventDetails("draw");
+    //displayLatestEventDetails("draw");
     if (mouseIsPressed) {
         stroke(255);
         strokeWeight(map(noiseValue, 0, 1,5, 20));
