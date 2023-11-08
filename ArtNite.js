@@ -122,15 +122,15 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
         // Depending on the noise value, draw different shapes.
         if (noiseValue1 < 0.33) {
             rectMode(CENTER);
-            rect(0, 0, 2*gridWidth * noiseValue1, 2*gridHeight * noiseValue2);
+            rect(0, 0, 2*gridWidth * 5*noiseValue1, 2*gridHeight * 5*noiseValue2);
         } else if (noiseValue1 < 0.66) {
-            ellipse(0, 0, 2*gridWidth * noiseValue2, 2*gridHeight * noiseValue3);
+            ellipse(0, 0, 2 * noiseValue1 *gridWidth * 5*noiseValue2, 2*gridHeight * 5*noiseValue3);
         } else {
             // Draw a triangle with vertices that depend on noise value for variability
             triangle(
-                -gridWidth  * noiseValue1, gridHeight * noiseValue2,
-                gridWidth  * noiseValue2, gridHeight  * noiseValue3,
-                0, -gridHeight  * noiseValue1);
+                4 *-gridWidth  * noiseValue1, 4*gridHeight * noiseValue2,
+                4 * gridWidth * noiseValue2, 4 * gridHeight  * noiseValue3,
+                0, 4 *-gridHeight  * noiseValue1);
         }
         pop();
     }
