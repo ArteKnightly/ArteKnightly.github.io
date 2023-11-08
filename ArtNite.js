@@ -72,8 +72,7 @@ function drawGridFrame() {
     }
 }
 function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
-    
-    
+    //todo
 }
 
 function draw() {
@@ -83,8 +82,7 @@ function draw() {
     if (mouseIsPressed) {
         stroke(255);
         line(mouseX, mouseY, pmouseX, pmouseY);
-       console.log(noiseValue);
-     }
+            }
 }
 function doubleClicked(){
   background(0); 
