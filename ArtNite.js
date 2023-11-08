@@ -130,7 +130,7 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
             triangle(
                 -gridWidth / 2 * noiseValue1, gridHeight / 2 * noiseValue2,
                 gridWidth / 2 * noiseValue2, gridHeight / 2 * noiseValue3,
-                0, -gridHeight / 2 * noiseValue
+                0, -gridHeight / 2 * noiseValue1
             );
         }
         pop();
