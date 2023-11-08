@@ -103,11 +103,12 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
 
     // Calculate noise in 3D space
     let noiseValue = noise(xOffset + xStart, yOffset + yStart, zOffset + zStart);
-
+    let noiseValue1 = noise(xOffset * 100 + xStart, yOffset * 100 + yStart, zOffset + zStart);
+    let noiseValue2 = noise(xOffset * 1000 + xStart, yOffset t * 1000 + yStart, zOffset + zStart);
     // Map the noise value to a hue in the HSB color space
     let hueValue = map(noiseValue, 0, 1, 0, 360); // Map the noise to a full range of hues (0-360)
-    let saturationValue = map(noiseValue, 0, 1, 50, 100); // Map the noise to a range of saturations
-    let brightnessValue = map(noiseValue, 0, 1, 50, 100); // Map the noise to a range of brightnesses
+    let saturationValue = map(noiseValue1, 0, 1, 50, 100); // Map the noise to a range of saturations
+    let brightnessValue = map(noiseValue2, 0, 1, 50, 100); // Map the noise to a range of brightnesses
 
     // Only draw shapes within the designated padding area.
     if (xPos < paddingLeft || xPos > width - paddingRight || yPos < paddingTop || yPos > height - paddingBottom) {
