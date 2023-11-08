@@ -2,7 +2,7 @@
   "artNite": [
     {
       "UUIDEvent": "151",
-      "Date": "23/10/25",
+      "Date": "2023-10-25T00:00:00Z",
       "Title": "Art Nite #151 231025",
       "SpotifyEdit": "https://open.spotify.com/playlist/6x43lGdMAUokGnq7C7i1tR?si=HkQQ_c-XS1WfhVU_1ii-Ng&pt=7132dd0f9923619da79b557f63a88975",
       "SpotifyListen": "https://open.spotify.com/playlist/6x43lGdMAUokGnq7C7i1tR?si=31e9678250cf46c0",
@@ -10,7 +10,7 @@
     },
     {
       "UUIDEvent": "152",
-      "Date": "23/11/01",
+      "Date": "2023-11-01T00:00:00Z",
       "Title": "Art Nite #152 231101",
       "SpotifyEdit": "https://open.spotify.com/playlist/6x43lGdMAUokGnq7C7i1tR?si=HkQQ_c-XS1WfhVU_1ii-Ng&pt=7132dd0f9923619da79b557f63a88975",
       "SpotifyListen": "https://open.spotify.com/playlist/6x43lGdMAUokGnq7C7i1tR?si=31e9678250cf46c0",
@@ -18,7 +18,7 @@
     },
     {
       "UUIDEvent": "153",
-      "Date": "23/11/08",
+      "Date": "2023-11-08T00:00:00Z",
       "Title": "Art Nite #153 231108",
       "SpotifyEdit": "https://open.spotify.com/playlist/6xWIs2TjFSAVpvgDGU97jp?si=2a5a7049bb59440a&pt=a40c5db63d53627112c0459cec5cf8b9",
       "SpotifyListen": "https://open.spotify.com/playlist/6xWIs2TjFSAVpvgDGU97jp?si=21579416654942bc",
@@ -28,7 +28,7 @@
   "figureNite": [
     {
       "UUIDFigureNite": "25",
-      "Date": "23/11/04",
+      "Date": "2023-11-04T00:00:00Z",
       "Title": "Model Nite #25 231104",
       "SpotifyEdit": "https://open.spotify.com/playlist/4xf8sERAqWfyFgQNVehclm?si=4c08bae68e6f4c99&pt=4a2123063d29455ec9a4048007f4f3d4",
       "SpotifyListen": "https://open.spotify.com/playlist/4xf8sERAqWfyFgQNVehclm?si=8db3d7713d9c477c",

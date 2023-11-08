@@ -46,11 +46,12 @@ function displayLatestEventDetailsFixed() {
     textSize(h2);
     fill(0); // Set the text color to black
 
-    // Get today's date
+    // Get today's date with time set to 00:00:00 for accurate comparison
     let today = new Date();
-    // Parse event date
-    let eventDateParts = latestEvent.Date.split('/');
-    let eventDate = new Date(eventDateParts[2], eventDateParts[1] - 1, eventDateParts[0]);
+    today.setHours(0, 0, 0, 0);
+
+    // Parse event date directly from the ISO 8601 formatted string
+    let eventDate = new Date(latestEvent.Date);
 
     // Decide whether to show 'Contribute' or 'Listen' based on the date
     let linkText, linkHref;
@@ -73,9 +74,7 @@ function displayLatestEventDetailsFixed() {
 }
 
 function isSameDay(d1, d2) {
-    return d1.getFullYear() === d2.getFullYear() &&
-        d1.getMonth() === d2.getMonth() &&
-        d1.getDate() === d2.getDate();
+    return d1.toISOString().split('T')[0] === d2.toISOString().split('T')[0];
 }
 
 function getLatestEvent() {
