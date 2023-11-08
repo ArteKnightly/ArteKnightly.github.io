@@ -140,12 +140,16 @@ function addDonationWidget() {
     donationIframe.src = "https://nowpayments.io/embeds/donation-widget?api_key=1XYMZES-REE4C8V-Q7NN6KH-SSWDZ0D&source=lk_donation&medium=referral";
     donationIframe.frameborder = "0";
     donationIframe.scrolling = "no";
-    donationIframe.style = "overflow-y: hidden;";
-    donationIframe.width = "354";
-    donationIframe.height = "680";
+    donationIframe.style.overflowY = "hidden";
+    donationIframe.style.width = "354px";
+    donationIframe.style.height = "680px";
+    donationIframe.style.position = "absolute"; // Use "absolute" for absolute positioning within a relative container
+    donationIframe.style.top = "100px"; // Adjust as needed
+    donationIframe.style.left = "50%"; // Centers the widget
+    donationIframe.style.transform = "translateX(-50%)"; // Ensures centering is accurate
 
-    // Append the iframe to the body or a specific element
-    document.body.appendChild(donationIframe);
+    // Append the iframe to a specific element or the body
+    document.body.appendChild(donationIframe); // You can replace `document.body` with a specific parent element if needed
 }
 
 // Call the function to add the widget
