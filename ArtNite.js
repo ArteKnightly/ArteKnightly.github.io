@@ -16,9 +16,7 @@ function setup() {
     background(0); 
     drawGridFrame();
     displayLatestEventDetails("setup");
-    
-  
-}
+    }
 
 function calculatePadding() {
     messageHeight = h1 + spaceBetween * 5 + h2 * 4 + 400;
@@ -81,7 +79,7 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
 function draw() {
     //drawGridFrame();
     
-    displayLatestEventDetails("draw");
+    //displayLatestEventDetails("draw");
     if (mouseIsPressed) {
         stroke(255);
         line(mouseX, mouseY, pmouseX, pmouseY);
