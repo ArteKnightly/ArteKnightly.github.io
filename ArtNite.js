@@ -13,7 +13,7 @@ let messageHeight;
 function setup() {
     createCanvas(windowWidth, windowHeight);
     calculatePadding();
-    background(0); 
+    background(255); 
     drawGridFrame();
     displayLatestEventDetails("setup");
     }
@@ -45,7 +45,7 @@ function displayLatestEventDetails(_mode) {
         //Else contribute to list
         //Create hyperlink to SpotifyEdit
         let contributeLink = createA(latestEvent.SpotifyEdit, 'Contribute to playlist', '_blank');
-        contributeLink.position(width / 2 - contributeLink.width / 2, paddingTop + h1 + spaceBetween * 4 + h2 * 3);
+        contributeLink.position(width / 2 - contributeLink.width / 2, height - (paddingBottom-spaceBetween);
         // Embed Spotify player
         let spotifyEmbed = createElement('div', latestEvent.SpotifyembedIframe);
         spotifyEmbed.position(width / 2 - 150, height-(paddingBottom + spotifyEmbed.height));
@@ -80,12 +80,12 @@ function draw() {
     
     //displayLatestEventDetails("draw");
     if (mouseIsPressed) {
-        stroke(255);
+        stroke(0);
         line(mouseX, mouseY, pmouseX, pmouseY);
             }
 }
 function doubleClicked(){
-  background(0); 
+    background(255); 
     drawGridFrame();
     displayLatestEventDetails();
           
