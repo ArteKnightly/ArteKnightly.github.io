@@ -9,12 +9,10 @@ let h1 = 32;
 let h2 = 24;
 let spaceBetween = 25;
 let paddingLeft, paddingRight, paddingTop, paddingBottom;
-let startHue, endHue;
 let messageHeight;
 function setup() {
     createCanvas(windowWidth, windowHeight);
     calculatePadding();
-    initializeHues();
     background(0); 
     drawGridFrame();
     displayLatestEventDetails("setup");
@@ -30,10 +28,6 @@ function calculatePadding() {
     paddingBottom = (windowHeight - messageHeight+100) / 2;
 }
 
-function initializeHues() {
-    startHue = 360;  
-    endHue = 0;     
-}
 function displayLatestEventDetails(_mode) {
     textAlign(CENTER, CENTER); // Center the text both horizontally and vertically
 
@@ -65,8 +59,6 @@ function drawGridFrame() {
     let gridWidth = spaceBetween;
     let gridHeight = spaceBetween; 
     let xOffset = 0;
-    let time = millis() / 1000; // Time in seconds
-
     // Calculate grid counts
     let xCount = Math.ceil(width / gridWidth);
     let yCount = Math.ceil(height / gridHeight);
@@ -87,15 +79,14 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
 }
 
 function draw() {
-    drawGridFrame();
+    //drawGridFrame();
     
     displayLatestEventDetails("draw");
     if (mouseIsPressed) {
         stroke(255);
         line(mouseX, mouseY, pmouseX, pmouseY);
        console.log(noiseValue);
-      
-    }
+     }
 }
 function doubleClicked(){
   background(0); 
