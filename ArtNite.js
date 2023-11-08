@@ -31,15 +31,27 @@ function calculatePadding() {
 
 function displayLatestEventDetails() {
     textAlign(CENTER, CENTER); // Center the text both horizontally and vertically
-    // Display the details
-    fill(0); 
+    fill(0); // Set the text color to black
     textSize(h1);
     text(`Art Nite?`, width / 2, paddingTop + h1 + spaceBetween);
-    text(`${latestEvent.Date}`, width / 2, paddingTop + h1 + spaceBetween * 2 + h2);
-    textSize(h2);
-    text('Location: the Compound', width / 2, paddingTop + h1 + spaceBetween * 3 + h2 * 2);
 
-   
+    // Parse the ISO 8601 date and format it
+    let eventDate = new Date(latestEvent.Date);
+    let formattedDate = formatDate(eventDate);
+
+    textSize(h2);
+    text(formattedDate, width / 2, paddingTop + h1 + spaceBetween * 2 + h2);
+    text('Location: the Compound', width / 2, paddingTop + h1 + spaceBetween * 3 + h2 * 2);
+}
+function formatDate(date) {
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    const day = date.getDate();
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+
+    return `${monthNames[monthIndex]}/${day}/${year}`;
 }
 function displayLatestEventDetailsFixed() {
     textAlign(CENTER, CENTER);
