@@ -113,7 +113,7 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
     // Only draw shapes within the designated padding area.
     if (xPos < paddingLeft || xPos > width - paddingRight || yPos < paddingTop || yPos > height - paddingBottom) {
         push();
-        //translate(xPos + gridWidth / 2, yPos + gridHeight / 2);
+        translate(xPos + gridWidth / 2, yPos + gridHeight / 2);
         //rotate(noise(xOffset, yOffset, zOffset) * TWO_PI); // Rotate based on 3D noise.
 
         fill(hueValue, saturationValue, brightnessValue);
@@ -122,7 +122,7 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
         // Depending on the noise value, draw different shapes.
         //if (noiseValue1 < 0.33) {
             rectMode(CENTER);
-            rect(0, 0, 2*gridWidth * 5*noiseValue1, 2*gridHeight * 5*noiseValue2);
+            rect(0, 0, gridWidth * noiseValue1, gridHeight *noiseValue2);
         //} else if (noiseValue1 < 0.66) {
          //   ellipse(0, 0, 2 * noiseValue1 *gridWidth * 5*noiseValue2, 2*gridHeight * 5*noiseValue3);
         //} else {
