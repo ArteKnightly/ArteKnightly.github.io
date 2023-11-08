@@ -106,9 +106,9 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
     let noiseValue2 = noise(xOffset + xStart, yOffset * TWO_PI + yStart, zOffset + zStart);
     let noiseValue3 = noise(xOffset * TWO_PI + xStart, yOffset * TWO_PI + yStart, zOffset + zStart);
     // Map the noise value to a hue in the HSB color space
-    let hueValue = map(noiseValue3, 0, 1, 0, 360); // Map the noise to a full range of hues (0-360)
-    let saturationValue = map(noiseValue1, 0, 1, 50, 100); // Map the noise to a range of saturations
-    let brightnessValue = map(noiseValue2, 0, 1, 50, 100); // Map the noise to a range of brightnesses
+    let hueValue = map(noiseValue3 * TWO_PI, -1, 1, 0, 360); // Map the noise to a full range of hues (0-360)
+    let saturationValue = map(noiseValue1, 0, 1, 0, 100); // Map the noise to a range of saturations
+    let brightnessValue = map(noiseValue2, 0, 1, 0, 100); // Map the noise to a range of brightnesses
 
     // Only draw shapes within the designated padding area.
     if (xPos < paddingLeft || xPos > width - paddingRight || yPos < paddingTop || yPos > height - paddingBottom) {
@@ -142,7 +142,7 @@ function draw() {
     yStart += incrementY;
     zStart += incrementZ;
     let noiseValue = noise((xStart)*100);
-    //displayLatestEventDetails("draw");
+    displayLatestEventDetails("draw");
     if (mouseIsPressed) {
         stroke(255);
         strokeWeight(map(noiseValue, 0, 1,5, 20));
