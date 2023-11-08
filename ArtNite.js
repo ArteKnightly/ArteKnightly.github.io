@@ -32,7 +32,7 @@ function calculatePadding() {
 function displayLatestEventDetails() {
     textAlign(CENTER, CENTER); // Center the text both horizontally and vertically
     // Display the details
-    fill(255, 0, 0); 
+    fill(0); 
     textSize(h1);
     text(`Art Nite?`, width / 2, paddingTop + h1 + spaceBetween);
     text(`${latestEvent.Date}`, width / 2, paddingTop + h1 + spaceBetween * 2 + h2);
@@ -42,16 +42,40 @@ function displayLatestEventDetails() {
    
 }
 function displayLatestEventDetailsFixed() {
-    textAlign(CENTER, CENTER); // Center the text both horizontally and vertically
+    textAlign(CENTER, CENTER);
     textSize(h2);
-    //TODO if `${latestEvent.Date}` < today show Listen Link
-    //Else contribute to list
-    //Create hyperlink to SpotifyEdit
-    let contributeLink = createA(latestEvent.SpotifyEdit, 'Contribute to playlist', '_blank');
-    contributeLink.position(width / 2 - contributeLink.width / 2, height - (paddingBottom - spaceBetween));
+    fill(0); // Set the text color to black
+
+    // Get today's date
+    let today = new Date();
+    // Parse event date
+    let eventDateParts = latestEvent.Date.split('/');
+    let eventDate = new Date(eventDateParts[2], eventDateParts[1] - 1, eventDateParts[0]);
+
+    // Decide whether to show 'Contribute' or 'Listen' based on the date
+    let linkText, linkHref;
+    if (eventDate > today || isSameDay(eventDate, today)) {
+        // Event is today or in the future, show contribute link
+        linkText = 'Contribute to playlist';
+        linkHref = latestEvent.SpotifyEdit;
+    } else {
+        // Event is in the past, show listen link
+        linkText = 'Listen on Spotify';
+        linkHref = latestEvent.SpotifyListen;
+    }
+
+    // Create hyperlink to Spotify
+    let spotifyLink = createA(linkHref, linkText, '_blank');
+    spotifyLink.position(width / 2 - spotifyLink.width / 2, height - (paddingBottom - spaceBetween));
     // Embed Spotify player
     let spotifyEmbed = createElement('div', latestEvent.SpotifyembedIframe);
     spotifyEmbed.position(width / 2 - 150, height - (paddingBottom + spotifyEmbed.height));
+}
+
+function isSameDay(d1, d2) {
+    return d1.getFullYear() === d2.getFullYear() &&
+        d1.getMonth() === d2.getMonth() &&
+        d1.getDate() === d2.getDate();
 }
 
 function getLatestEvent() {
