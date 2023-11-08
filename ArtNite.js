@@ -19,6 +19,7 @@ function setup() {
     //drawGridFrame();
     displayLatestEventDetails();
     displayLatestEventDetailsFixed();
+    addDonationWidget();
     }
 
 function calculatePadding() {
@@ -129,5 +130,23 @@ function doubleClicked(){
     background(255); 
     drawGridFrame();
     displayLatestEventDetails();
+    addDonationWidget();
           
 }
+// Function to add NOWPayments Donation Widget
+function addDonationWidget() {
+    // Create an iframe element
+    let donationIframe = document.createElement('iframe');
+    donationIframe.src = "https://nowpayments.io/embeds/donation-widget?api_key=1XYMZES-REE4C8V-Q7NN6KH-SSWDZ0D&source=lk_donation&medium=referral";
+    donationIframe.frameborder = "0";
+    donationIframe.scrolling = "no";
+    donationIframe.style = "overflow-y: hidden;";
+    donationIframe.width = "354";
+    donationIframe.height = "680";
+
+    // Append the iframe to the body or a specific element
+    document.body.appendChild(donationIframe);
+}
+
+// Call the function to add the widget
+
