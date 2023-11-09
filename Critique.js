@@ -42,7 +42,7 @@ function setup() {
     background(0);
 
     // Assign preloaded images to the images array
-        images = loadedImages.slice(0);//displayedImages 
+    images = loadedImages.slice(0);//displayedImages 
 
     switchShape('box');
     currentImageIndex = 0;
