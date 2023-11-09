@@ -42,10 +42,15 @@ function setup() {
     background(0);
 
     // Assign preloaded images to the images array
-    images = loadedImages.slice(0);//displayedImages 
+    images = loadedImages.slice(0); // Make a shallow copy of the preloaded images
 
     switchShape('box');
-    currentImageIndex = 0;
+
+    // Set currentImageIndex to a random value within the range of preloaded images
+    if (images.length > 0) {
+        currentImageIndex = Math.floor(Math.random() * images.length);
+    }
+
     definePads();
 }
 function draw() {
@@ -184,19 +189,6 @@ function getRandomSubsetIndices(totalLength, subsetSize) {
 
     return Array.from(subsetIndices);
 }
-//function getRandomSubsetIndices(totalLength, subsetSize) {
-//    let subsetIndices = new Set(); // Use a Set to ensure unique indices
-
-//    while (subsetIndices.size < subsetSize) {
-//        let randomIndex = Math.floor(Math.random() * totalLength);
-//        if (!viewedRecently.has(imgManifest.images[randomIndex].UUIDImage)) {
-//            subsetIndices.add(randomIndex);
-//        }
-//    }
-
-//    return Array.from(subsetIndices); // Convert the Set to an Array
-//}
-
 function clearViewedRecently() {
        viewedRecently.clear();
 }
