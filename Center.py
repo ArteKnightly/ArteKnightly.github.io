@@ -1,3 +1,4 @@
+#Center.py
 from PIL import Image
 
 def center_image(img, target_width, target_height):

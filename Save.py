@@ -1,12 +1,13 @@
+#Save.py
 from datetime import datetime
 import uuid
 import os
 
 
 def save_image(img, output_directory, original_filename):
-    UUIDImage = str(uuid.uuid4())[:10]  # Generates a unique 10-digit identifier
-    output_path = os.path.join(output_directory, UUIDImage + ".jpg")
-    img.save(output_path, "JPEG", quality=90)
+    UUIDImage = str(uuid.uuid4())
+    output_path = os.path.join(output_directory, UUIDImage + ".png")
+    img.save(output_path, "PNG")  # No quality setting needed for PNG
     
     # Create the image data object
     image_data = {

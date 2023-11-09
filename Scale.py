@@ -1,3 +1,4 @@
+#Scale.py
 from PIL import Image
 
 def scale_image(input_image, max_size):
@@ -10,7 +11,7 @@ def scale_image(input_image, max_size):
         new_height = int(new_width / aspect_ratio)
     else:
         # Portrait orientation
-        new_height = max_sizemn 
+        new_height = max_size
         new_width = int(new_height * aspect_ratio)
 
     scaled_image = input_image.resize((new_width, new_height), Image.LANCZOS)

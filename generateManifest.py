@@ -1,3 +1,4 @@
+#generateManifest.py
 import os
 import json
 

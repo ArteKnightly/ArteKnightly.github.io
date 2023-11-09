@@ -26,7 +26,7 @@ function preload() {
 function preloadSubsetImages(subsetIndices) {
     for (let index of subsetIndices) {
         let imgData = imgManifest.images[index];
-        loadImage('images/' + imgData.UUIDImage + '.jpg', (loadedImg) => {
+        loadImage('images/' + imgData.UUIDImage + '.png', (loadedImg) => {
             // This callback is executed once the image is loaded
             loadedImages.push({ data: imgData, img: loadedImg });
             viewedRecently.add(imgData.UUIDImage); // Add to viewedRecently set
@@ -163,7 +163,7 @@ function loadMoreImages() {
     while (loadedImages.length < imagePoolSize) {
         let index = getRandomIndexNotInDisplayedImages();
         let imgData = imgManifest.images[index];
-        let img = loadImage('images/' + imgData.UUIDImage + '.jpg', (loadedImg) => {
+        let img = loadImage('images/' + imgData.UUIDImage + '.png', (loadedImg) => {
             loadedImages.push({ data: imgData, img: loadedImg });
         });
     }
