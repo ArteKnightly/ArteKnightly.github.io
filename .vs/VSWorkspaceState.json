@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Images"
+    "\\data",
+    "\\images",
+    "\\raw"
   ],
-  "SelectedNode": "\\generate_manifest.py",
+  "SelectedNode": "\\data\\manifest.json",
   "PreviewInSolutionExplorer": false
 }

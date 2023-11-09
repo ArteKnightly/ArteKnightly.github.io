@@ -168,19 +168,29 @@ function loadMoreImages() {
         });
     }
 }
-
 function getRandomSubsetIndices(totalLength, subsetSize) {
-    let subsetIndices = new Set(); // Use a Set to ensure unique indices
+    let subsetIndices = new Set();
 
+    // Continue to attempt to add random indices until we have a full subset
     while (subsetIndices.size < subsetSize) {
         let randomIndex = Math.floor(Math.random() * totalLength);
-        if (!viewedRecently.has(imgManifest.images[randomIndex].UUIDImage)) {
-            subsetIndices.add(randomIndex);
-        }
+        subsetIndices.add(randomIndex);
     }
 
-    return Array.from(subsetIndices); // Convert the Set to an Array
+    return Array.from(subsetIndices);
 }
+//function getRandomSubsetIndices(totalLength, subsetSize) {
+//    let subsetIndices = new Set(); // Use a Set to ensure unique indices
+
+//    while (subsetIndices.size < subsetSize) {
+//        let randomIndex = Math.floor(Math.random() * totalLength);
+//        if (!viewedRecently.has(imgManifest.images[randomIndex].UUIDImage)) {
+//            subsetIndices.add(randomIndex);
+//        }
+//    }
+
+//    return Array.from(subsetIndices); // Convert the Set to an Array
+//}
 
 function clearViewedRecently() {
        viewedRecently.clear();
