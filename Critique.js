@@ -36,12 +36,14 @@ function preloadSubsetImages(subsetIndices) {
         });
     }
 }
+
 function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL);
     background(0);
 
-    // Instead of loading all images at once, we use a subset loaded in preload()
-    displayedImages = loadedImages.slice(0); // Make a shallow copy of the preloaded images to start with
+    // Assign preloaded images to the images array
+    images = loadedImages.slice(0);//displayedImages 
+
     switchShape('box');
     currentImageIndex = 0;
     definePads();
