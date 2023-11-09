@@ -9,33 +9,47 @@ let responses = [];
 let leftPad;
 let rightPad;
 let bottomPad;
-
-
-// Now you can use sheetRead() and sheetWrite() in this file
 let topPad;
+// Variables to keep track of loaded and displayed images
+let loadedImages = [];
+let imagePoolSize = 10; 
+let displayedImages = [];
+let viewedRecently = new Set();
 
 function preload() {
     imgManifest = loadJSON('data/manifest.json');
+    // Randomly select a subset of images from the manifest
+    let subsetIndices = getRandomSubsetIndices(imgManifest.images.length, imagePoolSize);
+    preloadSubsetImages(subsetIndices)
 }
 
+function preloadSubsetImages(subsetIndices) {
+    for (let index of subsetIndices) {
+        let imgData = imgManifest.images[index];
+        loadImage('images/' + imgData.UUIDImage + '.jpg', (loadedImg) => {
+            // This callback is executed once the image is loaded
+            loadedImages.push({ data: imgData, img: loadedImg });
+            viewedRecently.add(imgData.UUIDImage); // Add to viewedRecently set
+        });
+    }
+}
 function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL);
     background(0);
 
-    for (let imgData of imgManifest.images) {
-        let img = loadImage('images/' + imgData.UUIDImage + '.jpg');
-        images.push({ data: imgData, img: img });
-    }
+    // Instead of loading all images at once, we use a subset loaded in preload()
+    displayedImages = loadedImages.slice(0); // Make a shallow copy of the preloaded images to start with
     switchShape('box');
     currentImageIndex = 0;
-
     definePads();
 }
-
 function draw() {
     background(0);
     currentShapeObj.display(getSpinningObjectYPos());
     image(getImg(), imageXPos(), imageYPos(), displayImageWidth(getImg()), displayImageHeight(getImg()));
+    if (shouldLoadMoreImages()) {
+        loadMoreImages();
+    }
 }
 
 function definePads() {
@@ -128,10 +142,46 @@ function saveResponse() {
 
     responses.push(response);
     console.log(responses);
-// Create an instance of the ImageRatingsTable class
-const imageRatings = new ImageRatingsTable();
+    // Create an instance of the ImageRatingsTable class
+    const imageRatings = new ImageRatingsTable();
 
-// Assuming the response object has the structure { UUIDImage, UUIDQuestion, Score }
-// Write to the ImageRatings sheet using the write method
-imageRatings.write(response.UUIDImage, response.UUIDQuestion, response.Score);
+    // Assuming the response object has the structure { UUIDImage, UUIDQuestion, Score }
+    // Write to the ImageRatings sheet using the write method
+    imageRatings.write(response.UUIDImage, response.UUIDQuestion, response.Score);
+}
+function shouldLoadMoreImages() {
+    // Define logic to determine if we're running low on preloaded images
+    return displayedImages.length < 10; // for example, load more if we have less than 10 images left
+}
+
+function loadMoreImages() {
+    // Use the image pool strategy to load more images
+    // Remove displayed images from the loadedImages array
+    loadedImages = loadedImages.filter(img => !displayedImages.includes(img));
+
+    // Load new images until we reach the pool size
+    while (loadedImages.length < imagePoolSize) {
+        let index = getRandomIndexNotInDisplayedImages();
+        let imgData = imgManifest.images[index];
+        let img = loadImage('images/' + imgData.UUIDImage + '.jpg', (loadedImg) => {
+            loadedImages.push({ data: imgData, img: loadedImg });
+        });
+    }
+}
+
+function getRandomSubsetIndices(totalLength, subsetSize) {
+    let subsetIndices = new Set(); // Use a Set to ensure unique indices
+
+    while (subsetIndices.size < subsetSize) {
+        let randomIndex = Math.floor(Math.random() * totalLength);
+        if (!viewedRecently.has(imgManifest.images[randomIndex].UUIDImage)) {
+            subsetIndices.add(randomIndex);
+        }
+    }
+
+    return Array.from(subsetIndices); // Convert the Set to an Array
+}
+
+function clearViewedRecently() {
+       viewedRecently.clear();
 }
