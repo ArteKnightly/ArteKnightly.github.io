@@ -15,11 +15,12 @@ let loadedImages = [];
 let imagePoolSize = 10; 
 let displayedImages = [];
 let viewedRecently = new Set();
+let subsetIndices;
 
 function preload() {
     imgManifest = loadJSON('data/manifest.json');
     // Randomly select a subset of images from the manifest
-    let subsetIndices = getRandomSubsetIndices(imgManifest.images.length, imagePoolSize);
+    subsetIndices = getRandomSubsetIndices(imgManifest.images.length, imagePoolSize);
     preloadSubsetImages(subsetIndices)
 }
 
