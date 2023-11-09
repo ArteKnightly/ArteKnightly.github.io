@@ -18,8 +18,9 @@ let viewedRecently = new Set();
 let subsetIndices;
 
 function preload() {
-    imgManifest = loadJSON('data/manifest.json');
-    // Randomly select a subset of images from the manifest
+    let cacheBuster = Date.now();
+    imgManifest = loadJSON(`data/manifest.json?${cacheBuster}`);
+      // Randomly select a subset of images from the manifest
     subsetIndices = getRandomSubsetIndices(imgManifest.images.length, imagePoolSize);
     preloadSubsetImages(subsetIndices)
 }
