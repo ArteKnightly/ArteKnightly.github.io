@@ -2,9 +2,8 @@
   "ExpandedNodes": [
     "",
     "\\data",
-    "\\images",
     "\\raw"
   ],
-  "SelectedNode": "\\data\\manifest.json",
+  "SelectedNode": "\\readyImagesForWeb.py",
   "PreviewInSolutionExplorer": false
 }
