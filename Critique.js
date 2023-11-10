@@ -16,23 +16,22 @@ let imagePoolSize = 3;
 let displayedImages = [];
 let viewedRecently = new Set();
 let subsetIndices;
-
 function preload() {
-    function preload() {
-        let cacheBuster = Date.now();
-        console.log(`Loading manifest file at time: ${cacheBuster}`);
-        imgManifest = loadJSON(`data/manifest.json?${cacheBuster}`, () => {
-            console.log("Manifest loaded:", imgManifest);
-        });
-    }
-    
     let cacheBuster = Date.now();
-    console.log(`Loading manifest file at time: ${cacheBuster}`);
-    imgManifest = loadJSON(`data/manifest.json?${cacheBuster}`);
-    console.log("Manifest loaded:", imgManifest);
-      // Randomly select a subset of images from the manifest
+    imgManifest = loadJSON(`data/manifest.json?${cacheBuster}`, jsonLoaded, loadError);
+    // Randomly select a subset of images from the manifest
     subsetIndices = getRandomSubsetIndices(imgManifest.images.length, imagePoolSize);
     preloadSubsetImages(subsetIndices)
+}
+
+function jsonLoaded() {
+    console.log('JSON successfully loaded:', imgManifest);
+    subsetIndices = getRandomSubsetIndices(imgManifest.images.length, imagePoolSize);
+    preloadSubsetImages(subsetIndices);
+}
+
+function loadError(error) {
+    console.error('Error loading JSON:', error);
 }
 
 function preloadSubsetImages(subsetIndices) {
@@ -40,12 +39,12 @@ function preloadSubsetImages(subsetIndices) {
         let imgData = imgManifest.images[index];
         console.log(`Preloading image at index ${index}:`, imgData.UUIDImage);
         loadImage('images/' + imgData.UUIDImage + '.png', (loadedImg) => {
-            console.log(`Image loaded: ${imgData.UUIDImage}`);
-            // This callback is executed once the image is loaded
+             // This callback is executed once the image is loaded
             loadedImages.push({ data: imgData, img: loadedImg });
+            console.log("Image loaded:", imgData.UUIDImage);
             viewedRecently.add(imgData.UUIDImage); // Add to viewedRecently set
-        }, (event) => {
-            console.error(`Error loading image at index ${index}:`, event);
+        }, (error) => {
+            console.error("Failed to load image:", imgData.UUIDImage, error);
         });
     }
 }
@@ -83,15 +82,14 @@ function definePads() {
 }
 
 function getImg() {
-    if (images.length > currentImageIndex) {
+    if (images.length > 0 && currentImageIndex >= 0 && currentImageIndex < images.length && images[currentImageIndex].img) {
         console.log(`Displaying image at index ${currentImageIndex}:`, images[currentImageIndex].data.UUIDImage);
         return images[currentImageIndex].img;
     } else {
-        console.error("Current image index is out of bounds:", currentImageIndex);
-        return null; // Return null or a placeholder image
+        console.error('Image at index', currentImageIndex, 'is not loaded or does not exist');
+        return null; // You can return a default image or handle this scenario appropriately
     }
 }
-
 function getSpinningObjectYPos() {
     return (topPad / 1.9) - (height / 2);
 }
