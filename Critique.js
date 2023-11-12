@@ -15,36 +15,20 @@ let loadedImages = [];
 let imagePoolSize = 3; 
 let viewedRecently = new Set();
 let subsetIndices;
-//
 
-
-
-
-//
 function preload() {
     let cacheBuster = Date.now();
     imgManifest = loadJSON(`data/manifest.json?${cacheBuster}`, jsonLoaded, loadError);
 }
-//function preload() {
-//    let cacheBuster = Date.now();
-//    imgManifest = loadJSON(`data/manifest.json?${cacheBuster}`, jsonLoaded, loadError);
-//    // Randomly select a subset of images from the manifest
-//    subsetIndices = getRandomSubsetIndices(imgManifest.images.length, imagePoolSize);
-//    preloadSubsetImages(subsetIndices)
-//}
 function jsonLoaded() {
     console.log('JSON successfully loaded:', imgManifest);
+    // Now that the JSON is loaded, get a subset of indices for preloading images
     let initialIndices = initialSubset();
     preloadSubsetImages(initialIndices).then(() => {
         console.log("All initial images preloaded");
         // Here you can add any additional code that should run after all images are loaded
     });
 }
-//function jsonLoaded() {
-//    console.log('JSON successfully loaded:', imgManifest);
-//    subsetIndices = getRandomSubsetIndices(imgManifest.images.length, imagePoolSize);
-//    preloadSubsetImages(subsetIndices);
-//}
 
 function initialSubset() {
     return getRandomSubsetIndices(imgManifest.images.length, imagePoolSize);
