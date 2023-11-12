@@ -15,11 +15,23 @@ let loadedImages = [];
 let imagePoolSize = 3; 
 let viewedRecently = new Set();
 let subsetIndices;
+//
+
+
+
+
+//
 function preload() {
     let cacheBuster = Date.now();
     imgManifest = loadJSON(`data/manifest.json?${cacheBuster}`, jsonLoaded, loadError);
 }
-
+//function preload() {
+//    let cacheBuster = Date.now();
+//    imgManifest = loadJSON(`data/manifest.json?${cacheBuster}`, jsonLoaded, loadError);
+//    // Randomly select a subset of images from the manifest
+//    subsetIndices = getRandomSubsetIndices(imgManifest.images.length, imagePoolSize);
+//    preloadSubsetImages(subsetIndices)
+//}
 function jsonLoaded() {
     console.log('JSON successfully loaded:', imgManifest);
     let initialIndices = initialSubset();
@@ -28,6 +40,11 @@ function jsonLoaded() {
         // Here you can add any additional code that should run after all images are loaded
     });
 }
+//function jsonLoaded() {
+//    console.log('JSON successfully loaded:', imgManifest);
+//    subsetIndices = getRandomSubsetIndices(imgManifest.images.length, imagePoolSize);
+//    preloadSubsetImages(subsetIndices);
+//}
 
 function initialSubset() {
     return getRandomSubsetIndices(imgManifest.images.length, imagePoolSize);
@@ -41,6 +58,7 @@ async function preloadSubsetImages(indices) {
     let imageLoadPromises = [];
     for (let index of indices) {
         let imgData = imgManifest.images[index];
+        console.log(`Preloading image at index ${index}:`, imgData.UUIDImage);
         let imgLoadPromise = new Promise((resolve, reject) => {
             loadImage('images/' + imgData.UUIDImage + '.png', (loadedImg) => {
                 loadedImages.push({ data: imgData, img: loadedImg });
@@ -55,7 +73,20 @@ async function preloadSubsetImages(indices) {
     }
     await Promise.all(imageLoadPromises);
 }
-
+//function preloadSubsetImages(subsetIndices) {
+//    for (let index of subsetIndices) {
+//        let imgData = imgManifest.images[index];
+//        console.log(`Preloading image at index ${index}:`, imgData.UUIDImage);
+//        loadImage('images/' + imgData.UUIDImage + '.png', (loadedImg) => {
+//            // This callback is executed once the image is loaded
+//            loadedImages.push({ data: imgData, img: loadedImg });
+//            console.log("Image loaded:", imgData.UUIDImage);
+//            viewedRecently.add(imgData.UUIDImage); // Add to viewedRecently set
+//        }, (error) => {
+//            console.error("Failed to load image:", imgData.UUIDImage, error);
+//        });
+//    }
+//}
 function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL);
     background(0);
