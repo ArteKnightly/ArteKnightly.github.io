@@ -152,7 +152,7 @@ function naResponse() {
     switchImage();
 }
 function doubleClicked() {
-    saveResponse();
+    //saveResponse();
     switchImage();
     // Reset the x position of the spinning object
     currentShapeObj.posX = width / 2;
