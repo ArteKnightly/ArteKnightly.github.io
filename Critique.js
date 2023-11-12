@@ -13,40 +13,47 @@ let topPad;
 // Variables to keep track of loaded and displayed images
 let loadedImages = [];
 let imagePoolSize = 3; 
-let displayedImages = [];
 let viewedRecently = new Set();
 let subsetIndices;
 function preload() {
     let cacheBuster = Date.now();
     imgManifest = loadJSON(`data/manifest.json?${cacheBuster}`, jsonLoaded, loadError);
-    // Randomly select a subset of images from the manifest
-    subsetIndices = getRandomSubsetIndices(imgManifest.images.length, imagePoolSize);
-    preloadSubsetImages(subsetIndices)
 }
 
 function jsonLoaded() {
     console.log('JSON successfully loaded:', imgManifest);
-    subsetIndices = getRandomSubsetIndices(imgManifest.images.length, imagePoolSize);
-    preloadSubsetImages(subsetIndices);
+    let initialIndices = initialSubset();
+    preloadSubsetImages(initialIndices).then(() => {
+        console.log("All initial images preloaded");
+        // Here you can add any additional code that should run after all images are loaded
+    });
+}
+
+function initialSubset() {
+    return getRandomSubsetIndices(imgManifest.images.length, imagePoolSize);
 }
 
 function loadError(error) {
     console.error('Error loading JSON:', error);
 }
 
-function preloadSubsetImages(subsetIndices) {
-    for (let index of subsetIndices) {
+async function preloadSubsetImages(indices) {
+    let imageLoadPromises = [];
+    for (let index of indices) {
         let imgData = imgManifest.images[index];
-        console.log(`Preloading image at index ${index}:`, imgData.UUIDImage);
-        loadImage('images/' + imgData.UUIDImage + '.png', (loadedImg) => {
-             // This callback is executed once the image is loaded
-            loadedImages.push({ data: imgData, img: loadedImg });
-            console.log("Image loaded:", imgData.UUIDImage);
-            viewedRecently.add(imgData.UUIDImage); // Add to viewedRecently set
-        }, (error) => {
-            console.error("Failed to load image:", imgData.UUIDImage, error);
+        let imgLoadPromise = new Promise((resolve, reject) => {
+            loadImage('images/' + imgData.UUIDImage + '.png', (loadedImg) => {
+                loadedImages.push({ data: imgData, img: loadedImg });
+                console.log("Image loaded:", imgData.UUIDImage);
+                resolve();
+            }, (error) => {
+                console.error("Failed to load image:", imgData.UUIDImage, error);
+                reject(error);
+            });
         });
+        imageLoadPromises.push(imgLoadPromise);
     }
+    await Promise.all(imageLoadPromises);
 }
 
 function setup() {
@@ -130,8 +137,7 @@ function imageXPos() {
 
 function imageYPos() {
    return topPad - (height / 2);
-    // return -topPad - displayImageHeight(getImg()) / 2;
-}
+ }
 
 function naResponse() {
     let response = {
@@ -142,19 +148,37 @@ function naResponse() {
 
     responses.push(response);
     console.log(responses);
-
     // Move to the next image
-    currentImageIndex = (currentImageIndex + 1) % images.length;
+    switchImage();
 }
 function doubleClicked() {
     saveResponse();
-
-    // Move to the next image
-    currentImageIndex = (currentImageIndex + 1) % images.length;
-
+    switchImage();
     // Reset the x position of the spinning object
-    currentShapeObj.posX = width / 2;  // Assuming the middle of the canvas is the default position
+    currentShapeObj.posX = width / 2;
 }
+function switchImage() {
+    // Record UUID to viewedRecently
+    let currentUUID = images[currentImageIndex].data.UUIDImage;
+    viewedRecently.add(currentUUID);
+
+    // Remove the recently viewed image from loadedImages
+    let removeIndex = loadedImages.findIndex(img => img.data.UUIDImage === currentUUID);
+    if (removeIndex !== -1) {
+        loadedImages.splice(removeIndex, 1);
+    }
+
+    // Load more images if necessary
+    if (shouldLoadMoreImages()) {
+        loadMoreImages();
+    }
+
+    // Select next image, ensuring it's not recently viewed
+    do {
+        currentImageIndex = Math.floor(Math.random() * images.length);
+    } while (viewedRecently.has(images[currentImageIndex].data.UUIDImage));
+}
+
 function saveResponse() {
     let scaledValue = map(currentShapeObj.posX, 0, width - currentShapeObj.size, -5, 5);
     scaledValue = constrain(scaledValue, -5, 5);
@@ -178,37 +202,30 @@ function saveResponse() {
 }
 function shouldLoadMoreImages() {
     // Define logic to determine if we're running low on preloaded images
-    return displayedImages.length < 10; // for example, load more if we have less than 10 images left
+    return images.length < imagePoolSize; // for example, load more if we have less than 10 images left
 }
 
 function loadMoreImages() {
     console.log(`Loading more images. Current loadedImages count: ${loadedImages.length}`);
 
-    // Use the image pool strategy to load more images
-    // Remove displayed images from the loadedImages array
-    loadedImages = loadedImages.filter(img => !displayedImages.includes(img));
-
-    // Load new images until we reach the pool size
     while (loadedImages.length < imagePoolSize) {
         let index = getRandomIndexNotInDisplayedImages();
         let imgData = imgManifest.images[index];
         console.log(`Loading more images at index ${index}:`, imgData.UUIDImage);
-        let img = loadImage('images/' + imgData.UUIDImage + '.png', (loadedImg) => {
+        loadImage('images/' + imgData.UUIDImage + '.png', (loadedImg) => {
             loadedImages.push({ data: imgData, img: loadedImg });
         });
     }
 }
-function getRandomSubsetIndices(totalLength, subsetSize) {
-    let subsetIndices = new Set();
 
-    // Continue to attempt to add random indices until we have a full subset
-    while (subsetIndices.size < subsetSize) {
-        let randomIndex = Math.floor(Math.random() * totalLength);
-        subsetIndices.add(randomIndex);
-    }
-    console.log("Subset indices selected:", Array.from(subsetIndices));
-    return Array.from(subsetIndices);
+function getRandomIndexNotInDisplayedImages() {
+    let randomIndex;
+    do {
+        randomIndex = Math.floor(Math.random() * imgManifest.images.length);
+    } while (viewedRecently.has(imgManifest.images[randomIndex].UUIDImage));
+    return randomIndex;
 }
+
 function clearViewedRecently() {
        viewedRecently.clear();
 }
