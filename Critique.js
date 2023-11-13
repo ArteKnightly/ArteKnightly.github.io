@@ -49,8 +49,8 @@ async function loadMoreImages() {
     await Promise.all(imageLoadPromises);
 }
 function shouldLoadMoreImages() {
-    // Define logic to determine if we're running low on preloaded images
-    return images.length < imagePoolSize; // for example, load more if we have less than 10 images left
+    // Check if we're running low on preloaded images in the loadedImages array
+    return loadedImages.length < imagePoolSize;
 }
 function getRandomIndexNotInDisplayedImages() {
     let randomIndex;
@@ -116,6 +116,8 @@ function draw() {
     background(0);
     currentShapeObj.display(getSpinningObjectYPos());
     image(getImg(), imageXPos(), imageYPos(), displayImageWidth(getImg()), displayImageHeight(getImg()));
+
+    // Call loadMoreImages only if necessary
     if (shouldLoadMoreImages()) {
         loadMoreImages();
     }
