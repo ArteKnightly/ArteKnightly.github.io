@@ -135,6 +135,11 @@ function getLatestEvent() {
         latestEvent = jsonData.artNite[currentEventIndex];
     }
 }
+function onSliderChange() {
+    currentEventIndex = eventSlider.value();
+    getLatestEvent();
+    redrawEventDetails();
+}
 
 function drawGridFrame() {
     let gridWidth = spaceBetween;
