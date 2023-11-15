@@ -11,17 +11,20 @@ let latestEvent;
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
-    getLatestEvent();
+    getLatestEvent(); // This function now uses jsonData, which is loaded
     calculatePadding();
     background(255);
 
-    // Create the slider
-    eventSlider = createSlider(0, jsonData.artNite.length - 1, findNextEventIndex(), 1);
-    eventSlider.position(width / 2, paddingTop/2); // Adjust position as needed
-    eventSlider.input(onSliderChange);
+    // Ensure jsonData is available before creating the slider
+    if (jsonData && jsonData.artNite) {
+        eventSlider = createSlider(0, jsonData.artNite.length - 1, findNextEventIndex(), 1);
+        eventSlider.position(width / 2, paddingTop / 2);
+        eventSlider.input(onSliderChange);
+    }
 
     redrawEventDetails();
 }
+
 
 // Function to find the index of the next event
 function findNextEventIndex() {
@@ -37,9 +40,13 @@ function findNextEventIndex() {
 }
 
 
+
 function preload() {
-    // Load the JSON data before setup
-    jsonData = loadJSON('data/artNite.json');
+    jsonData = loadJSON('data/artNite.json', jsonLoaded);
+}
+
+function jsonLoaded() {
+    console.log('JSON successfully loaded:', jsonData);
 }
 
 function calculatePadding() {
