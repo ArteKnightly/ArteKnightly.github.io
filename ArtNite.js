@@ -7,7 +7,8 @@ let spaceBetween = 25;
 let paddingLeft, paddingRight, paddingTop, paddingBottom;
 let messageHeight;
 let latestEvent;
-
+let spotifyLink;
+let spotifyEmbed;
 function findNextEventIndex() {
     let today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -93,10 +94,6 @@ function redrawEventDetails() {
     displayLatestEventDetailsFixed();
 }
 function displayLatestEventDetailsFixed() {
-    textAlign(CENTER, CENTER);
-    textSize(h2);
-    fill(0); // Set the text color to black
-
     // Get today's date with time set to 00:00:00 for accurate comparison
     let today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -116,11 +113,20 @@ function displayLatestEventDetailsFixed() {
         linkHref = latestEvent.SpotifyListen;
     }
 
-    // Create hyperlink to Spotify
-    let spotifyLink = createA(linkHref, linkText, '_blank');
+    // Remove existing Spotify elements if they exist
+    if (spotifyLink) {
+        spotifyLink.remove();
+    }
+    if (spotifyEmbed) {
+        spotifyEmbed.remove();
+    }
+
+    // Create new hyperlink to Spotify
+    spotifyLink = createA(linkHref, linkText, '_blank');
     spotifyLink.position(width / 2 - spotifyLink.width / 2, height - (paddingBottom - spaceBetween));
-    // Embed Spotify player
-    let spotifyEmbed = createElement('div', latestEvent.SpotifyembedIframe);
+
+    // Create new Spotify player embed
+    spotifyEmbed = createElement('div', latestEvent.SpotifyembedIframe);
     spotifyEmbed.position(width / 2 - 150, height - (paddingBottom + spotifyEmbed.height));
 }
 
