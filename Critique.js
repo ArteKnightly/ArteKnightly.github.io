@@ -23,7 +23,14 @@ function jsonLoaded() {
     console.log('JSON successfully loaded:', imgManifest);
     loadMoreImages(); // Start loading images now that JSON is available
 }
+let isLoading = false; // Global flag to check if images are currently being loaded
+
 async function loadMoreImages() {
+    if (isLoading) {
+        return; // Exit the function if images are already being loaded
+    }
+
+    isLoading = true;
     console.log(`Loading more images. Current loadedImages count: ${loadedImages.length}`);
 
     let imageLoadPromises = [];
@@ -47,6 +54,7 @@ async function loadMoreImages() {
     }
 
     await Promise.all(imageLoadPromises);
+    isLoading = false; // Reset the flag after images have been loaded
 }
 function shouldLoadMoreImages() {
     // Check if we're running low on preloaded images in the loadedImages array
