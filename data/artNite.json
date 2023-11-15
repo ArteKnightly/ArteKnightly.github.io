@@ -4,9 +4,9 @@
       "UUIDEvent": "151",
       "Date": "2023-10-25T00:00:00Z",
       "Title": "Art Nite #151 231025",
-      "SpotifyEdit": "https://open.spotify.com/playlist/6x43lGdMAUokGnq7C7i1tR?si=HkQQ_c-XS1WfhVU_1ii-Ng&pt=7132dd0f9923619da79b557f63a88975",
-      "SpotifyListen": "https://open.spotify.com/playlist/6x43lGdMAUokGnq7C7i1tR?si=31e9678250cf46c0",
-      "SpotifyembedIframe": "<iframe style=\"border-radius:12px\" src=\"https://open.spotify.com/embed/playlist/6x43lGdMAUokGnq7C7i1tR?utm_source=generator\" width=\"100%\" height=\"352\" frameBorder=\"0\" allowfullscreen=\"\" allow=\"autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture\" loading=\"lazy\"></iframe>"
+      "SpotifyEdit": "",
+      "SpotifyListen": "",
+      "SpotifyembedIframe": ""
     },
     {
       "UUIDEvent": "152",
@@ -30,7 +30,7 @@
       "Title": "Art Nite #154 231115",
       "SpotifyEdit": "https://open.spotify.com/playlist/3PCy92VeL7sYuDSeg38ISu?si=985b4ba8d4cf47de&pt=bfe5edc99cf0a95c2ed97b1b9753a2c7",
       "SpotifyListen": "https://open.spotify.com/playlist/3PCy92VeL7sYuDSeg38ISu?si=c6dd3e12866243d5",
-      "SpotifyembedIframe": "<iframe style=\"border-radius:12px\" src=\"https://open.spotify.com/embed/playlist/3PCy92VeL7sYuDSeg38ISu?utm_source=generator&theme=0\" width=\"100%\" height=\"352\" frameBorder=\"0\" allowfullscreen=\"\" allow=\"autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture\" loading=\"lazy\"></iframe>"
+      "SpotifyembedIframe": "<iframe style=\"border-radius:12px\" src=\"https://open.spotify.com/embed/playlist/3PCy92VeL7sYuDSeg38ISu?utm_source=generator&theme=0\" width=\"100%\" height=\"152\" frameBorder=\"0\" allowfullscreen=\"\" allow=\"autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture\" loading=\"lazy\"></iframe>"
     }
   ],
   "figureNite": [
