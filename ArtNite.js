@@ -8,7 +8,17 @@ let paddingLeft, paddingRight, paddingTop, paddingBottom;
 let messageHeight;
 let latestEvent;
 
-
+function findNextEventIndex() {
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
+    for (let i = 0; i < jsonData.artNite.length; i++) {
+        let eventDate = new Date(jsonData.artNite[i].Date);
+        if (eventDate >= today) {
+            return i;
+        }
+    }
+    return jsonData.artNite.length - 1; // If no future events, return the last event
+}
 function setup() {
     createCanvas(windowWidth, windowHeight);
     getLatestEvent(); // This function now uses jsonData, which is loaded
@@ -136,7 +146,6 @@ function findNearestFutureEventIndex() {
     }
     return jsonData.artNite.length - 1; // If no future events, return the last event
 }
-
 function onSliderChange() {
     currentEventIndex = eventSlider.value();
     getLatestEvent();
