@@ -22,17 +22,24 @@ function findNextEventIndex() {
 }
 function setup() {
     createCanvas(windowWidth, windowHeight);
+    getLatestEvent(); // This function now uses jsonData, which is loaded
     calculatePadding();
     background(255);
 
     if (jsonData && jsonData.artNite) {
         currentEventIndex = findNearestFutureEventIndex(); // Set to nearest future event
         eventSlider = createSlider(0, jsonData.artNite.length - 1, currentEventIndex, 1);
-        eventSlider.position(width / 2, paddingTop / 2);
+
+        // Adjusting the slider's width to 50% of the canvas width
+        eventSlider.style('width', '50%');
+
+        // Centering the slider horizontally and positioning it from the top
+        // The y-position is paddingTop / 2 as per your setup
+        let sliderX = (windowWidth - eventSlider.width) / 2;
+        eventSlider.position(sliderX, paddingTop / 2);
+
         eventSlider.input(onSliderChange);
     }
-
-    getLatestEvent(); // Now uses the current event index
     redrawEventDetails();
 }
 
