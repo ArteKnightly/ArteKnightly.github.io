@@ -1,26 +1,46 @@
-// ArtNite.js
+let eventSlider;
+let currentEventIndex = 0;
 let jsonData;
-
-function preload() {
-    // Load the JSON data before setup
-    jsonData = loadJSON('data/artNite.json');
-}
 let h1 = 32;
 let h2 = 24;
 let spaceBetween = 25;
 let paddingLeft, paddingRight, paddingTop, paddingBottom;
 let messageHeight;
 let latestEvent;
+
+
 function setup() {
     createCanvas(windowWidth, windowHeight);
-    getLatestEvent()
+    getLatestEvent();
     calculatePadding();
-    background(255); 
-    //drawGridFrame();
-    displayLatestEventDetails();
-    displayLatestEventDetailsFixed();
-    
+    background(255);
+
+    // Create the slider
+    eventSlider = createSlider(0, jsonData.artNite.length - 1, findNextEventIndex(), 1);
+    eventSlider.position(20, 20); // Adjust position as needed
+    eventSlider.input(onSliderChange);
+
+    redrawEventDetails();
+}
+
+// Function to find the index of the next event
+function findNextEventIndex() {
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
+    for (let i = 0; i < jsonData.artNite.length; i++) {
+        let eventDate = new Date(jsonData.artNite[i].Date);
+        if (eventDate >= today) {
+            return i;
+        }
     }
+    return jsonData.artNite.length - 1; // If no future events, return the last event
+}
+
+
+function preload() {
+    // Load the JSON data before setup
+    jsonData = loadJSON('data/artNite.json');
+}
 
 function calculatePadding() {
     messageHeight = h1 + spaceBetween * 5 + h2 * 4 + 400;
@@ -53,6 +73,12 @@ function formatDate(date) {
     const year = date.getFullYear();
 
     return `${monthNames[monthIndex]}/${day}/${year}`;
+}
+function redrawEventDetails() {
+    background(255);
+    // Optionally call drawGridFrame() if needed
+    displayLatestEventDetails();
+    displayLatestEventDetailsFixed();
 }
 function displayLatestEventDetailsFixed() {
     textAlign(CENTER, CENTER);
@@ -91,9 +117,12 @@ function isSameDay(d1, d2) {
 }
 
 function getLatestEvent() {
-   latestEvent = jsonData.artNite.reduce((prev, current) => (prev.UUIDEvent > current.UUIDEvent) ? prev : current);
+    if (jsonData && jsonData.artNite && jsonData.artNite.length > 0) {
+        // Ensure the index is within the bounds of the array
+        currentEventIndex = Math.min(currentEventIndex, jsonData.artNite.length - 1);
+        latestEvent = jsonData.artNite[currentEventIndex];
+    }
 }
-
 
 function drawGridFrame() {
     let gridWidth = spaceBetween;
