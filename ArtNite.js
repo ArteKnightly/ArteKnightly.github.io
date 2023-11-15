@@ -21,17 +21,17 @@ function findNextEventIndex() {
 }
 function setup() {
     createCanvas(windowWidth, windowHeight);
-    getLatestEvent(); // This function now uses jsonData, which is loaded
     calculatePadding();
     background(255);
 
-    // Ensure jsonData is available before creating the slider
     if (jsonData && jsonData.artNite) {
-        eventSlider = createSlider(0, jsonData.artNite.length - 1, findNextEventIndex(), 1);
+        currentEventIndex = findNearestFutureEventIndex(); // Set to nearest future event
+        eventSlider = createSlider(0, jsonData.artNite.length - 1, currentEventIndex, 1);
         eventSlider.position(width / 2, paddingTop / 2);
         eventSlider.input(onSliderChange);
     }
 
+    getLatestEvent(); // Now uses the current event index
     redrawEventDetails();
 }
 
@@ -129,7 +129,7 @@ function isSameDay(d1, d2) {
 }
 function getLatestEvent() {
     if (jsonData && jsonData.artNite && jsonData.artNite.length > 0) {
-        currentEventIndex = findNearestFutureEventIndex();
+        // Use the current event index as set by the slider
         latestEvent = jsonData.artNite[currentEventIndex];
     }
 }
