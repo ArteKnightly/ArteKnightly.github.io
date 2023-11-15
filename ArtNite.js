@@ -27,17 +27,7 @@ function setup() {
 
 
 // Function to find the index of the next event
-function findNextEventIndex() {
-    let today = new Date();
-    today.setHours(0, 0, 0, 0);
-    for (let i = 0; i < jsonData.artNite.length; i++) {
-        let eventDate = new Date(jsonData.artNite[i].Date);
-        if (eventDate >= today) {
-            return i;
-        }
-    }
-    return jsonData.artNite.length - 1; // If no future events, return the last event
-}
+
 
 
 
@@ -127,14 +117,26 @@ function displayLatestEventDetailsFixed() {
 function isSameDay(d1, d2) {
     return d1.toISOString().split('T')[0] === d2.toISOString().split('T')[0];
 }
-
 function getLatestEvent() {
     if (jsonData && jsonData.artNite && jsonData.artNite.length > 0) {
-        // Ensure the index is within the bounds of the array
-        currentEventIndex = Math.min(currentEventIndex, jsonData.artNite.length - 1);
+        currentEventIndex = findNearestFutureEventIndex();
         latestEvent = jsonData.artNite[currentEventIndex];
     }
 }
+
+function findNearestFutureEventIndex() {
+    let today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset hours, minutes, seconds, and milliseconds
+
+    for (let i = 0; i < jsonData.artNite.length; i++) {
+        let eventDate = new Date(jsonData.artNite[i].Date);
+        if (eventDate >= today) {
+            return i; // Return the index of the nearest future event
+        }
+    }
+    return jsonData.artNite.length - 1; // If no future events, return the last event
+}
+
 function onSliderChange() {
     currentEventIndex = eventSlider.value();
     getLatestEvent();
