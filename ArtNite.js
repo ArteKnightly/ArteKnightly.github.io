@@ -138,6 +138,7 @@ function getLatestEvent() {
 function onSliderChange() {
     currentEventIndex = eventSlider.value();
     getLatestEvent();
+    background(0);
     redrawEventDetails();
 }
 
