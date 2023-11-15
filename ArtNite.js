@@ -17,7 +17,7 @@ function setup() {
 
     // Create the slider
     eventSlider = createSlider(0, jsonData.artNite.length - 1, findNextEventIndex(), 1);
-    eventSlider.position(20, 20); // Adjust position as needed
+    eventSlider.position(width / 2, paddingTop/2); // Adjust position as needed
     eventSlider.input(onSliderChange);
 
     redrawEventDetails();
@@ -64,13 +64,18 @@ function displayLatestEventDetails() {
     text(formattedDate, width / 2, paddingTop + h1 + spaceBetween * 2 + h2);
     text('Location: the Compound', width / 2, paddingTop + h1 + spaceBetween * 3 + h2 * 2);
 }
-function formatDate(date) {
+function formatDate(isoDateString) {
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
-    const day = date.getDate();
-    const monthIndex = date.getMonth();
-    const year = date.getFullYear();
+
+    // Parse the ISO date string and adjust the time
+    let date = new Date(isoDateString);
+    date.setUTCHours(12); // Set the time to noon UTC
+
+    const day = date.getUTCDate();
+    const monthIndex = date.getUTCMonth();
+    const year = date.getUTCFullYear();
 
     return `${monthNames[monthIndex]}/${day}/${year}`;
 }
