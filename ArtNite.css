@@ -1,0 +1,121 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: url('sketch.js') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+    color: #f5f5f5; /* Light text color for better visibility against dark backgrounds */
+    overflow: hidden; /* Ensure that the canvas doesn't cause scroll bars */
+    transition: background-color 0.5s; /* Smooth transition for background color changes */
+}
+
+    body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4); /* Dark overlay to ensure text remains readable */
+        z-index: -1; /* Place it behind content */
+    }
+
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 20px 0;
+}
+
+a {
+    color: #FFD700; /* Golden links for a touch of elegance */
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+    a:hover {
+        color: #FF4500; /* Bright orange on hover for interactivity */
+    }
+
+/* Add some animations for extra flair */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    }
+
+    50% {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+
+    100% {
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    }
+}
+
+button {
+    background: none;
+    border: 2px solid #f5f5f5;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    animation: pulse 1.5s infinite; /* Add pulsing animation to buttons */
+}
+
+    button:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+input[type=range] {
+    -webkit-appearance: none; /* Override default appearance */
+    width: 80%; /* Slider width */
+    margin: 15px 0; /* Vertical spacing */
+    background: transparent; /* Transparent background */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+/* General Styles for the Slider */
+input[type=range] {
+    -webkit-appearance: none; /* Removes default webkit styles */
+    appearance: none;
+    width: 80%; /* Width of the slider */
+    height: 8px; /* Height of the slider */
+    background: #f5f5f5; /* Slider background */
+    border-radius: 4px; /* Rounded corners */
+    outline: none; /* Removes the outline */
+    opacity: 0.9; /* Partial transparency */
+    transition: opacity 0.2s; /* Transition for hover effect */
+    cursor: pointer; /* Cursor changes to a pointer */
+}
+
+    /* Webkit (Chrome, Safari, newer versions of Opera) specific styles */
+    input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none; /* Removes default webkit styles */
+        height: 20px; /* Height of the thumb */
+        width: 20px; /* Width of the thumb */
+        background: #FFD700; /* Thumb background */
+        border-radius: 50%; /* Rounded corners */
+        margin-top: -6px; /* Aligns thumb with the slider */
+    }
+
+    /* Mozilla Firefox specific styles */
+    input[type=range]::-moz-range-thumb {
+        height: 20px; /* Height of the thumb */
+        width: 20px; /* Width of the thumb */
+        background: #FFD700; /* Thumb background */
+        border-radius: 50%; /* Rounded corners */
+    }
+
+    /* Styles for the track of the slider (Mozilla Firefox) */
+    input[type=range]::-moz-range-track {
+        background: #f5f5f5; /* Track background */
+        border-radius: 4px; /* Rounded corners */
+    }
+
+    /* Styles for the track of the slider (Microsoft Edge) */
+    input[type=range]::-ms-track {
+        background: transparent; /* Removes default background */
+        border-color: transparent;
+        color: transparent;
+    }
+
+    /* Hover effect */
+    input[type=range]:hover {
+        opacity: 1; /* Fully opaque on hover */
+    }
