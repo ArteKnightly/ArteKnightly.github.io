@@ -30,7 +30,7 @@ async function loadMoreImages() {
     while (loadedImages.length < imagePoolSize) {
         let index = getRandomIndexNotInDisplayedImages();
         let imgData = imgManifest.images[index];
-        console.log(`Loading more images at index ${index}:`, imgData.UUIDImage);
+        console.log(`Loading more image at index ${index}:`, imgData.UUIDImage);
 
         let imgLoadPromise = new Promise((resolve, reject) => {
             loadImage('images/' + imgData.UUIDImage + '.png', (loadedImg) => {
