@@ -94,7 +94,7 @@ function switchImage() {
     }
 
     // Load more images if necessary
-    if (shouldLoadMoreImages()) {
+    if (shouldLoadMoreImages() && isLoading) {
         loadMoreImages();
     }
 
@@ -126,7 +126,7 @@ function draw() {
     image(getImg(), imageXPos(), imageYPos(), displayImageWidth(getImg()), displayImageHeight(getImg()));
 
     // Call loadMoreImages only if necessary
-    if (shouldLoadMoreImages()) {
+    if (shouldLoadMoreImages() && isLoading) {
         loadMoreImages();
     }
 }
