@@ -211,23 +211,3 @@ function saveResponse() {
     // Write to the ImageRatings sheet using the write method
     imageRatings.write(response.UUIDImage, response.UUIDQuestion, response.Score);
 }
-
-//async function preloadSubsetImages(indices) {
-//    let imageLoadPromises = [];
-//    for (let index of indices) {
-//        let imgData = imgManifest.images[index];
-//        console.log(`Preloading image at index ${index}:`, imgData.UUIDImage);
-//        let imgLoadPromise = new Promise((resolve, reject) => {
-//            loadImage('images/' + imgData.UUIDImage + '.png', (loadedImg) => {
-//                loadedImages.push({ data: imgData, img: loadedImg });
-//                console.log("Image loaded:", imgData.UUIDImage);
-//                resolve();
-//            }, (error) => {
-//                console.error("Failed to load image:", imgData.UUIDImage, error);
-//                reject(error);
-//            });
-//        });
-//        imageLoadPromises.push(imgLoadPromise);
-//    }
-//    await Promise.all(imageLoadPromises);
-//}
