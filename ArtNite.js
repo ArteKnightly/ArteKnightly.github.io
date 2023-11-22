@@ -110,6 +110,27 @@ function updateLatestEvent() {
     }
 }
 
+function drawGridFrame() {
+    let gridWidth = spaceBetween;
+    let gridHeight = spaceBetween;
+    let xOffset = 0;
+    // Calculate grid counts
+    let xCount = Math.ceil(width / gridWidth);
+    let yCount = Math.ceil(height / gridHeight);
+
+    // Loop to create the diamond grid pattern
+    for (let x = 0; x < xCount; x++) {
+        let yOffset = 0;  // Initial y offset for Perlin noise
+        for (let y = 0; y < yCount; y++) {
+            drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight);
+            yOffset += 0.1;  // Increment y offset
+        }
+        xOffset += 0.1;  // Increment x offset
+    }
+}
+function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
+    //todo
+}
 function draw() {
     if (mouseIsPressed) {
         stroke(0);
@@ -127,13 +148,22 @@ function windowResized() {
 function createSpotifyEmbed(playlistId) {
     let embedUrl = `https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator`;
     let iframe = document.createElement('iframe');
-    iframe.style.borderRadius = '12px';
+
+    // Simplified styling
+    iframe.style.borderRadius = '0'; // No rounded corners for a more minimalistic look
+    iframe.style.border = 'none'; // No border for seamless integration
+    iframe.style.boxShadow = 'none'; // No shadow for a flat design
+
+    // Size adjustments (if needed)
     iframe.width = '100%';
-    iframe.height = '352';
+    iframe.height = '300'; // Adjust height as per your design
+
+    // Other necessary attributes
     iframe.frameBorder = '0';
     iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
     iframe.loading = 'lazy';
     iframe.src = embedUrl;
+
     return iframe;
 }
 
@@ -166,4 +196,36 @@ function updateSpotifyLinks() {
 
 function isSameDay(d1, d2) {
     return d1.toISOString().split('T')[0] === d2.toISOString().split('T')[0];
+}
+
+function getLatestEvent() {
+    if (jsonData && jsonData.artNite && jsonData.artNite.length > 0) {
+        // Use the current event index as set by the slider
+        latestEvent = jsonData.artNite[currentEventIndex];
+    }
+}
+function findNearestFutureEventIndex() {
+    let today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset hours, minutes, seconds, and milliseconds
+
+    for (let i = 0; i < jsonData.artNite.length; i++) {
+        let eventDate = new Date(jsonData.artNite[i].Date);
+        if (eventDate >= today) {
+            return i; // Return the index of the nearest future event
+        }
+    }
+    return jsonData.artNite.length - 1; // If no future events, return the last event
+}
+
+function onSliderChange() {
+    currentEventIndex = eventSlider.value();
+    getLatestEvent();
+    background(0);
+    redrawEventDetails();
+}
+
+function doubleClicked() {
+    background(255);
+    drawGridFrame();
+    displayLatestEventDetails();
 }
