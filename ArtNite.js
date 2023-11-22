@@ -3,18 +3,19 @@ let eventSlider, currentEventIndex = 0, jsonData;
 let h1 = 32, h2 = 24, spaceBetween = 25;
 let paddingLeft, paddingRight, paddingTop, paddingBottom, messageHeight;
 let latestEvent, spotifyLink, spotifyEmbed;
-
+let isSetupComplete = false;
 function setup() {
+    console.log("Setup started");
     createCanvas(windowWidth, windowHeight);
-    updateDynamicStyles()
+    updateDynamicStyles();
     preload();
     calculatePadding();
     background(255);
-    setupSlider();
-    redrawEventDetails();
+    isSetupComplete = true;
 }
 
 function preload() {
+    console.log("Preloading JSON data");
     jsonData = loadJSON('data/artNite.json', onJsonLoaded);
 }
 
@@ -22,15 +23,20 @@ function onJsonLoaded() {
     console.log('JSON successfully loaded:', jsonData);
     currentEventIndex = findNearestFutureEventIndex();
     updateLatestEvent();
+    setupSlider();  // Now calling setupSlider here
+    redrawEventDetails(); // and redrawEventDetails here
 }
 
 function setupSlider() {
+    console.log("Setting up the slider");
     if (jsonData && jsonData.artNite) {
         eventSlider = createSlider(0, jsonData.artNite.length - 1, currentEventIndex, 1);
         adjustSliderForScreenSize();
         let sliderX = (windowWidth - eventSlider.width) / 2;
         eventSlider.position(sliderX, paddingTop / 2);
         eventSlider.changed(onSliderRelease);
+    } else {
+        console.log("jsonData or jsonData.artNite is not defined");
     }
 }
 function updateDynamicStyles() {
@@ -61,11 +67,25 @@ function onSliderRelease() {
     redrawEventDetails();
     updateSpotifyLinks();
 }
+function onSliderRelease() {
+    console.log("Slider released at value:", eventSlider.value());
+    currentEventIndex = eventSlider.value();
+    updateLatestEvent();
+    background(0);
+    redrawEventDetails();
+    updateSpotifyLinks();
+}
+
 
 function redrawEventDetails() {
+    if (!isSetupComplete) {
+        return; // Exit the function if setup isn't complete
+    }
+
     background(255);
     displayLatestEventDetails();
     displayLatestEventDetailsFixed();
+   
 }
 
 function displayLatestEventDetails() {
@@ -158,9 +178,11 @@ function draw() {
     }
 }
 
+
 function windowResized() {
+    console.log("Window resized");
     resizeCanvas(windowWidth, windowHeight);
-    updateDynamicStyles()
+    updateDynamicStyles();
     adjustSliderForScreenSize();
     calculatePadding();
     redrawEventDetails();
