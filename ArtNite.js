@@ -6,6 +6,7 @@ let latestEvent, spotifyLink, spotifyEmbed;
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
+    updateDynamicStyles()
     preload();
     calculatePadding();
     background(255);
@@ -23,7 +24,6 @@ function onJsonLoaded() {
     updateLatestEvent();
 }
 
-
 function setupSlider() {
     if (jsonData && jsonData.artNite) {
         eventSlider = createSlider(0, jsonData.artNite.length - 1, currentEventIndex, 1);
@@ -33,7 +33,21 @@ function setupSlider() {
         eventSlider.changed(onSliderRelease);
     }
 }
+function updateDynamicStyles() {
+    let screenWidth = windowWidth;
 
+    // Adjust font sizes based on screen width
+    h1 = screenWidth * 0.04; // 4% of the screen width
+    h2 = screenWidth * 0.03; // 3% of the screen width
+
+    // Adjust spaceBetween dynamically
+    spaceBetween = screenWidth * 0.025; // 2.5% of the screen width
+
+    // Ensure minimum sizes
+    h1 = max(h1, 24); // Minimum size for h1
+    h2 = max(h2, 18); // Minimum size for h2
+    spaceBetween = max(spaceBetween, 15); // Minimum space
+}
 function adjustSliderForScreenSize() {
     if (eventSlider) { // Check if eventSlider is defined
         eventSlider.style('width', windowWidth < 600 ? '100%' : '50%');
@@ -85,11 +99,17 @@ function formatDate(isoDateString) {
 }
 
 function calculatePadding() {
-    messageHeight = h1 + spaceBetween * 5 + h2 * 4 + 400;
-    paddingLeft = (windowWidth - 350) / 2;
-    paddingRight = (windowWidth - 250) / 2;
-    paddingTop = (windowHeight - messageHeight) / 2;
-    paddingBottom = (windowHeight - messageHeight + 100) / 2;
+    // Define a uniform padding percentage for all sides
+    let paddingPercent = 0.1; // Example: 10% of the window's dimensions
+
+    // Apply this percentage to calculate padding for all sides
+    paddingLeft = windowWidth * paddingPercent;
+    paddingRight = paddingLeft; // Same as paddingLeft
+    paddingTop = windowHeight * paddingPercent;
+    paddingBottom = paddingTop; // Same as paddingTop
+
+    // Recalculate messageHeight if needed
+    messageHeight = windowHeight - (paddingTop + paddingBottom);
 }
 
 function findNearestFutureEventIndex() {
@@ -140,6 +160,7 @@ function draw() {
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
+    updateDynamicStyles()
     adjustSliderForScreenSize();
     calculatePadding();
     redrawEventDetails();
