@@ -1,21 +1,45 @@
+//ArtNite.js
 // Global Variables
 let eventSlider, currentEventIndex = 0, jsonData;
-let h1 = 32, h2 = 24, spaceBetween = 25;
+let h1 = 64, h2 = 50, spaceBetween = 25;
 let paddingLeft, paddingRight, paddingTop, paddingBottom, messageHeight;
-let latestEvent, spotifyLink, spotifyEmbed;
+let latestEvent, spotifyLink, spotifyEmbed, currentEvent
 let isSetupComplete = false;
+let fontEvent, fontHeader, fontBody
+let lineBuffer;
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
-    }
+    createCanvas(windowWidth, windowHeight, WEBGL);
+    
+}
+
+function setup() {
+    createCanvas(windowWidth, windowHeight, WEBGL);
+    stroke(0);
+    console.log("Setting text font to fontBody in Setup");
+    textFont(fontBody)
+    lineBuffer = createGraphics(windowWidth, windowHeight);
+    lineBuffer.stroke(0); // Set the line color for the buffer
+ }
 function preload() {
-    console.log("Preloading JSON data");
+        console.log("Preloading JSON data");
     jsonData = loadJSON('data/artNite.json', onJsonLoaded);
+    console.log("Starting to preload fonts...");
+
+    console.log("Loading font: Blox2.ttf");
+    fontEvent = loadFont('fonts/Blox2.ttf', () => console.log("Loaded font: Blox2.ttf"));
+
+    console.log("Loading font: From Cartoon Blocks.ttf");
+    fontHeader = loadFont('fonts/From Cartoon Blocks.ttf', () => console.log("Loaded font: From Cartoon Blocks.ttf"));
+
+    console.log("Loading font: Inconsolata-VariableFont_wdth,wght.ttf");
+    fontBody = loadFont('fonts/Inconsolata-VariableFont_wdth,wght.ttf', () => console.log("Loaded font: Inconsolata-VariableFont_wdth,wght.ttf"));
+
 }
 
 function onJsonLoaded() {
     console.log('JSON successfully loaded:', jsonData);
-
+    
     // Calculate padding first since other elements depend on it
     calculatePadding();
     console.log('Padding calculation complete');
@@ -28,7 +52,7 @@ function onJsonLoaded() {
     currentEventIndex = findNearestFutureEventIndex();
     updateLatestEvent();
     console.log('Event update complete');
-
+    
     // Setup the slider
     setupSlider();
     console.log('Slider setup complete');
@@ -38,8 +62,9 @@ function onJsonLoaded() {
     console.log('Spotify player update complete');
     updateSpotifyLinks();
     console.log('Spotify link update complete');
-
-    // Indicate that the initial setup is complete
+    createBounceText()
+    console.log('Bouncing text created');
+    
     isSetupComplete = true;
     console.log('Initial setup complete');
     isJsonLoaded = true;
@@ -59,15 +84,11 @@ function setupSlider() {
         console.log("paddingTop:", paddingTop);
         console.log("eventSlider height:", eventSlider.height);
         console.log("eventSlider Width:", eventSlider.width);
-
+        console.log("windowWidth:", windowWidth);
         // Calculate a suitable top position for the slider
         let sliderY = paddingTop/2; // Adjust as needed
         console.log("sliderY:", sliderY);
-
-        // Set the slider's position
-        let sliderX = (windowWidth - eventSlider.width) / 2;
-        console.log("sliderX:", sliderX);
-
+        let sliderX = windowWidth * .25;
         eventSlider.position(sliderX, sliderY);
         eventSlider.changed(onSliderRelease);
     } else {
@@ -95,18 +116,24 @@ function updateDynamicStyles() {
     spaceBetween = max(spaceBetween, 8); // Minimum space
     console.log("spaceBetween: ", spaceBetween)
 }
+
 function adjustSliderForScreenSize() {
-    if (eventSlider) { // Check if eventSlider is defined
-        eventSlider.style('width', windowWidth < 600 ? '100%' : '50%');
+    if (eventSlider) {
+        let newWidth = windowWidth < 600 ? '100%' : '50%';
+        eventSlider.style('width', newWidth);
+        console.log("Adjusted slider width to:", newWidth);
+
+        // Log the actual HTML element of the slider
+        console.log("Slider element:", eventSlider.elt);
+        console.log("Slider width after adjustment:", eventSlider.width);
     }
 }
-
 function onSliderRelease() {
     console.log("Slider released at value:", eventSlider.value());
     currentEventIndex = eventSlider.value();
     updateLatestEvent();
     console.log("event updated to:", latestEvent.Date);
-    background(255);
+    //background(255);
     redrawEventDetails();
     updateSpotifyLinks();
     updateSpotifyPlayer(); // Update the Spotify player based on the current event
@@ -115,29 +142,58 @@ function redrawEventDetails() {
     if (!isSetupComplete) {
         return; // Exit the function if setup isn't complete
     }
-    background(255);
+    //background(255);
     displayLatestEventDetails();
     //displayLatestEventDetailsFixed();
    }
 
 function displayLatestEventDetails() {
     textAlign(CENTER, CENTER);
+    noStroke();
+    console.log("Setting text font to fontBody in displayLatestEventDetails");
+    textFont(fontHeader);
     fill(0);
     textSize(h1);
-    text(`Art Nite?`, width / 2, paddingTop + h1 + spaceBetween);
-    displayDateAndLocation();
+    let textX = 0
+    let textY = -windowHeight/2 + (paddingTop + h1 + spaceBetween);
+    console.log("text: x_", textX, "Y_", textY);
+    text(`Art Nite?`, textX, textY);
+    console.log("Setting text font to fontBody in displayLatestEventDetails");
+    textFont(fontBody);
+    displayDateAndLocation(textX, textY);
 }
 
-function displayDateAndLocation() {
+function displayDateAndLocation(textX, textY) {
     let formattedDate = formatDate(latestEvent.Date);
     textSize(h2);
-    text(formattedDate, width / 2, paddingTop + h1 + spaceBetween * 2 + h2);
-    text('Location: the Compound', width / 2, paddingTop + h1 + spaceBetween * 3 + h2 * 2);
+    textX = textX;
+    textY = textY + spaceBetween + h2;
+    console.log("text: x_", textX, "Y_", textY);
+    text(formattedDate, textX, textY);
+    textX = textX;
+    textY = textY + spaceBetween + h2
+    console.log("text: x_", textX, "Y_", textY);
+    text('Location: the Compound', textX, textY);
 }
 
 function displayLatestEventDetailsFixed() {
     // Additional logic for fixed event details (if any)
 }
+function createBounceText() {
+    // Log the current event number
+    console.log("Current event number:", latestEvent.EventNumber);
+
+    // Create a BouncingText for the current event
+    currentBouncingText = new BouncingText(
+        latestEvent.EventNumber,
+        random(windowWidth),
+        random(windowHeight),
+        1,
+        1
+    );
+    bouncingText.push(currentBouncingText);
+}
+
 
 function formatDate(isoDateString) {
     const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -208,13 +264,32 @@ function drawCell(x, y, xOffset, yOffset, gridWidth, gridHeight) {
 }
 function draw() {
     if (isJsonLoaded) {
+        console.log("Setting text font to fontBody in draw");
+        textFont(fontBody);
         redrawEventDetails();
         console.log("redrawEventDetails initial call");
         isJsonLoaded = false; // Prevent continuous redrawing, remove if continuous drawing is needed
     }
+
+
+    // Draw lines to the buffer
     if (mouseIsPressed) {
-        stroke(0);
-        line(mouseX, mouseY, pmouseX, pmouseY);
+        lineBuffer.line(mouseX, mouseY, pmouseX, pmouseY);
+    }
+    // Display the buffer
+    image(lineBuffer, -windowWidth / 2, -windowHeight / 2);
+
+    fill(255, 255, 255, 1); // White with some opacity for transparency
+    noStroke();
+    rectMode(CORNER); // Draw the rectangle from the top-left corner
+    rect(-windowWidth / 2, -windowHeight / 2, windowWidth, windowHeight);
+    redrawEventDetails()
+    console.log("Setting text font to fontBody in draw-outside isJsonloaded checkpoint");
+    textFont(fontEvent);
+    // Update and display each bouncing text
+    for (let i = 0; i < bouncingText.length; i++) {
+        bouncingText[i].move();
+        bouncingText[i].display();
     }
 }
 
@@ -255,15 +330,16 @@ function updateSpotifyPlayer() {
     if (spotifyEmbed) {
         spotifyEmbed.remove();
     }
-
+    //console.log("Setting text font to fontBody in updateSpotifyPlayer");
+    //textFont(fontBody);
     // Calculate the width and position
     let playerWidth = windowWidth * .5;
     console.log("Player Width:", playerWidth)
     let playerHeight = windowHeight * .25; // Or make this dynamic as per your design
     console.log("Player Height:", playerHeight)
     let playerX = windowWidth / 2 - playerWidth / 2;
-    console.log("Player X:", playerX)
-    let playerY = windowHeight-paddingBottom-playerHeight; // You can adjust this based on where you want it vertically
+    console.log("Player X:", playerX) 
+    let playerY = windowHeight-paddingBottom-playerHeight*.75;// You can adjust this based on where you want it vertically
     console.log("Player Y:", playerY)
     spotifyEmbed = createSpotifyEmbed(playlistId, playerWidth, playerHeight);
     spotifyEmbed.style.position = 'absolute';
@@ -279,6 +355,8 @@ function updateSpotifyLinks() {
     let playlistId = latestEvent.SpotifyPlaylistId;
     let listeningLink = `https://open.spotify.com/playlist/${playlistId}`;
     let collaborateLink = latestEvent.SpotifyCollaborateLink;
+    //console.log("Setting text font to fontBody in updateSpotifyLinks");
+    //textFont(fontBody);
     if (spotifyLink) {
         spotifyLink.remove();
     }
