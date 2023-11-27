@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\data",
-    "\\raw"
+    "\\fonts",
+    "\\raw",
+    "\\__pycache__"
   ],
-  "SelectedNode": "\\ArteNite.html",
   "PreviewInSolutionExplorer": false
 }
