@@ -1,0 +1,56 @@
+{
+  "artNite": [
+    {
+      "UUIDEvent": "151",
+      "EventNumber": "151",
+      "Date": "2023-10-25T00:00:00Z",
+      "Title": "Art Nite #151 231025",
+      "SpotifyCollaborateLink": "",
+      "SpotifyembedIframe": ""
+    },
+    {
+      "UUIDEvent": "152",
+      "EventNumber": "152",
+      "Date": "2023-11-01T00:00:00Z",
+      "Title": "Art Nite #152 231101",
+      "SpotifyCollaborateLink": "https://open.spotify.com/playlist/6x43lGdMAUokGnq7C7i1tR?si=HkQQ_c-XS1WfhVU_1ii-Ng&pt=7132dd0f9923619da79b557f63a88975",
+      "SpotifyPlaylistId": "6x43lGdMAUokGnq7C7i1tR"
+    },
+    {
+      "UUIDEvent": "153",
+      "EventNumber": "153",
+      "Date": "2023-11-08T00:00:00Z",
+      "Title": "Art Nite #153 231108",
+      "SpotifyCollaborateLink": "https://open.spotify.com/playlist/6xWIs2TjFSAVpvgDGU97jp?si=2a5a7049bb59440a&pt=a40c5db63d53627112c0459cec5cf8b9",
+      "SpotifyPlaylistId": "6xWIs2TjFSAVpvgDGU97jp"
+    },
+    {
+      "UUIDEvent": "154",
+      "EventNumber": "154",
+      "Date": "2023-11-15T00:00:00Z",
+      "Title": "Art Nite #154 231115",
+      "SpotifyCollaborateLink": "https://open.spotify.com/playlist/3PCy92VeL7sYuDSeg38ISu?si=985b4ba8d4cf47de&pt=bfe5edc99cf0a95c2ed97b1b9753a2c7",
+      "SpotifyPlaylistId": "3PCy92VeL7sYuDSeg38ISu"
+    },
+    {
+      "UUIDEvent": "155",
+      "EventNumber": "155",
+      "Date": "2023-11-22T00:00:00Z",
+      "Title": "Art Nite #155 231122",
+      "SpotifyCollaborateLink": "https://open.spotify.com/playlist/1kQO0So6S9rXBpQlEKSmfs?si=702805cf91f84e1c&pt=e15b9f8acc0c391b322c8012f8d2d014",
+      "SpotifyPlaylistId": "1kQO0So6S9rXBpQlEKSmfs"
+    }
+
+  ],
+  "figureNite": [
+    {
+      "UUIDFigureNite": "25",
+      "EventNumber": "25",
+      "Date": "2023-11-04T00:00:00Z",
+      "Title": "Model Nite #25 231104",
+      "SpotifyCollaborateLink": "https://open.spotify.com/playlist/4xf8sERAqWfyFgQNVehclm?si=4c08bae68e6f4c99&pt=4a2123063d29455ec9a4048007f4f3d4",
+      "SpotifyPlaylistId": ""
+    }
+  ]
+}
+      
