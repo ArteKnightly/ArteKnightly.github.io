@@ -121,15 +121,20 @@ function updateDynamicStyles() {
 
 function adjustSliderForScreenSize() {
     if (eventSlider) {
-        let newWidth = windowWidth < 600 ? windowWidth * 0.8 : '50%'; // Adjust width for smaller screens
-        eventSlider.style('width', newWidth);
+        // Determine the new width based on screen width
+        let newWidth = windowWidth < 600 ? windowWidth * 0.8 : windowWidth * 0.5;
 
-        // Center the slider
-        let sliderX = (windowWidth - parseInt(newWidth)) / 2;
+        // Apply the new width to the slider
+        eventSlider.style('width', newWidth + 'px');
+
+        // Calculate the X position to center the slider
+        let sliderX = (windowWidth - newWidth) / 2;
         let sliderY = paddingTop / 2;
+
         eventSlider.position(sliderX, sliderY);
     }
 }
+
 function onSliderRelease() {
     //console.log("Slider released at value:", eventSlider.value());
     currentEventIndex = eventSlider.value();

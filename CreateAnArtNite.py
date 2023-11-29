@@ -1,8 +1,11 @@
+#CreateAnArtNite.py
 import json
 import uuid
 from datetime import datetime, timedelta
 from urllib.parse import urlparse, parse_qs
 
+
+        
 # Function to extract SpotifyPlaylistId from the SpotifyCollaborateLink
 def extract_spotify_playlist_id(collaborate_link):
     parsed_url = urlparse(collaborate_link)
@@ -10,8 +13,9 @@ def extract_spotify_playlist_id(collaborate_link):
     playlist_id_index = path_segments.index('playlist') + 1 if 'playlist' in path_segments else -1
     return path_segments[playlist_id_index] if playlist_id_index != -1 else None
 
-# Function to add a new event to "artNite"
-def add_new_artnite_event(json_data, spotify_collaborate_link):
+def add_new_artnite_event(input_file_path, output_file_path, spotify_collaborate_link, title):
+    with open(input_file_path, 'r') as file:
+        json_data = json.load(file)
     # Check if the SpotifyCollaborateLink already exists in the JSON data
     for event in json_data['artNite']:
         if event['SpotifyCollaborateLink'] == spotify_collaborate_link:
