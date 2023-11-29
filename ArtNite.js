@@ -165,7 +165,7 @@ function displayLatestEventDetails() {
     textStyle(BOLD);
     textSize(h1);
     let textX = 0
-    let textY = 0//-windowHeight/2 + (paddingTop + h1 + spaceBetween);
+    let textY = -windowHeight/2 + (paddingTop + h1 + spaceBetween);
     //console.log("text: x_", textX, "Y_", textY);
     text(`Art Nite?`, textX, textY);
     //console.log("Setting text font to fontBody in displayLatestEventDetails");
