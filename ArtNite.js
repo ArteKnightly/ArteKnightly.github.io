@@ -122,7 +122,7 @@ function updateDynamicStyles() {
 function adjustSliderForScreenSize() {
     if (eventSlider) {
         // Determine the new width based on screen width
-        let newWidth = windowWidth < 600 ? windowWidth * 0.8 : windowWidth * 0.5;
+        let newWidth = windowWidth < 600 ? windowWidth * 0.4 : windowWidth * 0.5;
 
         // Apply the new width to the slider
         eventSlider.style('width', newWidth + 'px');
