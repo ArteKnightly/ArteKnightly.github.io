@@ -40,14 +40,22 @@
             "SpotifyCollaborateLink": "https://open.spotify.com/playlist/1kQO0So6S9rXBpQlEKSmfs?si=702805cf91f84e1c&pt=e15b9f8acc0c391b322c8012f8d2d014",
             "SpotifyPlaylistId": "1kQO0So6S9rXBpQlEKSmfs"
         },
-        {
-            "UUIDEvent": "5d4fbd2d-263d-4344-bb72-f66a31b58d6a",
-            "EventNumber": "156",
-            "Date": "2023-11-29T00:00:00Z",
-            "Title": "Art Nite #156 231129",
-            "SpotifyCollaborateLink": "https://open.spotify.com/playlist/7qzG0WD02JKYQv3hZ6z8OX?si=693e6bcddd8c4458&pt=a5eac6f697fe6fb2082b40f7b8f8be63",
-            "SpotifyPlaylistId": "7qzG0WD02JKYQv3hZ6z8OX"
-        }
+      {
+        "UUIDEvent": "5d4fbd2d-263d-4344-bb72-f66a31b58d6a",
+        "EventNumber": "156",
+        "Date": "2023-11-29T00:00:00Z",
+        "Title": "Art Nite #156 231129",
+        "SpotifyCollaborateLink": "https:\/\/open.spotify.com\/playlist\/6ibtS2pYnDuP8SEP5EmSuv?si=aa99493b6f044902&pt=369cb8d7b35e6af2c19d347db25edb23",
+        "SpotifyPlaylistId": "6ibtS2pYnDuP8SEP5EmSuv"
+      },
+      {
+        "UUIDEvent": "5d4fbd2d-263d-4344-bb72-f66a31b58d6b",
+        "EventNumber": "157",
+        "Date": "2023-12-06T00:00:00Z",
+        "Title": "Art Nite #156 231206",
+        "SpotifyCollaborateLink": "https://open.spotify.com/playlist/6ibtS2pYnDuP8SEP5EmSuv?si=39e5b8731a8a4f33\\u0026pt=8882488b0b761fdd3c3ba281f1411093",
+        "SpotifyPlaylistId": "7qzG0WD02JKYQv3hZ6z8OX"
+      }
     ],
     "figureNite": [
         {
