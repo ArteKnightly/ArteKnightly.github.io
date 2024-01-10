@@ -75,10 +75,18 @@
     {
       "UUIDEvent": "5d4fbd2d-263d-4344-bb72-f66a31b58d7e",
       "EventNumber": "160",
-      "Date": "2023-01-03T00:00:00Z",
+      "Date": "2024-01-03T00:00:00Z",
       "Title": "Art Nite #160 230103",
       "SpotifyCollaborateLink": "https:\/\/open.spotify.com\/playlist\/0YYzTjssPuJhE6zvX15qO1?si=a5557b80e7c94752&pt=9d1558b685a5a61feb91c54d89455d4b",
       "SpotifyPlaylistId": "0YYzTjssPuJhE6zvX15qO1"
+    },
+    {
+      "UUIDEvent": "5d4fbd2d-263d-4344-bb72-f66a31b58df",
+      "EventNumber": "161",
+      "Date": "2024-01-10T00:00:00Z",
+      "Title": "Art Nite #161 230110",
+      "SpotifyCollaborateLink": "https:\/\/open.spotify.com\/playlist\/0OnUivLuJKaoreWItrP8cO?si=vM0KRJWERGSO93qr3CQEag&pt=f3305bc64d44f09a7071b10bbe3aaeb3&pi=u-oHSFwnJ1See8",
+      "SpotifyPlaylistId": "0OnUivLuJKaoreWItrP8cO"
     }
   ],
   "figureNite": [
