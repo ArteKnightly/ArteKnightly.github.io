@@ -368,6 +368,7 @@ function updateSpotifyLinks() {
     let playlistId = latestEvent.SpotifyPlaylistId;
     let listeningLink = `https://open.spotify.com/playlist/${playlistId}`;
     let collaborateLink = latestEvent.SpotifyCollaborateLink;
+    let playerHeight = windowHeight * .25
     //console.log("Setting text font to fontBody in updateSpotifyLinks");
     //textFont(fontBody);
     if (spotifyLink) {
@@ -378,8 +379,8 @@ function updateSpotifyLinks() {
     } else {
         spotifyLink = createA(listeningLink, 'Listen on Spotify', '_blank');
     }
-    spotifyLink.position(windowWidth / 2 - spotifyLink.width / 2, windowHeight - (paddingBottom / 2));
-   // console.log("Spotify link drawn: X", windowWidth / 2 - spotifyLink.width / 2, "Y", windowHeight - (paddingBottom / 2) )
+    spotifyLink.position(windowWidth / 2 - spotifyLink.width / 2, windowHeight - (playerHeight + (paddingBottom / 2)));
+    console.log("Spotify link drawn: X", windowWidth / 2 - spotifyLink.width / 2, "Y", playerHeight)
 }
 
 function isSameDay(d1, d2) {
